@@ -6,8 +6,12 @@
  */
 
 require('./bootstrap');
+require('./components/tree.jquery');
 
-window.Vue = require('vue');
+import admin from './components/admin';
+admin();
+
+// window.Vue = require('vue');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -15,8 +19,17 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+/*
 Vue.component('example', require('./components/Example.vue'));
 
 const app = new Vue({
     el: '#app'
+});
+
+*/
+
+$(function () {
+
+// admin();
+
 });

@@ -34,22 +34,28 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-        //$this->registerPostPolicies();
+        $this->registerPostPolicies();
 
 
 
-        //Gate::define('posts.update', '\App\Policies\PostPolicy@edit');
-        Gate::define('posts-update', '\App\Policies\PostPolicy@update');
 
     }
 
     public function registerPostPolicies()
     {
 
+        Gate::define('admin', function ($user) {
+            return $user->inRole('admin');
+        });
+        
+        Gate::define('postsview', '\App\Policies\PostPolicy@view');
+        Gate::define('posts-update', '\App\Policies\PostPolicy@update');
+
+        /*
         Gate::define('create-post', function ($user) {
             return $user->hasAccess(['create-post']);
         });
-
+*/
         //Gate::define('posts.update', \App\Policies\PostPolicy::class.'@update');
 
         /*
@@ -59,13 +65,11 @@ class AuthServiceProvider extends ServiceProvider
         });
         */
         
-
+/*
         Gate::define('publish-post', function ($user) {
             return $user->hasAccess(['publish-post']);
         });
-        Gate::define('see-all-drafts', function ($user) {
-            return $user->inRole('editor');
-        });
+*/
     }
 
 }

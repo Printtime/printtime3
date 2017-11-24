@@ -24,7 +24,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        //
+        return $user->hasAccess(['postsview']);
     }
 
     /**
@@ -51,9 +51,11 @@ class PostPolicy
      * @param  \App\Post  $post
      * @return mixed
      */
-    public function update(User $user, int $post)
+    public function update(User $user, Post $post)
     {
-        $post = Post::findorfail($post);
+        //return false;
+        //return dd($post);
+        //$post = Post::findorfail($post);
         return $user->hasAccess(['posts-update']) && $user->id == $post->user_id;
     }
 

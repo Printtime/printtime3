@@ -15,13 +15,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::group(['prefix' => 'admin'], function () {
+
+	Route::get('/', 'AdminController@main')->name('admin.main');
+
+});
+
 Auth::routes();
 
-Route::get('/', 'PostController@index');
+Route::get('{page}', 'PageController@show')->name('page.show');
+
+
+//Route::get('{slug}', 'PostController@show')->name('post.show');
+/*
+Route::resources([
+    'page' => 'PageController',
+]);*/
+
+//Route::get('/', 'PostController@index');
 Route::get('/posts', 'PostController@index')->name('list_posts');
 Route::group(['prefix' => 'posts'], function () {
     Route::get('/drafts', 'PostController@drafts')->name('list_drafts')->middleware('auth');
-    Route::get('/show/{id}', 'PostController@show')->name('show_post');
+    Route::get('/show/{id}', 'PostController@show')->name('show_post')->middleware('can:postsview');
     Route::get('/create', 'PostController@create')->name('create_post')->middleware('can:create-post');
     Route::post('/create', 'PostController@store')->name('store_post')->middleware('can:create-post');
     Route::get('/edit/{post}', 'PostController@edit')->name('edit_post')->middleware('can:posts-update,post');
