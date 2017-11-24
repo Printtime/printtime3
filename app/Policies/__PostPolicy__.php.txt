@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Policies;
+
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+use App\User;
+use App\Post;
+
+class PostPolicy
+{
+    use HandlesAuthorization;
+
+/*    public function __construct()
+    {
+
+    }*/
+
+
+    public function update(User $user, Post $post)
+    {		
+    	dd($user);
+    		$post = Post::findorfail($post);
+            return $user->hasAccess(['update-post']) or $user->id == $post->user_id;
+    }
+
+}
