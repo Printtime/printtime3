@@ -5,8 +5,24 @@
 // Variables
 @import "variables";
 
+
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 
-@import url("https://mbraak.github.io/jqTree/jqtree.css");
+// Jquery UI
+@import "~jquery-ui/themes/base/all.css";
+
+//@import url("https://mbraak.github.io/jqTree/jqtree.css");
+
+
+// jqtree
+@import "jqtree";
+
+
+.ui-autocomplete-loading { background:url('/images/icon/ajax-loader.gif') no-repeat right center; }
+.ui-menu .ui-menu-item-wrapper {
+	small {
+		color: #ccc;
+	}
+}

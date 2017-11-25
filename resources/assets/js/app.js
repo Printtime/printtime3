@@ -7,6 +7,13 @@
 
 require('./bootstrap');
 require('./components/tree.jquery');
+require('jquery-ui/ui/widgets/autocomplete');
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
 
 import admin from './components/admin';
 admin();

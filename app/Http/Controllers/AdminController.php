@@ -14,12 +14,25 @@ class AdminController extends Controller
         $this->middleware('can:admin,auth');
     }
 
-
-    
     public function main()
     {
+         return view('admin.main');
+    }
 
-    	 return view('admin.menu', ['menu' => Menu::get()->toTree()]);
+    public function menu()
+    {
+         return view('admin.menu', ['menu' => Menu::orderBy('_lft', 'desc')->get()->toTree()]);
+    }
+    
+    public function x3()
+    {
+
+/*$res = Menu::orderBy('_lft', 'desc')->get();
+
+foreach ($res as $menu) {
+    dd($menu->page->title);
+}*/
+
 
 //return Menu::fixTree();
 

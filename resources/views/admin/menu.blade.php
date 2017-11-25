@@ -18,7 +18,24 @@ https://github.com/lazychaser/laravel-nestedset
                 <div class="panel-body">
 
 
-<div id="menuTree" data-url="/api/getMenu"></div>
+<div id="menuTree" data-url="{{ route('admin.menu.json') }}"></div>
+
+<hr>
+
+<form id="newMenu" class="form-inline text-center">
+<div class="form-group ui-widget">
+	<input class="form-control" type="text" name="name" required="required" placeholder="Название меню...">
+	<input class="form-control" type="text" name="page" required="required" size="42" placeholder="Название страницы...">
+	<input class="form-control" type="text" name="page_id" required="required" size="4" placeholder="id">
+	<input class="form-control" type="text" name="slug" required="required" size="4" placeholder="slug">
+</div>
+	<input class="btn btn-default" type="submit" value="Создать">
+</form>
+
+
+ 
+
+
 
 <hr>
 

@@ -15,6 +15,8 @@ class Menu extends Model
         'name', 'parent_id', '_lft', '_rgt'
     ];
 
+	//protected $hidden = ['parent_id', '_lft', '_rgt', 'children', 'page_id'];
+
     public $timestamps = false;
 
 	public function getLftName()
@@ -38,4 +40,8 @@ class Menu extends Model
 	    $this->setParentIdAttribute($value);
 	}
 
+   public function page()
+    {
+        return $this->belongsTo(Page::class)->select(['id', 'name', 'slug']);
+    }
 }

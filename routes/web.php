@@ -17,14 +17,17 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function () {
 
-	Route::get('/', 'AdminController@main')->name('admin.main');
-
+    Route::get('/', 'AdminController@main')->name('admin.main');
+    Route::get('/menu', 'AdminController@menu')->name('admin.menu');
+    Route::get('/menu/json', 'MenuController@menuJson')->name('admin.menu.json')->middleware('can:admin,auth');
+    Route::post('/menu/json', 'MenuController@menuJsonUpdate')->name('admin.menu.json.update')->middleware('can:admin,auth');
+    Route::post('/menu/json/create', 'MenuController@create')->name('admin.menu.json.create')->middleware('can:admin,auth');
 });
 
 Auth::routes();
 
 Route::get('{page}', 'PageController@show')->name('page.show');
-
+Route::get('/page/search', 'PageController@search')->name('page.search');
 
 //Route::get('{slug}', 'PostController@show')->name('post.show');
 /*
