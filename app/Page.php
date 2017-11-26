@@ -10,7 +10,29 @@ class Page extends Model
 	use Sluggable;
 
     protected $fillable = [
-        'title', 'slug', 'description', 'text', 
+         'slug',
+         'name',
+         'anons',
+         'content',
+         'title',
+         'h1',
+         'description',
+         'keywords',
+         'ogtitle',
+         'ogdescription',
+         'ogtype',
+         'robots',
+         'changefreq',
+         'priority', 
+         'published',
+         'template',
+         'created_at', 
+         'updated_at', 
+
+    ];
+
+    protected $casts = [
+        'robots' => 'array',
     ];
 
     public function scopePublished($query)
@@ -32,7 +54,7 @@ class Page extends Model
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'name'
             ]
         ];
     }

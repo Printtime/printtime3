@@ -15,7 +15,8 @@ $.ajaxSetup({
   }
 });
 
-import admin from './components/admin';
+
+import admin from './components/admin'
 admin();
 
 // window.Vue = require('vue');

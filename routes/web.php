@@ -18,6 +18,12 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/', 'AdminController@main')->name('admin.main');
+
+    Route::get('/page', 'PageController@create')->name('admin.page.create')->middleware('can:admin,auth');
+    Route::get('/page/{page}/edit', 'PageController@create')->name('admin.page.edit')->middleware('can:admin,auth');
+    Route::post('/page', 'PageController@store')->name('admin.page.store')->middleware('can:admin,auth');
+    Route::post('/page/{page}', 'PageController@update')->name('admin.page.update')->middleware('can:admin,auth');
+
     Route::get('/menu', 'AdminController@menu')->name('admin.menu');
     Route::get('/menu/json', 'MenuController@menuJson')->name('admin.menu.json')->middleware('can:admin,auth');
     Route::post('/menu/json', 'MenuController@menuJsonUpdate')->name('admin.menu.json.update')->middleware('can:admin,auth');

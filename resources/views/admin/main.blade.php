@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container">
@@ -8,7 +8,7 @@
                 <div class="panel-heading">Admin</div>
 
                 <div class="panel-body">
-                		Admin
+                    Админка
                 </div>
             </div>
         </div>

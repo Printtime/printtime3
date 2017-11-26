@@ -15,9 +15,9 @@ class PageController extends Controller
 
 	public function show(Request $request)
 	{	
-	 	$page = (is_numeric($request->page) ? Page::findOrFail($request->page) : Page::published()->whereSlug($request->id)->firstOrFail());
-		//return dd($page);
-		return $page->type->name;
+	 	$page = (is_numeric($request->page) ? Page::findOrFail($request->page) : Page::published()->whereSlug($request->page)->firstOrFail());
+		dd($page);
+		//return $page->type->title;
 	}
 
 	public function search(Request $request)
@@ -43,6 +43,53 @@ class PageController extends Controller
 	    }
 	    return $res;
 
+	}
+
+
+	public function create($page = null)
+	{	
+
+		$changefreq_array = [
+			'always' => 'Всегда',
+			'hourly' => 'Почасово',
+			'daily' => 'Ежедневно',
+			'weekly' => 'Еженедельно',
+			'monthly' => 'Ежемесячно',
+			'yearly' => 'Раз в год',
+			'never' => 'Никогда'
+		];
+
+
+		if($page == null) {
+			$page = new Page();
+	 	} else {
+	 		$page = Page::findOrFail($page);
+	 	}
+
+
+        return view('admin.page', ['page' => $page, 'changefreq_array' => $changefreq_array]);
+	}
+
+	public function store(Request $request)
+	{	
+		$page = new Page();
+		$page->fill($request->all());
+
+		if($request->published == 'on') { $page->published = true; } else { $page->published = false; }
+		$page->save();
+
+		return redirect()->back();
+	}
+
+
+	public function update(Request $request, Page $page)
+	{	
+		$page->fill($request->all());
+
+		if($request->published == 'on') { $page->published = true; } else { $page->published = false; }
+		$page->save();
+
+		return redirect()->back();
 	}
 
 }
