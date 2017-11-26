@@ -21,7 +21,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/menu', 'AdminController@menu')->name('admin.menu');
     Route::get('/menu/json', 'MenuController@menuJson')->name('admin.menu.json')->middleware('can:admin,auth');
     Route::post('/menu/json', 'MenuController@menuJsonUpdate')->name('admin.menu.json.update')->middleware('can:admin,auth');
-    Route::post('/menu/json/create', 'MenuController@create')->name('admin.menu.json.create')->middleware('can:admin,auth');
+    Route::post('/menu/json/create', 'MenuController@store')->name('admin.menu.json.create')->middleware('can:admin,auth');
+    Route::delete('/menu/json/delete', 'MenuController@delete')->name('admin.menu.json.delete')->middleware('can:admin,auth');
 });
 
 Auth::routes();

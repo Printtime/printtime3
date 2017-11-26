@@ -19,17 +19,31 @@ class MenuController extends Controller
     	//return dd($this->get_menu());
     	//return $this->jsonMenu();
     }*/
-    public function create(Request $request)
+    public function delete(Request $request)
+    {
+        $menu = Menu::find($request->id);
+        $menu->delete();
+        return $menu->id;
+        #return Menu::find($request->id)->delete();
+    }
+
+    public function store(Request $request)
     {
         $moved = new Menu();
+
+        if($request->id) {
+            $moved = Menu::find($request->id);
+        }
+
         $moved->name = $request->input('name');
         $moved->page_id = $request->input('page_id');
         $moved->save();
-        
-        $target = Menu::with('page')->orderBy('_lft', 'asc')->first();
-        
-        $moved->insertBeforeNode($target);
-        
+
+        if(empty($request->id)) {
+            $target = Menu::with('page')->orderBy('_lft', 'asc')->first();
+            $moved->insertBeforeNode($target);
+        }
+
         return $moved;
     }
 
@@ -44,16 +58,9 @@ class MenuController extends Controller
 		$moved = Menu::find($moved);
 		$target = Menu::find($target);
 
-		
-    	if($position == 'inside') {
-    		$target->appendNode($moved);
-    	}
-    	if($position == 'after') {
-    		$moved->insertBeforeNode($target);
-    	}
-    	if($position == 'before') {
-    		$moved->insertAfterNode($target);
-    	}
+    	if($position == 'inside') { $target->appendNode($moved); }
+    	if($position == 'after') { $moved->insertBeforeNode($target); }
+    	if($position == 'before') { $moved->insertAfterNode($target); }
 
     	return response()->json(true);
     }

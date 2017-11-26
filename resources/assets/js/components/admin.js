@@ -1,24 +1,34 @@
 
 // const $ = require('jquery');
 
-
-
 function init() {
+    if($('#menuTree').length) { init_admin_menu(); }
+}
+
+function init_admin_menu() {
 	
 var $tree = $('#menuTree');
-var selectPage;
+
+    let idEl = $( "input[type=hidden][name=id]" );
+    let nameEl = $( "input[type=text][name=name]" );
+    let pageEl = $( "input[type=text][name=page]" );
+    let pageIdEl = $( "input[type=text][name=page_id]" );
+    let slugEl = $( "input[type=text][name=slug]" );
 
     $tree.tree({
         autoOpen: true,
         dragAndDrop: true,
         onCreateLi: function(node, $li) {
-            // Append a link to the jqtree-element div.
-            // The link has an url '#node-[id]' and a data property 'node-id'.
-            $li.find('.jqtree-element').append(
-                '<span class="page" data-node-id="'+node.id +'">'+node.page.name +' <small>/'+node.page.slug +'</small></span>',
-                '<a href="#node-'+ node.id +'" class="edit glyphicon glyphicon-pencil" data-node-id="'+node.id +'"></a>',
-            );
-
+                if(node.page === null) {
+                    $li.find('.jqtree-element').append(
+                        '<a href="#node-'+ node.id +'" class="edit glyphicon glyphicon-pencil" data-node-id="'+node.id +'"></a>',
+                    );
+                } else {
+                    $li.find('.jqtree-element').append(
+                        '<span class="page" data-node-id="'+node.id +'">'+node.page.name +' <small>/'+node.page.slug +'</small></span>',
+                        '<a href="#node-'+ node.id +'" class="edit glyphicon glyphicon-pencil" data-node-id="'+node.id +'"></a>',
+                    );
+                }
         },
     });
 
@@ -44,7 +54,27 @@ var selectPage;
     });
     */
 
+$tree.bind(
+    'tree.dblclick',
+    function(e) {
+        if (confirm("Вы подтверждаете удаление?\n\nВнимание!!!\n\nПри удалении родительского меню - удаляться все вложенные меню!")) {
 
+            $.ajax({
+              url: "/admin/menu/json/delete",
+              dataType: "text",
+              type: "DELETE",
+              data: {
+                id: e.node.id
+              },
+              success: function( deleteNodeId, status, xhr ) {
+                    if(deleteNodeId == e.node.id) {
+                        $tree.tree('removeNode', e.node);
+                    }
+                }
+            });
+        }
+    }
+);
 
    // Handle a click on the edit link
     $tree.on(
@@ -58,7 +88,12 @@ var selectPage;
 
             if (node) {
                 // Display the node name
-                console.log(node);
+                 idEl.val(node.id);
+                 nameEl.val(node.name);
+                 pageEl.val(node.page.name);
+                 pageIdEl.val(node.page.id);
+                 slugEl.val(node.page.slug);
+
             }
         }
     );
@@ -99,13 +134,12 @@ var selectPage;
 
 
 
+
 $( "#newMenu" ).submit(function( event ) {
 
-    let nameEl = $( "input[type=text][name=name]" );
-    let pageEl = $( "input[type=text][name=page]" );
-    let pageIdEl = $( "input[type=text][name=page_id]" );
-    let slugEl = $( "input[type=text][name=slug]" );
 
+
+    let id = idEl.val();
     let name = nameEl.val();
     let page = pageEl.val();
     let page_id = pageIdEl.val();
@@ -117,6 +151,7 @@ $( "#newMenu" ).submit(function( event ) {
           dataType: "text",
           type: "POST",
           data: {
+            id: id,
             name: name,
             page_id: page_id
           },
@@ -130,6 +165,7 @@ $( "#newMenu" ).submit(function( event ) {
                 //Обновление дерева
                 $tree.tree('reload');
 
+                 idEl.val('');
                  nameEl.val('');
                  pageEl.val('');
                  pageIdEl.val('');
@@ -154,8 +190,8 @@ $( "#newMenu" ).submit(function( event ) {
       source: "/page/search",
       minLength: 2,
       select: function( event, ui ) {
-        $( "input[type=text][name=page_id]" ).val(ui.item.id);
-        $( "input[type=text][name=slug]" ).val(ui.item.slug);
+        pageIdEl.val(ui.item.id);
+        slugEl.val(ui.item.slug);
         //log( "Selected: " + ui.item.value + " aka " + ui.item.id );
       }
     }).data("ui-autocomplete")._renderItem = function (ul, item) {

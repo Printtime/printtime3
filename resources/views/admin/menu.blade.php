@@ -19,17 +19,17 @@ https://github.com/lazychaser/laravel-nestedset
 
 
 <div id="menuTree" data-url="{{ route('admin.menu.json') }}"></div>
-
+<div class="text-right" style="color: #ccc; float:right"><small><span class="glyphicon glyphicon-trash"></span> Удаление пункта меню - двойной клик</small></div>
 <hr>
-
 <form id="newMenu" class="form-inline text-center">
 <div class="form-group ui-widget">
+	<input class="form-control" type="hidden" name="id">
 	<input class="form-control" type="text" name="name" required="required" placeholder="Название меню...">
-	<input class="form-control" type="text" name="page" required="required" size="42" placeholder="Название страницы...">
-	<input class="form-control" type="text" name="page_id" required="required" size="4" placeholder="id">
-	<input class="form-control" type="text" name="slug" required="required" size="4" placeholder="slug">
+	<input class="form-control" type="text" name="page" size="32" placeholder="Название страницы...">
+	<input class="form-control" type="text" name="page_id" size="3" placeholder="id">
+	<input class="form-control" type="text" name="slug" size="3" placeholder="slug">
 </div>
-	<input class="btn btn-default" type="submit" value="Создать">
+	<input class="btn btn-default" type="submit" value="Создать/Обновить">
 </form>
 
 
