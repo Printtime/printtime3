@@ -3,6 +3,7 @@
 
 function init() {
     if($('#menuTree').length) { init_admin_menu(); }
+    if($('#relations').length) { init_admin_relations(); }
 
     init_panel_collapsed();
 }
@@ -147,8 +148,57 @@ function init_admin_menu() {
        };
 
 }
-//------Menu Start: jqTree & lazychaser/laravel-nestedset------
+//------Menu End: jqTree & lazychaser/laravel-nestedset------
 
+
+
+//------Автозаполнение / поиск страницы Start: для page_relations------
+function init_admin_relations() {
+
+  if($('#relationsList ul li').length) {
+    $('#relationsList label').css('display', 'block');
+  }
+
+  $( "#relationsList ul li" ).dblclick(function() {
+
+/*
+                $.ajax({
+                  url: "/admin/menu/json/delete",
+                  dataType: "text",
+                  type: "DELETE",
+                  data: {
+                    id: e.node.id
+                  },
+                  success: function( deleteNodeId, status, xhr ) {
+                        if(deleteNodeId == e.node.id) {
+                            $tree.tree('removeNode', e.node);
+                        }
+                    }
+                });
+
+    console.log($(this).attr('data-to-id'));
+    */
+  });
+
+      $( "#relations" ).autocomplete({
+        source: "/page/search",
+        minLength: 2,
+        select: function( event, ui ) {
+          console.log(ui.item);
+          $("#relationsList ul").append('<li data-to-id="'+ui.item.id+'">'+ui.item.name+' <small>/'+ui.item.slug+'</small></li>');
+            $(this).val("");
+            init_admin_relations();
+            return false;
+        }
+      }).data("ui-autocomplete")._renderItem = function (ul, item) {
+           return $("<li></li>")
+               .data("item.autocomplete", item)
+               .append("<div>" + item.name + " <small>/" + item.slug + "</small></div>")
+               .appendTo(ul);
+       };
+
+}
+//------Автозаполнение / поиск страницы End: для page_relations------
 
 
 //------Tinymce Start------

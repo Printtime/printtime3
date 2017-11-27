@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Page;
+use App\PageType;
 
 class PageController extends Controller
 {
@@ -12,6 +13,7 @@ class PageController extends Controller
 	    $pages = Page::published()->paginate();
 	    return dd($pages);
 	}
+
 
 	public function show(Request $request)
 	{	
@@ -59,7 +61,10 @@ class PageController extends Controller
 			'never' => 'Никогда'
 		];
 
-
+		$pagetypes = collect(PageType::get());
+		$pagetypes_plucked = $pagetypes->pluck('title', 'id');
+		$pagetypes_plucked->all();
+		
 		if($page == null) {
 			$page = new Page();
 	 	} else {
@@ -67,15 +72,16 @@ class PageController extends Controller
 	 	}
 
 
-        return view('admin.page', ['page' => $page, 'changefreq_array' => $changefreq_array]);
+        return view('admin.page', ['page' => $page, 'changefreq_array' => $changefreq_array, 'pagetypes'=>$pagetypes_plucked]);
 	}
 
 	public function store(Request $request)
 	{	
 		$page = new Page();
 		$page->fill($request->all());
-
 		if($request->published == 'on') { $page->published = true; } else { $page->published = false; }
+		if(empty($request->created_at)) { unset($page->created_at); }
+		if(empty($request->updated_at)) { unset($page->updated_at); }
 		$page->save();
 
 		return redirect()->back();

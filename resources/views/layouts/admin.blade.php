@@ -41,7 +41,9 @@
                                     Содержимое <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <!-- <li><a href="{{ route('admin.page.create') }}">Создать</a></li> -->
+                                    @foreach($pagetypes as $pagetype)
+                                        <li><a href="{{ route('admin.pagetype.show', ['page_types_id'=>$pagetype->id]) }}">{{ $pagetype->title }} ({{ $pagetype->pages_count }})</a></li>
+                                    @endforeach
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{ route('admin.page.create') }}">Создать</a></li>
                                 </ul>

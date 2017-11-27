@@ -11,16 +11,29 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-success">
+            <div class="panel panel-default">
                 <div class="panel-heading">
 	                <h3 class="panel-title">Page</h3>
 	                <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                 </div>				
                 <div class="panel-body">
 
-								<div class="form-group">
+                	<div class="row form-group">
+								<div class="col-md-4">
 									{{ Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Название', 'required']) }}
 								</div>
+								<div class="col-md-4">
+									{{ Form::select('page_types_id', $pagetypes, null, ['class'=>'form-control']) }}
+								</div>
+								<div class="col-md-4">
+									{{ Form::text('relations', null, ['id'=>'relations', 'class'=>'form-control', 'placeholder'=>'Вложить в ...', 'required']) }}
+								</div>
+					</div>
+
+					<div class="form-group" id="relationsList">
+						<label>Отображается в</label>
+						<ul></ul>
+					</div>
 
 								<div class="form-group">
 									{{ Form::textarea('anons', null, ['rows'=>'3', 'class' => 'form-control', 'placeholder'=>'Анонс - краткое содержание']) }}

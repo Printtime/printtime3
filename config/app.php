@@ -181,6 +181,8 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
 
+        App\Providers\ComposerServiceProvider::class,
+
     ],
 
     /*
@@ -234,6 +236,7 @@ return [
 
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
     ],
 
 ];

@@ -19,6 +19,8 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/', 'AdminController@main')->name('admin.main');
 
+    Route::get('/pagetype/{pagetype}', 'PageTypeController@show')->name('admin.pagetype.show')->middleware('can:admin,auth');
+
     Route::get('/page', 'PageController@create')->name('admin.page.create')->middleware('can:admin,auth');
     Route::get('/page/{page}/edit', 'PageController@create')->name('admin.page.edit')->middleware('can:admin,auth');
     Route::post('/page', 'PageController@store')->name('admin.page.store')->middleware('can:admin,auth');

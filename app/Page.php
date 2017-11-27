@@ -11,6 +11,7 @@ class Page extends Model
 
     protected $fillable = [
          'slug',
+         'page_types_id',
          'name',
          'anons',
          'content',

@@ -33246,13 +33246,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
         /*
         Set the data of this node.
-          setData(string): set the name of the node
+         setData(string): set the name of the node
         setdata(object): set attributes of the node
-          Examples:
+         Examples:
             setdata('node1')
-              setData({ name: 'node1', id: 1});
-              setData({ name: 'node2', id: 2, color: 'green'});
-          * This is an internal function; it is not in the docs
+             setData({ name: 'node1', id: 1});
+             setData({ name: 'node2', id: 2, color: 'green'});
+         * This is an internal function; it is not in the docs
         * Does not remove existing node values
         */
         Node.prototype.setData = function (o) {
@@ -33283,7 +33283,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Create tree from data.
-          Structure of data is:
+         Structure of data is:
         [
             {
                 label: 'node1',
@@ -33310,7 +33310,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Add child.
-          tree.addChild(
+         tree.addChild(
             new Node('child1')
         );
         */
@@ -33320,7 +33320,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Add child at position. Index starts at 0.
-          tree.addChildAtPosition(
+         tree.addChildAtPosition(
             new Node('abc'),
             1
         );
@@ -33331,7 +33331,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Remove child. This also removes the children of the node.
-          tree.removeChild(tree.children[0]);
+         tree.removeChild(tree.children[0]);
         */
         Node.prototype.removeChild = function (node) {
             // remove children from the index
@@ -33340,14 +33340,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Get child index.
-          var index = getChildIndex(node);
+         var index = getChildIndex(node);
         */
         Node.prototype.getChildIndex = function (node) {
             return $.inArray(node, this.children);
         };
         /*
         Does the tree have children?
-          if (tree.hasChildren()) {
+         if (tree.hasChildren()) {
             //
         }
         */
@@ -33359,16 +33359,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Iterate over all the nodes in the tree.
-          Calls callback with (node, level).
-          The callback must return true to continue the iteration on current node.
-          tree.iterate(
+         Calls callback with (node, level).
+         The callback must return true to continue the iteration on current node.
+         tree.iterate(
             function(node, level) {
                console.log(node.name);
-                 // stop iteration after level 2
+                // stop iteration after level 2
                return (level <= 2);
             }
         );
-          */
+         */
         Node.prototype.iterate = function (callback) {
             var _iterate = function _iterate(node, level) {
                 if (node.children) {
@@ -33385,8 +33385,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Move node relative to another node.
-          Argument position: Position.BEFORE, Position.AFTER or Position.Inside
-          // move node1 after node2
+         Argument position: Position.BEFORE, Position.AFTER or Position.Inside
+         // move node1 after node2
         tree.moveNode(node1, node2, Position.AFTER);
         */
         Node.prototype.moveNode = function (moved_node, target_node, position) {
@@ -33904,7 +33904,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             loadDataFromUrl('/my_data', node1);
             loadDataFromUrl('/my_data', node1, function() { console.log('finished'); });
             loadDataFromUrl('/my_data', null, function() { console.log('finished'); });
-          - loadDataFromUrl(parent_node=null, on_finished=null)
+         - loadDataFromUrl(parent_node=null, on_finished=null)
             loadDataFromUrl();
             loadDataFromUrl(node1);
             loadDataFromUrl(null, function() { console.log('finished'); });
@@ -35765,7 +35765,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         /*
         Set initial state
         Don't handle nodes that are loaded on demand
-          result: must load on demand
+         result: must load on demand
         */
         SaveStateHandler.prototype.setInitialState = function (state) {
             if (!state) {
@@ -37842,133 +37842,181 @@ return $.fn.extend( {
 // const $ = require('jquery');
 
 function init() {
-    if ($('#menuTree').length) {
-        init_admin_menu();
-    }
+  if ($('#menuTree').length) {
+    init_admin_menu();
+  }
+  if ($('#relations').length) {
+    init_admin_relations();
+  }
 
-    init_panel_collapsed();
+  init_panel_collapsed();
 }
 
 //------Menu Start: jqTree & lazychaser/laravel-nestedset------
 function init_admin_menu() {
 
-    var $tree = $('#menuTree');
-    var idEl = $("input[type=hidden][name=id]");
-    var nameEl = $("input[type=text][name=name]");
-    var pageEl = $("input[type=text][name=page]");
-    var pageIdEl = $("input[type=hidden][name=page_id]");
-    var slugEl = $("input[type=hidden][name=slug]");
-    var unpageEl = $("button[type=button][name=unpage]");
+  var $tree = $('#menuTree');
+  var idEl = $("input[type=hidden][name=id]");
+  var nameEl = $("input[type=text][name=name]");
+  var pageEl = $("input[type=text][name=page]");
+  var pageIdEl = $("input[type=hidden][name=page_id]");
+  var slugEl = $("input[type=hidden][name=slug]");
+  var unpageEl = $("button[type=button][name=unpage]");
 
-    unpageEl.on('click', function () {
+  unpageEl.on('click', function () {
+    pageEl.val('');
+    pageIdEl.val('');
+    slugEl.val('');
+  });
+
+  $tree.tree({
+    autoOpen: true,
+    saveState: true,
+    dragAndDrop: true,
+    onCreateLi: function onCreateLi(node, $li) {
+      if (node.page === null) {
+        $li.find('.jqtree-element').append('<a href="#node-' + node.id + '" class="edit glyphicon glyphicon-pencil" data-node-id="' + node.id + '"></a>');
+      } else {
+        $li.find('.jqtree-element').append('<span class="page" data-node-id="' + node.id + '">' + node.page.name + ' <small>/' + node.page.slug + '</small></span>', '<a href="#node-' + node.id + '" class="edit glyphicon glyphicon-pencil" data-node-id="' + node.id + '"></a>');
+      }
+    }
+  });
+
+  $tree.bind('tree.dblclick', function (e) {
+    if (confirm("Вы подтверждаете удаление?\n\nВнимание!!!\n\nПри удалении родительского меню - удаляться все вложенные меню!")) {
+
+      $.ajax({
+        url: "/admin/menu/json/delete",
+        dataType: "text",
+        type: "DELETE",
+        data: {
+          id: e.node.id
+        },
+        success: function success(deleteNodeId, status, xhr) {
+          if (deleteNodeId == e.node.id) {
+            $tree.tree('removeNode', e.node);
+          }
+        }
+      });
+    }
+  });
+
+  // Handle a click on the edit link
+  $tree.on('click', '.edit', function (e) {
+    var node_id = $(e.target).data('node-id');
+
+    var node = $tree.tree('getNodeById', node_id);
+
+    if (node) {
+      idEl.val(node.id);
+      nameEl.val(node.name);
+      pageEl.val(node.page.name);
+      pageIdEl.val(node.page.id);
+      slugEl.val(node.page.slug);
+    }
+  });
+
+  $tree.bind('tree.move', function (event) {
+    $.ajax({
+      url: "/admin/menu/json",
+      dataType: "text",
+      type: "POST",
+      data: {
+        moved: event.move_info.moved_node.id,
+        target: event.move_info.target_node.id,
+        position: event.move_info.position
+      }
+    });
+  });
+
+  //Сохранить / обновить
+  $("#newMenu").submit(function (event) {
+
+    var id = idEl.val();
+    var name = nameEl.val();
+    var page = pageEl.val();
+    var page_id = pageIdEl.val();
+    var slug = slugEl.val();
+
+    $.ajax({
+      url: "/admin/menu/json/create",
+      dataType: "text",
+      type: "POST",
+      data: {
+        id: id,
+        name: name,
+        page_id: page_id
+      },
+      success: function success(newNode, status, xhr) {
+        $tree.tree('reload');
+        idEl.val('');
+        nameEl.val('');
         pageEl.val('');
         pageIdEl.val('');
         slugEl.val('');
+      }
     });
+    event.preventDefault();
+  });
 
-    $tree.tree({
-        autoOpen: true,
-        saveState: true,
-        dragAndDrop: true,
-        onCreateLi: function onCreateLi(node, $li) {
-            if (node.page === null) {
-                $li.find('.jqtree-element').append('<a href="#node-' + node.id + '" class="edit glyphicon glyphicon-pencil" data-node-id="' + node.id + '"></a>');
-            } else {
-                $li.find('.jqtree-element').append('<span class="page" data-node-id="' + node.id + '">' + node.page.name + ' <small>/' + node.page.slug + '</small></span>', '<a href="#node-' + node.id + '" class="edit glyphicon glyphicon-pencil" data-node-id="' + node.id + '"></a>');
-            }
-        }
-    });
-
-    $tree.bind('tree.dblclick', function (e) {
-        if (confirm("Вы подтверждаете удаление?\n\nВнимание!!!\n\nПри удалении родительского меню - удаляться все вложенные меню!")) {
-
-            $.ajax({
-                url: "/admin/menu/json/delete",
-                dataType: "text",
-                type: "DELETE",
-                data: {
-                    id: e.node.id
-                },
-                success: function success(deleteNodeId, status, xhr) {
-                    if (deleteNodeId == e.node.id) {
-                        $tree.tree('removeNode', e.node);
-                    }
-                }
-            });
-        }
-    });
-
-    // Handle a click on the edit link
-    $tree.on('click', '.edit', function (e) {
-        var node_id = $(e.target).data('node-id');
-
-        var node = $tree.tree('getNodeById', node_id);
-
-        if (node) {
-            idEl.val(node.id);
-            nameEl.val(node.name);
-            pageEl.val(node.page.name);
-            pageIdEl.val(node.page.id);
-            slugEl.val(node.page.slug);
-        }
-    });
-
-    $tree.bind('tree.move', function (event) {
-        $.ajax({
-            url: "/admin/menu/json",
-            dataType: "text",
-            type: "POST",
-            data: {
-                moved: event.move_info.moved_node.id,
-                target: event.move_info.target_node.id,
-                position: event.move_info.position
-            }
-        });
-    });
-
-    //Сохранить / обновить
-    $("#newMenu").submit(function (event) {
-
-        var id = idEl.val();
-        var name = nameEl.val();
-        var page = pageEl.val();
-        var page_id = pageIdEl.val();
-        var slug = slugEl.val();
-
-        $.ajax({
-            url: "/admin/menu/json/create",
-            dataType: "text",
-            type: "POST",
-            data: {
-                id: id,
-                name: name,
-                page_id: page_id
-            },
-            success: function success(newNode, status, xhr) {
-                $tree.tree('reload');
-                idEl.val('');
-                nameEl.val('');
-                pageEl.val('');
-                pageIdEl.val('');
-                slugEl.val('');
-            }
-        });
-        event.preventDefault();
-    });
-
-    //Автозаполнение / поиск страницы
-    $("input[type=text][name=page]").autocomplete({
-        source: "/page/search",
-        minLength: 2,
-        select: function select(event, ui) {
-            pageIdEl.val(ui.item.id);
-            slugEl.val(ui.item.slug);
-        }
-    }).data("ui-autocomplete")._renderItem = function (ul, item) {
-        return $("<li></li>").data("item.autocomplete", item).append("<div>" + item.name + " <small>/" + item.slug + "</small></div>").appendTo(ul);
-    };
+  //Автозаполнение / поиск страницы
+  $("input[type=text][name=page]").autocomplete({
+    source: "/page/search",
+    minLength: 2,
+    select: function select(event, ui) {
+      pageIdEl.val(ui.item.id);
+      slugEl.val(ui.item.slug);
+    }
+  }).data("ui-autocomplete")._renderItem = function (ul, item) {
+    return $("<li></li>").data("item.autocomplete", item).append("<div>" + item.name + " <small>/" + item.slug + "</small></div>").appendTo(ul);
+  };
 }
-//------Menu Start: jqTree & lazychaser/laravel-nestedset------
+//------Menu End: jqTree & lazychaser/laravel-nestedset------
+
+
+//------Автозаполнение / поиск страницы Start: для page_relations------
+function init_admin_relations() {
+
+  if ($('#relationsList ul li').length) {
+    $('#relationsList label').css('display', 'block');
+  }
+
+  $("#relationsList ul li").dblclick(function () {
+
+    /*
+                    $.ajax({
+                      url: "/admin/menu/json/delete",
+                      dataType: "text",
+                      type: "DELETE",
+                      data: {
+                        id: e.node.id
+                      },
+                      success: function( deleteNodeId, status, xhr ) {
+                            if(deleteNodeId == e.node.id) {
+                                $tree.tree('removeNode', e.node);
+                            }
+                        }
+                    });
+    
+        console.log($(this).attr('data-to-id'));
+        */
+  });
+
+  $("#relations").autocomplete({
+    source: "/page/search",
+    minLength: 2,
+    select: function select(event, ui) {
+      console.log(ui.item);
+      $("#relationsList ul").append('<li data-to-id="' + ui.item.id + '">' + ui.item.name + ' <small>/' + ui.item.slug + '</small></li>');
+      $(this).val("");
+      init_admin_relations();
+      return false;
+    }
+  }).data("ui-autocomplete")._renderItem = function (ul, item) {
+    return $("<li></li>").data("item.autocomplete", item).append("<div>" + item.name + " <small>/" + item.slug + "</small></div>").appendTo(ul);
+  };
+}
+//------Автозаполнение / поиск страницы End: для page_relations------
 
 
 //------Tinymce Start------
@@ -37985,23 +38033,23 @@ function init_admin_menu() {
 
 // Initialize
 __WEBPACK_IMPORTED_MODULE_0_tinymce_tinymce___default.a.init({
-    selector: '#tinymce',
-    skin: false,
-    content_style: "* { font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif }",
-    // skin_url:  ('/js/tinymce/skins/lightgray/'),
-    plugins: "paste link image code fullscreen",
-    height: "380",
-    image_list: [{ title: 'My image 1', value: 'https://www.tinymce.com/images/img-404@2x.png' }, { title: 'My image 2', value: 'https://ae01.alicdn.com/kf/HTB1qRfuSFXXXXXCXXXXq6xXFXXXC/lovely-ice-trees-lake-snow-track-winter-season-nature-landscape-KC466-Living-room-home-wall-art.jpg' }]
+  selector: '#tinymce',
+  skin: false,
+  content_style: "* { font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif }",
+  // skin_url:  ('/js/tinymce/skins/lightgray/'),
+  plugins: "paste link image code fullscreen",
+  height: "380",
+  image_list: [{ title: 'My image 1', value: 'https://www.tinymce.com/images/img-404@2x.png' }, { title: 'My image 2', value: 'https://ae01.alicdn.com/kf/HTB1qRfuSFXXXXXCXXXXq6xXFXXXC/lovely-ice-trees-lake-snow-track-winter-season-nature-landscape-KC466-Living-room-home-wall-art.jpg' }]
 
-    // themes: "modern",
-    // content_css: ['//fonts.googleapis.com/css?family=Indie+Flower'],
-    // font_formats: 'Arial Black=arial black,avant garde;Indie Flower=indie flower, cursive;Times New Roman=times new roman,times;',
-    // menubar: "insert",
-    // toolbar: "image",
+  // themes: "modern",
+  // content_css: ['//fonts.googleapis.com/css?family=Indie+Flower'],
+  // font_formats: 'Arial Black=arial black,avant garde;Indie Flower=indie flower, cursive;Times New Roman=times new roman,times;',
+  // menubar: "insert",
+  // toolbar: "image",
 
-    // font_formats: 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n',
+  // font_formats: 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n',
 
-    // skin: false
+  // skin: false
 });
 //------Tinymce End------
 
@@ -38011,18 +38059,18 @@ __WEBPACK_IMPORTED_MODULE_0_tinymce_tinymce___default.a.init({
 
 function init_panel_collapsed() {
 
-    $(".panel-heading").click(function () {
-        var $this = $(this);
-        if (!$this.hasClass('panel-collapsed')) {
-            $this.parents('.panel').find('.panel-body').slideUp();
-            $this.addClass('panel-collapsed');
-            $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-        } else {
-            $this.parents('.panel').find('.panel-body').slideDown();
-            $this.removeClass('panel-collapsed');
-            $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-        }
-    });
+  $(".panel-heading").click(function () {
+    var $this = $(this);
+    if (!$this.hasClass('panel-collapsed')) {
+      $this.parents('.panel').find('.panel-body').slideUp();
+      $this.addClass('panel-collapsed');
+      $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+    } else {
+      $this.parents('.panel').find('.panel-body').slideDown();
+      $this.removeClass('panel-collapsed');
+      $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+    }
+  });
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (init);

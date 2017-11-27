@@ -43,3 +43,21 @@
 		font-size: 15px;
 	}
 }
+
+
+//Page relationsList
+#relationsList {
+label {
+	float:left;
+	margin-right: 5px;
+	display:none;
+}
+ul {
+	li {
+		@extend .btn;
+		@extend .btn-default;
+		@extend .btn-xs;
+		margin-right: 5px;
+	}
+}
+}
