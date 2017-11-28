@@ -10,8 +10,8 @@ class PageTypeController extends Controller
 {
 	public function show($pagetype)
 	{
-	    $pagetype = PageType::findOrFail($pagetype)->pages()->orderBy('updated_at', 'DESC')->paginate();
-	    #$pagetype = Page::where('page_types_id', $pagetype)->paginate();
-	    return view('admin.pages', ['pages' => $pagetype]);
+	    $pagetype = PageType::findOrFail($pagetype);
+	    $pages = $pagetype->pages()->orderBy('updated_at', 'DESC')->paginate();
+	    return view('admin.pages', ['name' => $pagetype->title, 'pages' => $pages]);
 	}
 }

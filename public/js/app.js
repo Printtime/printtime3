@@ -37849,6 +37849,12 @@ function init() {
     init_admin_relations();
   }
 
+  $(".btn-danger").click(function () {
+    if (!confirm('Вы уверены?')) {
+      return false;
+    }
+  });
+
   init_panel_collapsed();
 }
 
@@ -37977,43 +37983,76 @@ function init_admin_menu() {
 //------Автозаполнение / поиск страницы Start: для page_relations------
 function init_admin_relations() {
 
-  if ($('#relationsList ul li').length) {
-    $('#relationsList label').css('display', 'block');
-  }
-
-  $("#relationsList ul li").dblclick(function () {
+  function set_relations(type, to_id) {
 
     /*
-                    $.ajax({
-                      url: "/admin/menu/json/delete",
-                      dataType: "text",
-                      type: "DELETE",
-                      data: {
-                        id: e.node.id
-                      },
-                      success: function( deleteNodeId, status, xhr ) {
-                            if(deleteNodeId == e.node.id) {
-                                $tree.tree('removeNode', e.node);
-                            }
-                        }
-                    });
-    
-        console.log($(this).attr('data-to-id'));
-        */
-  });
+    if(!$('#relationsList ul li[data-to-id="'+idEl.val()+'"]').length) {
+    console.log(true);
+    } else {
+    console.log(false);
+    }
+    */
+    var set_data = {
+      page_id: idEl.val(),
+      to_id: to_id,
+      type: type
+    };
+    $.ajax({
+      url: "/admin/page/json",
+      type: "POST",
+      data: set_data
+    });
+
+    // $('#relationsList ul li[data-to-id="'+to_id+'"]').css('background', '#fff000');
+    checkLabelDisplay();
+  }
+
+  function deleteRef() {
+    if (confirm("Вы подтверждаете удаление вложенности?")) {
+      set_relations('delete', $(this).attr("data-to-id"));
+      $(this).remove();
+      checkLabelDisplay();
+    }
+  }
+
+  function checkLabelDisplay() {
+    if ($('#relationsList ul li').length) {
+      $('#relationsList label').css('display', 'block');
+    } else {
+      $('#relationsList label').css('display', 'none');
+    }
+  }
+
+  checkLabelDisplay();
+
+  var idEl = $("input[type=hidden][name=id]");
+  if (!idEl.length) {
+    $('#relations').css('display', 'none');
+  }
+
+  $("#relationsList ul li").dblclick(deleteRef);
 
   $("#relations").autocomplete({
     source: "/page/search",
     minLength: 2,
     select: function select(event, ui) {
-      console.log(ui.item);
-      $("#relationsList ul").append('<li data-to-id="' + ui.item.id + '">' + ui.item.name + ' <small>/' + ui.item.slug + '</small></li>');
-      $(this).val("");
-      init_admin_relations();
+
+      if (!$('#relationsList ul li[data-to-id="' + ui.item.id + '"]').length) {
+        // return $("#relationsList ul").append('<li data-to-id="'+ui.item.id+'">'+ui.item.name+' <small>/'+ui.item.slug+'</small></li>').dblclick(deleteRef);
+
+        $("#relationsList ul").append(function () {
+          return $('<li data-to-id="' + ui.item.id + '">' + ui.item.name + ' <small>/' + ui.item.slug + '</small></li>').dblclick(deleteRef);
+        });
+
+        $(this).val("");
+        set_relations('create', ui.item.id);
+      } else {
+        alert('Уже подключено...');
+      }
       return false;
     }
   }).data("ui-autocomplete")._renderItem = function (ul, item) {
-    return $("<li></li>").data("item.autocomplete", item).append("<div>" + item.name + " <small>/" + item.slug + "</small></div>").appendTo(ul);
+    return $("<li></li>").data("item.autocomplete", item.id).append("<div>" + item.name + " <small>/" + item.slug + "</small></div>").appendTo(ul);
   };
 }
 //------Автозаполнение / поиск страницы End: для page_relations------

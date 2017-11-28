@@ -46,9 +46,14 @@ class Page extends Model
         return $query->where('published', false);
     }
 
-   public function type()
+    public function type()
     {
         return $this->belongsTo(PageType::class, 'page_types_id', 'id');
+    }
+
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = str_slug($value, '-');
     }
 
     public function sluggable()
@@ -59,4 +64,16 @@ class Page extends Model
             ]
         ];
     }
+
+   public function relations()
+    {
+        return $this->belongsToMany(Page::class, 'page_relations', 'to_id', 'page_id');
+    }
+
+   public function relationsReverse()
+    {
+        return $this->belongsToMany(Page::class, 'page_relations', 'page_id', 'to_id');
+    }
+
+
 }

@@ -2,18 +2,15 @@
 
 @section('content')
 
-@if($page)
 	{!! Form::model($page, ['route' => ['admin.page.update', $page->id]]) !!}
-@else
-	{!! Form::model($page, ['route' => ['admin.page.store']]) !!}
-@endif
-
+	@if(isset($page->id))<input id="id" type="hidden" name="id" value="{{ $page->id }}">@endif
+	
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-	                <h3 class="panel-title">Page</h3>
+	                <h3 class="panel-title">Content</h3>
 	                <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                 </div>				
                 <div class="panel-body">
@@ -26,13 +23,17 @@
 									{{ Form::select('page_types_id', $pagetypes, null, ['class'=>'form-control']) }}
 								</div>
 								<div class="col-md-4">
-									{{ Form::text('relations', null, ['id'=>'relations', 'class'=>'form-control', 'placeholder'=>'Вложить в ...', 'required']) }}
+									{{ Form::text('relationsSearch', null, ['id'=>'relations', 'class'=>'form-control', 'placeholder'=>'Вложить в ...']) }}
 								</div>
 					</div>
 
 					<div class="form-group" id="relationsList">
 						<label>Отображается в</label>
-						<ul></ul>
+						<ul>
+							@foreach($page->relationsReverse as $relations)
+								<li data-to-id="{{ $relations->id }}">{{ $relations->name }} <small>/{{ $relations->slug }}</small></li>
+							@endforeach
+						</ul>
 					</div>
 
 								<div class="form-group">
@@ -131,6 +132,11 @@
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="template">Шаблон</label> <div id="template" class="col-sm-8">{{ Form::text('template', null, ['class'=>'form-control', 'placeholder'=>'название view blade']) }}</div>
 								</div>
+								@if(isset($page->id))
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="template">Slug</label> <div id="slug" class="col-sm-8">{{ Form::text('slug', null, ['class'=>'form-control', 'placeholder'=>'пример: about']) }}</div>
+								</div>
+								@endif
 								<div class="form-group">
 									<div class="col-sm-offset-4 col-sm-8"><div class="checkbox"><label>{{ Form::checkbox('published', null) }} Опубликовано</label></div></div>
 								</div>
@@ -165,10 +171,22 @@
 </div>
 
 
+
 <div class="container">
     <div class="row">
         <div class="col-md-12 text-center">
-        	{!! Form::submit('Сохранить | Обновить', ['class'=>'btn btn-success']) !!}
+			@if(isset($page->id))
+        	{!! Form::submit('Обновить', ['class'=>'btn btn-success']) !!}
+
+			@if($page->relations->count() == 0)
+				<a href="{{ route('admin.page.delete', ['page'=>$page->id]) }}" class="btn btn-danger">Удалить</a>
+			@else
+				<a href="{{ route('admin.page.relations', ['page'=>$page->id]) }}" class="btn btn-default">Просмотр дочерних страниц</a>
+			@endif
+        	
+			@else
+        	{!! Form::submit('Создать', ['class'=>'btn btn-success']) !!}
+			@endif
         </div>
     </div>
 </div>

@@ -19,10 +19,15 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/', 'AdminController@main')->name('admin.main');
 
+    Route::get('/page/{page}/test', 'PageController@test')->name('admin.page.test')->middleware('can:admin,auth');
+
     Route::get('/pagetype/{pagetype}', 'PageTypeController@show')->name('admin.pagetype.show')->middleware('can:admin,auth');
+    Route::get('/page/{page}/relations', 'PageController@relations')->name('admin.page.relations')->middleware('can:admin,auth');
 
     Route::get('/page', 'PageController@create')->name('admin.page.create')->middleware('can:admin,auth');
+    Route::post('/page/json', 'PageController@json')->name('admin.page.json')->middleware('can:admin,auth');
     Route::get('/page/{page}/edit', 'PageController@create')->name('admin.page.edit')->middleware('can:admin,auth');
+    Route::get('/page/{page}/delete', 'PageController@delete')->name('admin.page.delete')->middleware('can:admin,auth');
     Route::post('/page', 'PageController@store')->name('admin.page.store')->middleware('can:admin,auth');
     Route::post('/page/{page}', 'PageController@update')->name('admin.page.update')->middleware('can:admin,auth');
 
@@ -45,6 +50,8 @@ Route::resources([
 ]);*/
 
 //Route::get('/', 'PostController@index');
+
+/*
 Route::get('/posts', 'PostController@index')->name('list_posts');
 Route::group(['prefix' => 'posts'], function () {
     Route::get('/drafts', 'PostController@drafts')->name('list_drafts')->middleware('auth');
@@ -56,5 +63,5 @@ Route::group(['prefix' => 'posts'], function () {
     // using get to simplify
     Route::get('/publish/{post}', 'PostController@publish')->name('publish_post')->middleware('can:publish-post');
 });
-
+*/
 Route::get('/home', 'HomeController@index')->name('home');

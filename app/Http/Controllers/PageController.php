@@ -84,7 +84,8 @@ class PageController extends Controller
 		if(empty($request->updated_at)) { unset($page->updated_at); }
 		$page->save();
 
-		return redirect()->back();
+		return redirect()->route('admin.pagetype.show', ['pagetype'=>$page->type->id]);
+		// return redirect()->back();
 	}
 
 
@@ -94,8 +95,45 @@ class PageController extends Controller
 
 		if($request->published == 'on') { $page->published = true; } else { $page->published = false; }
 		$page->save();
+		return redirect()->route('admin.pagetype.show', ['pagetype'=>$page->type->id]);
+		// return redirect()->back();
+	}
 
-		return redirect()->back();
+	public function delete(Request $request)
+	{
+	    $page = Page::findOrFail($request->page);
+		$page->relations()->detach();
+		$page->relationsReverse()->detach();
+	    $page->delete();
+	    return redirect()->route('admin.pagetype.show', ['pagetype'=>$page->type->id]);
+	}
+
+	public function test(Page $page)
+	{
+		return dd($page);
+	}
+
+	public function relations(Request $request, Page $page)
+	{
+		$pages = $page->relations()->paginate();
+		return view('admin.pages', ['name' => $page->name, 'pages' => $pages]);
+	}
+
+	public function json(Request $request)
+	{	
+		if($request->ajax())
+		    {
+		    	$page = Page::find($request->page_id);
+
+		    	if($request->type == 'create') {
+					$page->relationsReverse()->attach($request->to_id);
+		    	}
+		    	if($request->type == 'delete') {
+					$page->relationsReverse()->detach($request->to_id);
+		    	}
+		    	return response()->json(true);
+		    }
+		return false;
 	}
 
 }
