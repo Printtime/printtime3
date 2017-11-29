@@ -19,7 +19,10 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/', 'AdminController@main')->name('admin.main');
 
-    Route::get('/page/{page}/test', 'PageController@test')->name('admin.page.test')->middleware('can:admin,auth');
+    Route::post('/image/upload', 'ImageController@upload')->name('admin.image.upload')->middleware('can:admin,auth');
+
+    //TEST
+    Route::get('/test', 'ImageController@test')->name('admin.test')->middleware('can:admin,auth');
 
     Route::get('/pagetype/{pagetype}', 'PageTypeController@show')->name('admin.pagetype.show')->middleware('can:admin,auth');
     Route::get('/page/{page}/relations', 'PageController@relations')->name('admin.page.relations')->middleware('can:admin,auth');

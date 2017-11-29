@@ -8,6 +8,7 @@
 require('./bootstrap');
 require('./components/tree.jquery');
 require('jquery-ui/ui/widgets/autocomplete');
+// require('jquery-file-upload/js/jquery.uploadfile');
 
 $.ajaxSetup({
   headers: {
@@ -18,6 +19,10 @@ $.ajaxSetup({
 
 import admin from './components/admin'
 admin();
+
+
+
+
 
 // window.Vue = require('vue');
 

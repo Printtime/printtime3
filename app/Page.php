@@ -76,4 +76,9 @@ class Page extends Model
     }
 
 
+    public function images()
+    {
+        return $this->morphMany('App\Image', 'imagegable');
+    }
+    
 }

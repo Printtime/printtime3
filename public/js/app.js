@@ -12621,6 +12621,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __webpack_require__(17);
 __webpack_require__(40);
 __webpack_require__(41);
+// require('jquery-file-upload/js/jquery.uploadfile');
 
 $.ajaxSetup({
   headers: {
@@ -37842,140 +37843,305 @@ return $.fn.extend( {
 // const $ = require('jquery');
 
 function init() {
-  if ($('#menuTree').length) {
-    init_admin_menu();
-  }
-  if ($('#relations').length) {
-    init_admin_relations();
-  }
-
-  $(".btn-danger").click(function () {
-    if (!confirm('Вы уверены?')) {
-      return false;
+    if ($('#menuTree').length) {
+        init_admin_menu();
     }
-  });
+    if ($('#relations').length) {
+        init_admin_relations();
+    }
+    if ($('#upload_images').length) {
+        init_upload_image();
+    }
 
-  init_panel_collapsed();
+    $(".btn-danger").click(function () {
+        if (!confirm('Вы уверены?')) {
+            return false;
+        }
+    });
+
+    init_panel_collapsed();
+}
+
+function humanFileSize(bytes, si) {
+    var thresh = si ? 1000 : 1024;
+    if (Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    var units = si ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'] : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1) + ' ' + units[u];
+}
+
+function init_upload_image() {
+
+    //images_list = $('#images_list');
+
+    $('#upload_images:file').on('change', function () {
+
+        $.each($("#upload_images:file")[0].files, function (i, file) {
+
+            //Новый временный ID
+            var new_file_id = Date.now() * file.size;
+
+            //Новый элемент
+            var newfile = $("<div></div>");
+            newfile.attr("id", new_file_id);
+            newfile.addClass('imagefile row');
+            $('#images_list').append(newfile);
+
+            var thumbnail = $('<div>').addClass('col-xs-2').appendTo(newfile);
+
+            //Читаем файл для предпросмотра
+            var reader = new FileReader();
+            reader.onload = function (e) {
+
+                var img = $('<img>');
+                if (file.size < 1024 * 2 * 1024) {
+                    img.attr('src', e.target.result);
+                } else {
+                    img.attr('src', '/images/icon/no_preview.jpg');
+                }
+                img.addClass('img-thumbnail');
+                img.appendTo(thumbnail);
+
+                var info = $('<div>').addClass('info col-xs-10').appendTo(newfile);
+                $('<progress>').appendTo(info);
+                $('<div>').html('Название файла: ' + file.name).appendTo(info);
+                $('<div>').html('Размер файла: ' + humanFileSize(file.size, false)).appendTo(info);
+
+                /*
+                $(newfile + 'img').attr('src', e.target.result);
+                  newfile.attr("id", new_file_id);
+                  */
+            };
+            reader.readAsDataURL(file);
+
+            var data = new FormData();
+
+            data.append('file', file);
+            data.append('page', $("#id").val());
+            data.append('file_name', file.name);
+
+            $.ajax({
+
+                xhr: function xhr() {
+                    var xhr = new window.XMLHttpRequest();
+                    //Upload progress
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            $('#' + new_file_id + ' progress').val(percentComplete);
+                            if (percentComplete == 1) {
+                                $('#' + new_file_id + ' progress').remove();
+                            }
+                        }
+                    }, false);
+
+                    //Download progress
+                    xhr.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            $('#' + new_file_id + ' progress').val(percentComplete);
+                            if (percentComplete == 1) {
+                                $('#' + new_file_id + ' progress').remove();
+                            }
+                        }
+                    }, false);
+                    return xhr;
+                },
+                type: 'POST',
+                url: '/admin/image/upload',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function success(result) {
+                    $('#' + new_file_id + ' progress').remove();
+                    var info = $('#' + new_file_id + ' .info');
+                    // console.log(info);
+                    $('<div>').addClass('status').html(result).appendTo(info);
+                    // console.log(result);
+                },
+                error: function error(err) {
+                    var info = $('#' + new_file_id + ' .info');
+                    $('#' + new_file_id + ' progress').remove();
+                    info.parent().addClass('alert-danger');
+                    $('<div>').addClass('status').html('<strong>' + err.status + ': ' + err.statusText + '</strong>').prependTo(info);
+                    // console.log(err);
+                }
+            });
+        });
+
+        // console.log(this.files);
+
+        // var formData = new FormData();
+
+        /*
+        $.ajax({
+            // Your server script to process the upload
+            url: 'upload.php',
+            type: 'POST',
+              // Form data
+            data: new FormData($('form')[0]),
+              // Tell jQuery not to process data or worry about content-type
+            // You *must* include these options!
+            cache: false,
+            contentType: false,
+            processData: false,
+              // Custom XMLHttpRequest
+            xhr: function() {
+                var myXhr = $.ajaxSettings.xhr();
+                if (myXhr.upload) {
+                    // For handling the progress of the upload
+                    myXhr.upload.addEventListener('progress', function(e) {
+                        if (e.lengthComputable) {
+                            $('progress').attr({
+                                value: e.loaded,
+                                max: e.total,
+                            });
+                        }
+                    } , false);
+                }
+                return myXhr;
+            },
+        });
+        */
+        /*    $.each( this.files, function( key, file ) {
+              if (file.size > 1024*2*1024) {
+                formData.append(key, file);
+                }
+            });*/
+
+        /*
+          var file = this.files[0];
+        */
+        // Also see .name, .type
+        $(this).val('');
+    });
 }
 
 //------Menu Start: jqTree & lazychaser/laravel-nestedset------
 function init_admin_menu() {
 
-  var $tree = $('#menuTree');
-  var idEl = $("input[type=hidden][name=id]");
-  var nameEl = $("input[type=text][name=name]");
-  var pageEl = $("input[type=text][name=page]");
-  var pageIdEl = $("input[type=hidden][name=page_id]");
-  var slugEl = $("input[type=hidden][name=slug]");
-  var unpageEl = $("button[type=button][name=unpage]");
+    var $tree = $('#menuTree');
+    var idEl = $("input[type=hidden][name=id]");
+    var nameEl = $("input[type=text][name=name]");
+    var pageEl = $("input[type=text][name=page]");
+    var pageIdEl = $("input[type=hidden][name=page_id]");
+    var slugEl = $("input[type=hidden][name=slug]");
+    var unpageEl = $("button[type=button][name=unpage]");
 
-  unpageEl.on('click', function () {
-    pageEl.val('');
-    pageIdEl.val('');
-    slugEl.val('');
-  });
-
-  $tree.tree({
-    autoOpen: true,
-    saveState: true,
-    dragAndDrop: true,
-    onCreateLi: function onCreateLi(node, $li) {
-      if (node.page === null) {
-        $li.find('.jqtree-element').append('<a href="#node-' + node.id + '" class="edit glyphicon glyphicon-pencil" data-node-id="' + node.id + '"></a>');
-      } else {
-        $li.find('.jqtree-element').append('<span class="page" data-node-id="' + node.id + '">' + node.page.name + ' <small>/' + node.page.slug + '</small></span>', '<a href="#node-' + node.id + '" class="edit glyphicon glyphicon-pencil" data-node-id="' + node.id + '"></a>');
-      }
-    }
-  });
-
-  $tree.bind('tree.dblclick', function (e) {
-    if (confirm("Вы подтверждаете удаление?\n\nВнимание!!!\n\nПри удалении родительского меню - удаляться все вложенные меню!")) {
-
-      $.ajax({
-        url: "/admin/menu/json/delete",
-        dataType: "text",
-        type: "DELETE",
-        data: {
-          id: e.node.id
-        },
-        success: function success(deleteNodeId, status, xhr) {
-          if (deleteNodeId == e.node.id) {
-            $tree.tree('removeNode', e.node);
-          }
-        }
-      });
-    }
-  });
-
-  // Handle a click on the edit link
-  $tree.on('click', '.edit', function (e) {
-    var node_id = $(e.target).data('node-id');
-
-    var node = $tree.tree('getNodeById', node_id);
-
-    if (node) {
-      idEl.val(node.id);
-      nameEl.val(node.name);
-      pageEl.val(node.page.name);
-      pageIdEl.val(node.page.id);
-      slugEl.val(node.page.slug);
-    }
-  });
-
-  $tree.bind('tree.move', function (event) {
-    $.ajax({
-      url: "/admin/menu/json",
-      dataType: "text",
-      type: "POST",
-      data: {
-        moved: event.move_info.moved_node.id,
-        target: event.move_info.target_node.id,
-        position: event.move_info.position
-      }
-    });
-  });
-
-  //Сохранить / обновить
-  $("#newMenu").submit(function (event) {
-
-    var id = idEl.val();
-    var name = nameEl.val();
-    var page = pageEl.val();
-    var page_id = pageIdEl.val();
-    var slug = slugEl.val();
-
-    $.ajax({
-      url: "/admin/menu/json/create",
-      dataType: "text",
-      type: "POST",
-      data: {
-        id: id,
-        name: name,
-        page_id: page_id
-      },
-      success: function success(newNode, status, xhr) {
-        $tree.tree('reload');
-        idEl.val('');
-        nameEl.val('');
+    unpageEl.on('click', function () {
         pageEl.val('');
         pageIdEl.val('');
         slugEl.val('');
-      }
     });
-    event.preventDefault();
-  });
 
-  //Автозаполнение / поиск страницы
-  $("input[type=text][name=page]").autocomplete({
-    source: "/page/search",
-    minLength: 2,
-    select: function select(event, ui) {
-      pageIdEl.val(ui.item.id);
-      slugEl.val(ui.item.slug);
-    }
-  }).data("ui-autocomplete")._renderItem = function (ul, item) {
-    return $("<li></li>").data("item.autocomplete", item).append("<div>" + item.name + " <small>/" + item.slug + "</small></div>").appendTo(ul);
-  };
+    $tree.tree({
+        autoOpen: true,
+        saveState: true,
+        dragAndDrop: true,
+        onCreateLi: function onCreateLi(node, $li) {
+            if (node.page === null) {
+                $li.find('.jqtree-element').append('<a href="#node-' + node.id + '" class="edit glyphicon glyphicon-pencil" data-node-id="' + node.id + '"></a>');
+            } else {
+                $li.find('.jqtree-element').append('<span class="page" data-node-id="' + node.id + '">' + node.page.name + ' <small>/' + node.page.slug + '</small></span>', '<a href="#node-' + node.id + '" class="edit glyphicon glyphicon-pencil" data-node-id="' + node.id + '"></a>');
+            }
+        }
+    });
+
+    $tree.bind('tree.dblclick', function (e) {
+        if (confirm("Вы подтверждаете удаление?\n\nВнимание!!!\n\nПри удалении родительского меню - удаляться все вложенные меню!")) {
+
+            $.ajax({
+                url: "/admin/menu/json/delete",
+                dataType: "text",
+                type: "DELETE",
+                data: {
+                    id: e.node.id
+                },
+                success: function success(deleteNodeId, status, xhr) {
+                    if (deleteNodeId == e.node.id) {
+                        $tree.tree('removeNode', e.node);
+                    }
+                }
+            });
+        }
+    });
+
+    // Handle a click on the edit link
+    $tree.on('click', '.edit', function (e) {
+        var node_id = $(e.target).data('node-id');
+
+        var node = $tree.tree('getNodeById', node_id);
+
+        if (node) {
+            idEl.val(node.id);
+            nameEl.val(node.name);
+            pageEl.val(node.page.name);
+            pageIdEl.val(node.page.id);
+            slugEl.val(node.page.slug);
+        }
+    });
+
+    $tree.bind('tree.move', function (event) {
+        $.ajax({
+            url: "/admin/menu/json",
+            dataType: "text",
+            type: "POST",
+            data: {
+                moved: event.move_info.moved_node.id,
+                target: event.move_info.target_node.id,
+                position: event.move_info.position
+            }
+        });
+    });
+
+    //Сохранить / обновить
+    $("#newMenu").submit(function (event) {
+
+        var id = idEl.val();
+        var name = nameEl.val();
+        var page = pageEl.val();
+        var page_id = pageIdEl.val();
+        var slug = slugEl.val();
+
+        $.ajax({
+            url: "/admin/menu/json/create",
+            dataType: "text",
+            type: "POST",
+            data: {
+                id: id,
+                name: name,
+                page_id: page_id
+            },
+            success: function success(newNode, status, xhr) {
+                $tree.tree('reload');
+                idEl.val('');
+                nameEl.val('');
+                pageEl.val('');
+                pageIdEl.val('');
+                slugEl.val('');
+            }
+        });
+        event.preventDefault();
+    });
+
+    //Автозаполнение / поиск страницы
+    $("input[type=text][name=page]").autocomplete({
+        source: "/page/search",
+        minLength: 2,
+        select: function select(event, ui) {
+            pageIdEl.val(ui.item.id);
+            slugEl.val(ui.item.slug);
+        }
+    }).data("ui-autocomplete")._renderItem = function (ul, item) {
+        return $("<li></li>").data("item.autocomplete", item).append("<div>" + item.name + " <small>/" + item.slug + "</small></div>").appendTo(ul);
+    };
 }
 //------Menu End: jqTree & lazychaser/laravel-nestedset------
 
@@ -37983,77 +38149,77 @@ function init_admin_menu() {
 //------Автозаполнение / поиск страницы Start: для page_relations------
 function init_admin_relations() {
 
-  function set_relations(type, to_id) {
+    function set_relations(type, to_id) {
 
-    /*
-    if(!$('#relationsList ul li[data-to-id="'+idEl.val()+'"]').length) {
-    console.log(true);
-    } else {
-    console.log(false);
-    }
-    */
-    var set_data = {
-      page_id: idEl.val(),
-      to_id: to_id,
-      type: type
-    };
-    $.ajax({
-      url: "/admin/page/json",
-      type: "POST",
-      data: set_data
-    });
-
-    // $('#relationsList ul li[data-to-id="'+to_id+'"]').css('background', '#fff000');
-    checkLabelDisplay();
-  }
-
-  function deleteRef() {
-    if (confirm("Вы подтверждаете удаление вложенности?")) {
-      set_relations('delete', $(this).attr("data-to-id"));
-      $(this).remove();
-      checkLabelDisplay();
-    }
-  }
-
-  function checkLabelDisplay() {
-    if ($('#relationsList ul li').length) {
-      $('#relationsList label').css('display', 'block');
-    } else {
-      $('#relationsList label').css('display', 'none');
-    }
-  }
-
-  checkLabelDisplay();
-
-  var idEl = $("input[type=hidden][name=id]");
-  if (!idEl.length) {
-    $('#relations').css('display', 'none');
-  }
-
-  $("#relationsList ul li").dblclick(deleteRef);
-
-  $("#relations").autocomplete({
-    source: "/page/search",
-    minLength: 2,
-    select: function select(event, ui) {
-
-      if (!$('#relationsList ul li[data-to-id="' + ui.item.id + '"]').length) {
-        // return $("#relationsList ul").append('<li data-to-id="'+ui.item.id+'">'+ui.item.name+' <small>/'+ui.item.slug+'</small></li>').dblclick(deleteRef);
-
-        $("#relationsList ul").append(function () {
-          return $('<li data-to-id="' + ui.item.id + '">' + ui.item.name + ' <small>/' + ui.item.slug + '</small></li>').dblclick(deleteRef);
+        /*
+        if(!$('#relationsList ul li[data-to-id="'+idEl.val()+'"]').length) {
+        console.log(true);
+        } else {
+        console.log(false);
+        }
+        */
+        var set_data = {
+            page_id: idEl.val(),
+            to_id: to_id,
+            type: type
+        };
+        $.ajax({
+            url: "/admin/page/json",
+            type: "POST",
+            data: set_data
         });
 
-        $(this).val("");
-        set_relations('create', ui.item.id);
-      } else {
-        alert('Уже подключено...');
-      }
-      return false;
+        // $('#relationsList ul li[data-to-id="'+to_id+'"]').css('background', '#fff000');
+        checkLabelDisplay();
     }
-  }).data("ui-autocomplete")._renderItem = function (ul, item) {
-    return $("<li></li>").data("item.autocomplete", item.id).append("<div>" + item.name + " <small>/" + item.slug + "</small></div>").appendTo(ul);
-  };
+
+    function deleteRef() {
+        if (confirm("Вы подтверждаете удаление вложенности?")) {
+            set_relations('delete', $(this).attr("data-to-id"));
+            $(this).remove();
+            checkLabelDisplay();
+        }
+    }
+
+    function checkLabelDisplay() {
+        if ($('#relationsList ul li').length) {
+            $('#relationsList label').css('display', 'block');
+        } else {
+            $('#relationsList label').css('display', 'none');
+        }
+    }
+
+    checkLabelDisplay();
+
+    var idEl = $("input[type=hidden][name=id]");
+    if (!idEl.length) {
+        $('#relations').css('display', 'none');
+    }
+
+    $("#relationsList ul li").dblclick(deleteRef);
+
+    $("#relations").autocomplete({
+        source: "/page/search",
+        minLength: 2,
+        select: function select(event, ui) {
+
+            if (!$('#relationsList ul li[data-to-id="' + ui.item.id + '"]').length) {
+                // return $("#relationsList ul").append('<li data-to-id="'+ui.item.id+'">'+ui.item.name+' <small>/'+ui.item.slug+'</small></li>').dblclick(deleteRef);
+
+                $("#relationsList ul").append(function () {
+                    return $('<li data-to-id="' + ui.item.id + '">' + ui.item.name + ' <small>/' + ui.item.slug + '</small></li>').dblclick(deleteRef);
+                });
+
+                $(this).val("");
+                set_relations('create', ui.item.id);
+            } else {
+                alert('Уже подключено...');
+            }
+            return false;
+        }
+    }).data("ui-autocomplete")._renderItem = function (ul, item) {
+        return $("<li></li>").data("item.autocomplete", item.id).append("<div>" + item.name + " <small>/" + item.slug + "</small></div>").appendTo(ul);
+    };
 }
 //------Автозаполнение / поиск страницы End: для page_relations------
 
@@ -38072,23 +38238,26 @@ function init_admin_relations() {
 
 // Initialize
 __WEBPACK_IMPORTED_MODULE_0_tinymce_tinymce___default.a.init({
-  selector: '#tinymce',
-  skin: false,
-  content_style: "* { font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif }",
-  // skin_url:  ('/js/tinymce/skins/lightgray/'),
-  plugins: "paste link image code fullscreen",
-  height: "380",
-  image_list: [{ title: 'My image 1', value: 'https://www.tinymce.com/images/img-404@2x.png' }, { title: 'My image 2', value: 'https://ae01.alicdn.com/kf/HTB1qRfuSFXXXXXCXXXXq6xXFXXXC/lovely-ice-trees-lake-snow-track-winter-season-nature-landscape-KC466-Living-room-home-wall-art.jpg' }]
+    selector: '#tinymce',
+    skin: false,
+    content_style: "* { font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif }",
+    // skin_url:  ('/js/tinymce/skins/lightgray/'),
+    plugins: "paste link image code fullscreen",
+    height: "380"
+    /*  image_list: [
+        {title: 'My image 1', value: 'https://www.tinymce.com/images/img-404@2x.png'},
+        {title: 'My image 2', value: 'https://ae01.alicdn.com/kf/HTB1qRfuSFXXXXXCXXXXq6xXFXXXC/lovely-ice-trees-lake-snow-track-winter-season-nature-landscape-KC466-Living-room-home-wall-art.jpg'}
+      ],*/
 
-  // themes: "modern",
-  // content_css: ['//fonts.googleapis.com/css?family=Indie+Flower'],
-  // font_formats: 'Arial Black=arial black,avant garde;Indie Flower=indie flower, cursive;Times New Roman=times new roman,times;',
-  // menubar: "insert",
-  // toolbar: "image",
+    // themes: "modern",
+    // content_css: ['//fonts.googleapis.com/css?family=Indie+Flower'],
+    // font_formats: 'Arial Black=arial black,avant garde;Indie Flower=indie flower, cursive;Times New Roman=times new roman,times;',
+    // menubar: "insert",
+    // toolbar: "image",
 
-  // font_formats: 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n',
+    // font_formats: 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n',
 
-  // skin: false
+    // skin: false
 });
 //------Tinymce End------
 
@@ -38098,18 +38267,18 @@ __WEBPACK_IMPORTED_MODULE_0_tinymce_tinymce___default.a.init({
 
 function init_panel_collapsed() {
 
-  $(".panel-heading").click(function () {
-    var $this = $(this);
-    if (!$this.hasClass('panel-collapsed')) {
-      $this.parents('.panel').find('.panel-body').slideUp();
-      $this.addClass('panel-collapsed');
-      $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-    } else {
-      $this.parents('.panel').find('.panel-body').slideDown();
-      $this.removeClass('panel-collapsed');
-      $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-    }
-  });
+    $(".panel-heading").click(function () {
+        var $this = $(this);
+        if (!$this.hasClass('panel-collapsed')) {
+            $this.parents('.panel').find('.panel-body').slideUp();
+            $this.addClass('panel-collapsed');
+            $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+        } else {
+            $this.parents('.panel').find('.panel-body').slideDown();
+            $this.removeClass('panel-collapsed');
+            $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+        }
+    });
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (init);

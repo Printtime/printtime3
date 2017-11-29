@@ -4,7 +4,7 @@
 
 	{!! Form::model($page, ['route' => ['admin.page.update', $page->id]]) !!}
 	@if(isset($page->id))<input id="id" type="hidden" name="id" value="{{ $page->id }}">@endif
-	
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -13,7 +13,7 @@
 	                <h3 class="panel-title">Content</h3>
 	                <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                 </div>				
-                <div class="panel-body">
+                <div class="panel-body" style="display: none;">
 
                 	<div class="row form-group">
 								<div class="col-md-4">
@@ -166,6 +166,20 @@
 			</div>
 		</div>
 
+
+
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading panel-collapsed">
+					<h3 class="panel-title">Images</h3>
+					<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-down"></i></span>
+				</div>
+				<div class="panel-body" style="display: none; display: block;">
+						<center><input id="upload_images" name="images" type="file" multiple /></center>
+						<div id="images_list"></div>
+				</div>
+			</div>
+		</div>
 
 	</div>
 </div>

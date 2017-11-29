@@ -10323,3 +10323,23 @@ ul.jqtree-tree .jqtree-element:hover .edit {
   margin-right: 5px;
 }
 
+#images_list .imagefile {
+  border-top: 1px #ccc solid;
+  margin-top: 10px;
+  padding-top: 10px;
+  /*
+			.img-thumbnail {
+				mix-width: 150px;
+				max-height: 150px;
+			}
+			*/
+}
+
+#images_list .imagefile progress {
+  width: 100%;
+}
+
+#images_list .imagefile .img-thumbnail {
+  mix-width: 150px;
+}
+
