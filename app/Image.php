@@ -19,6 +19,10 @@ class Image extends Model
         'imagegable_type',
     ];
 
+    public function testtypes()
+    {
+        return $this->hasOne('App\ImageType', 'imagetype_image', 'imagetype_id', 'image_id');
+    }
 
     public function imagetypes()
     {
@@ -26,8 +30,9 @@ class Image extends Model
          #$this->belongsToMany('App\Image')->using('App\ImageType');
          #return $this->belongTo('');
     }
-/*    public function imagetable()
+
+    public function imagetable()
     {
         return $this->morphTo();
-    }*/
+    }
 }

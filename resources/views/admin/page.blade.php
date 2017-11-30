@@ -2,6 +2,57 @@
 
 @section('content')
 
+
+<div class="container">
+    <div class="row">
+
+
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading panel-collapsed">
+					<h3 class="panel-title">Images</h3>
+					<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-down"></i></span>
+				</div>
+				<div class="panel-body" style="display: none; display: block;">
+						<center><input id="upload_images" name="images" type="file" multiple /></center>
+						<div id="images_list">
+						{{--	@foreach($page->getImagesPage as $image)
+							<div id="{{ $image->id }}" class="imagefile row">
+								<div class="col-xs-2"><img src="#" class="img-thumbnail"></div>
+								<div class="info col-xs-10">
+									<div>Title название: {{ $image->title }}</div>
+									<div>Alt название: {{ $image->alt }}</div>
+									<div>Размер файла: {{ $image->filesize }}</div>
+									<div>
+										@foreach($imagetypes as $imagetype_all)
+										@foreach($image->imagetypes as $imagetype_page)
+										@if($imagetype_all->id == $imagetype_page->id)
+										<div class="checkbox">
+											<label>{{ Form::checkbox('imagetypes[]', $imagetype_all->id, true) }} {{ $imagetype_all->title }}</label>
+										</div>
+										@else
+										<div class="checkbox">
+											<label>{{ Form::checkbox('imagetypes[]', $imagetype_all->id, null) }} {{ $imagetype_all->title }}</label>
+										</div>
+										@endif
+										@endforeach
+										@endforeach
+									</div>
+									<div>Published: {{ $image->published }}</div>
+									<div class="status"></div>
+								</div>
+							</div>
+							@endforeach
+							--}}
+						</div>
+				</div>
+			</div>
+		</div>
+
+    </div>
+</div>
+
+
 	{!! Form::model($page, ['route' => ['admin.page.update', $page->id]]) !!}
 	@if(isset($page->id))<input id="id" type="hidden" name="id" value="{{ $page->id }}">@endif
 
@@ -167,20 +218,6 @@
 		</div>
 
 
-
-		<div class="col-md-12">
-			<div class="panel panel-default">
-				<div class="panel-heading panel-collapsed">
-					<h3 class="panel-title">Images</h3>
-					<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-down"></i></span>
-				</div>
-				<div class="panel-body" style="display: none; display: block;">
-						<center><input id="upload_images" name="images" type="file" multiple /></center>
-						<div id="images_list"></div>
-				</div>
-			</div>
-		</div>
-
 	</div>
 </div>
 
@@ -206,5 +243,7 @@
 </div>
 
 {!! Form::close() !!}
+
+
 
 @endsection

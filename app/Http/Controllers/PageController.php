@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Page;
 use App\PageType;
+use App\ImageType;
 
 class PageController extends Controller
 {
@@ -64,6 +65,11 @@ class PageController extends Controller
 		$pagetypes = collect(PageType::get());
 		$pagetypes_plucked = $pagetypes->pluck('title', 'id');
 		$pagetypes_plucked->all();
+
+		// $imagetypes = ImageType::get();
+		//$imagetypes = collect(ImageType::get());
+		//$imagetypes_plucked = $imagetypes->pluck('title', 'id');
+		//$imagetypes_plucked->all();
 		
 		if($page == null) {
 			$page = new Page();
@@ -108,10 +114,10 @@ class PageController extends Controller
 	    return redirect()->route('admin.pagetype.show', ['pagetype'=>$page->type->id]);
 	}
 
-	public function test(Page $page)
-	{
-		return dd($page);
-	}
+	// public function test(Page $page)
+	// {
+	// 	return dd($page);
+	// }
 
 	public function relations(Request $request, Page $page)
 	{

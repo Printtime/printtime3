@@ -10343,3 +10343,9 @@ ul.jqtree-tree .jqtree-element:hover .edit {
   mix-width: 150px;
 }
 
+#images_list .imagefile label {
+  cursor: pointer;
+  margin-left: 3px;
+  margin-right: 10px;
+}
+

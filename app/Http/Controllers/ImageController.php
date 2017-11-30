@@ -5,17 +5,99 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Image;
+use App\ImageType;
+use App\Page;
+
 use Storage;
+
+// use Illuminate\Support\Facades\DB;
 
 class ImageController extends Controller
 {
+
+	public function json(Request $request)
+    {
+
+    	//Список изображений
+    	if($request->action == 'get' && isset($request->page)) {
+
+    		$page = Page::findorfail($request->page);
+    		$images = $page->getImagesPage; 
+
+    		$data = [];
+    		foreach ($images as $image) {
+    			$data[$image->id] = $image;
+    			$data['imagetypes'] = $image->imagetypes;
+    			unset($data['imagetypes']);
+    		}
+
+    		return response()->json(['images'=>$data, 'types'=>ImageType::get()]);
+    	}
+
+		if($request->action == 'delete' && isset($request->page) && isset($request->image)) {
+			$image = Image::find($request->image);
+			$return = Storage::disk('public')->delete('images/'.$image->filename);
+			if($return) {
+				$image->delete();
+			}
+			return response()->json($return);
+		}
+
+
+
+    	return abort(404);
+
+/*    	$page = \App\Page::find(32);
+    	$images = $page->getImagesPage;   
+    	return response()->json($images); 	*/
+    }
+
     public function test()
     {
+
+
+    	$page = \App\Page::find(32);
+    	$images = $page->getImagesPage;
+    	foreach ($images as $image) {
+    		echo $image->imagetypes;
+    	}
+    	return '-------------------------';
+
+    	//ImageType -> images -> filter ID -> LIST
+    	$page = \App\Page::find(32);
+    	echo \App\ImageType::whereSystem('gallery')->first()->getImages($page)->get();
+    	// echo \App\ImageType::find(2)->getImages($page)->get();
+    	return '-------------------------';
+
+    	//ImageType -> images -> filter ID -> LIST
+    	$page = \App\Page::find(32);
+    	$gallery = \App\ImageType::find(1);
+    	echo $gallery->getimages()->where('imagegable_id', $page->id)->get();
+    	return '-------------------------';
+
+
+    	//Page -> images -> LIST
+    	$page = \App\Page::find(32);
+    	$images = $page->testimages()->get();
+    	#->where('id', '1')->get()
+    	foreach ($images as $image) {
+    		echo $image->imagetypes;
+    	}
+    	//echo $page;
+    	return '-------------------------';
+
+
+    	#$page = \App\Page::find(32)->testimages()->where('imagetype_id', '1')->get();
+    	#$page = \App\Page::find(32)->testimages()->where('imagetype_id', '1')->get();
+    	#dd($page->images);
     	
+    	$ImageType = \App\ImageType::find(1);
+    	dd($ImageType->images);
+
     	$page = \App\Page::find(32);
     	dd($page->images);
     	
-    	
+
     	/*
     	$img = \App\Image::with('imagetypes')->find(4);
     	dd($img->imagetypes);
@@ -57,7 +139,25 @@ class ImageController extends Controller
 
                  }
 
-    	return response()->json($upload_success);
+
+/*
+    		$page = Page::findorfail($request->page);
+    		$images = $page->getImagesPage; 
+
+    		$data = [];
+    		foreach ($images as $image) {
+    			$data[$image->id] = $image;
+    			$data['imagetypes'] = $image->imagetypes;
+    			unset($data['imagetypes']);
+    		}
+    		*/
+    		$data = [];
+    		$data = $image;
+    		$data['imagetypes'] = $image->imagetypes;
+
+    		return response()->json(['id'=>$image->id, 'data'=>$data]);
+
+    	// return response()->json($upload_success);
     	#return response()->json($request->file);
 
 /*        request()->validate([

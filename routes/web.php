@@ -20,6 +20,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'AdminController@main')->name('admin.main');
 
     Route::post('/image/upload', 'ImageController@upload')->name('admin.image.upload')->middleware('can:admin,auth');
+    Route::get('/image/json', 'ImageController@json')->name('admin.page.json')->middleware('can:admin,auth');
+    Route::post('/image/json', 'ImageController@json')->name('admin.page.json')->middleware('can:admin,auth');
 
     //TEST
     Route::get('/test', 'ImageController@test')->name('admin.test')->middleware('can:admin,auth');
@@ -42,6 +44,9 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Auth::routes();
+
+
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('{page}', 'PageController@show')->name('page.show');
 Route::get('/page/search', 'PageController@search')->name('page.search');
@@ -67,4 +72,3 @@ Route::group(['prefix' => 'posts'], function () {
     Route::get('/publish/{post}', 'PostController@publish')->name('publish_post')->middleware('can:publish-post');
 });
 */
-Route::get('/home', 'HomeController@index')->name('home');

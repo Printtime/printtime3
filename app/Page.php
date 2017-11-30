@@ -76,6 +76,20 @@ class Page extends Model
     }
 
 
+  public function getImagesPage()
+    {
+        return $this->morphMany('App\Image', 'imagegable');
+        #->where('xxx', $test);
+    }
+
+/*
+    public function testimages()
+    {
+        return $this->hasManyThrough('App\Image', 'App\ImageType', 
+              'imagegable_id', 'id');
+    }
+    */
+
     public function images()
     {
         return $this->morphMany('App\Image', 'imagegable');

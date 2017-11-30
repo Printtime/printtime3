@@ -37850,7 +37850,7 @@ function init() {
         init_admin_relations();
     }
     if ($('#upload_images').length) {
-        init_upload_image();
+        init_images();
     }
 
     $(".btn-danger").click(function () {
@@ -37876,9 +37876,166 @@ function humanFileSize(bytes, si) {
     return bytes.toFixed(1) + ' ' + units[u];
 }
 
-function init_upload_image() {
+function init_images() {
+
+    var types = null;
+
+    function getImages(response) {
+        types = response.types;
+        $.each(response.images, function (id, data) {
+            // types = response.types;
+            createImage(id, data);
+        });
+    }
+
+    function sendImage(data) {
+        data.page = $("#id").val();
+        $.ajax({
+            url: "/admin/image/json",
+            dataType: "json",
+            type: "POST",
+            data: data
+        });
+    }
+
+    $('#images_list').on('keypress', 'input:text', function (e) {
+        if (e.keyCode == 13) {
+            $(this).blur();
+            return true;
+        }
+    });
+
+    $('#images_list').on('change', 'input:text', function () {
+        var data = $(this).val();
+        var type = $(this).attr('name');
+        var id = $(this).parents('.imagefile').attr('id');
+        sendImage({ action: 'change', image: id, type: type, data: data });
+    });
+
+    $('#images_list').on('click', 'input:checkbox', function () {
+        var data = $(this).is(':checked');
+        var type = $(this).val();
+        var id = $(this).parents('.imagefile').attr('id');
+        sendImage({ action: 'type', image: id, type: type, data: data });
+    });
+
+    $('#images_list').on('click', '#deleteImage', function () {
+        if (!confirm('Удалить изображение?')) {
+            return false;
+        }
+        // let id = $(this).parent().parent().attr('id');
+        var id = $(this).parents('.imagefile').attr('id');
+        $(this).parents('.imagefile').remove();
+        sendImage({ action: 'delete', image: id });
+        return false;
+    });
+
+    function createImage(id, data) {
+        var images_list = $('#images_list');
+        var src = '/images/icon/no_preview.jpg';
+        var title = data.title;
+        var alt = data.alt;
+        var size = data.filesize;
+
+        //Новый элемент
+        var imageDiv = $("<div></div>").attr("id", id).addClass('imagefile row');
+        var thumbnailDiv = $('<div>').addClass('col-xs-2').appendTo(imageDiv);
+        var img = $('<img>').attr('src', src).addClass('img-thumbnail').appendTo(thumbnailDiv);
+
+        var info = $('<div>').addClass('info col-xs-5').appendTo(imageDiv);
+        var info2 = $('<div>').addClass('info col-xs-5 form-inline').appendTo(imageDiv);
+        // $('<progress>').appendTo(info);
+
+        var titleDiv = $('<div>').addClass('form-group').appendTo(info);
+        // let titleLabel = $('<label>').text('title:').appendTo(titleDiv);
+        var titleInput = $('<input>').attr('name', 'title').val(title).attr('placeholder', 'Title').addClass('form-control input-sm').appendTo(titleDiv);
+
+        var AltDiv = $('<div>').addClass('form-group').appendTo(info);
+        // let altLabel = $('<label>').text('alt:').appendTo(AltDiv);
+        var altInput = $('<input>').attr('name', 'alt').val(alt).attr('placeholder', 'Alt').addClass('form-control input-sm').appendTo(AltDiv);
+
+        var typeDiv = $('<div>').addClass('form-group').appendTo(info2);
+
+        $.each(types, function (i, type) {
+            var typeCheckbox = $('<input />', { name: 'type', type: 'checkbox', id: 'cb' + type.id + id, value: type.id });
+            typeCheckbox.appendTo(typeDiv);
+            $('<label />', { 'for': 'cb' + type.id + id, text: type.title }).appendTo(typeDiv);
+
+            $.each(data.imagetypes, function (x, imagetype) {
+                if (type.id == imagetype.id) {
+                    typeCheckbox.attr('checked', true);
+                }
+            });
+        });
+
+        // $('<div>').html('Alt: '+alt).appendTo(info);
+        $('<div>').html('Размер файла: ' + humanFileSize(size, false)).appendTo(info2);
+
+        $('<button>').addClass('btn btn-xs').attr('id', 'deleteImage').text('Удалить').appendTo(info2);
+
+        images_list.append(imageDiv);
+    }
 
     //images_list = $('#images_list');
+
+    // console.log(data.types);
+
+    var page = $("#id").val();
+
+    $.ajax({
+        url: "/admin/image/json",
+        dataType: "json",
+        type: "POST",
+        data: {
+            action: 'get',
+            page: page
+        },
+        success: getImages
+    });
+
+    /*
+    $.ajax({
+    url: "/admin/menu/json",
+    dataType: "text",
+    cache: false,
+    type: "POST",
+    data: {
+      action: 'get',
+      page: '32'
+    },
+          success: function(result){
+              console.log(result);
+          },
+    });
+    */
+
+    /*
+                  $.ajax({
+                      type: 'GET',
+                      url: '/admin/image/json',
+                      cache: false,
+                      contentType: false,
+                      processData: false,
+                      data : {
+                        action: 'get',
+                        page: '32',
+                      },
+                      success: function(result){
+                          console.log(result);
+                      },
+                      error: function(err){
+                          console.log(err);
+                      }
+                  });
+    */
+
+    /*
+    $('#upload_images:file').on('change', function() {
+        $.each($(this)[0].files, function(i, file) {
+          console.log(types);
+        });
+    });
+    */
 
     $('#upload_images:file').on('change', function () {
 
@@ -37960,11 +38117,12 @@ function init_upload_image() {
                 processData: false,
                 data: data,
                 success: function success(result) {
-                    $('#' + new_file_id + ' progress').remove();
-                    var info = $('#' + new_file_id + ' .info');
+                    //$('#'+new_file_id+' progress').remove();
+                    $('#' + new_file_id).remove();
+                    // var info = $('#'+new_file_id+' .info');
                     // console.log(info);
-                    $('<div>').addClass('status').html(result).appendTo(info);
-                    // console.log(result);
+                    // $('<div>').addClass('status').html(result).appendTo(info);
+                    createImage(result.id, result.data);
                 },
                 error: function error(err) {
                     var info = $('#' + new_file_id + ' .info');
