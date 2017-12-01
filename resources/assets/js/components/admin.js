@@ -1,6 +1,7 @@
 
 // const $ = require('jquery');
 
+
 function init() {
     if($('#menuTree').length) { init_admin_menu(); }
     if($('#relations').length) { init_admin_relations(); }
@@ -10,6 +11,9 @@ function init() {
 
     init_panel_collapsed();
 }
+
+
+
 
 function humanFileSize(bytes, si) {
     var thresh = si ? 1000 : 1024;
@@ -31,17 +35,14 @@ function humanFileSize(bytes, si) {
 
 function init_images() {
 
-
 var types = null; 
 
   function getImages(response) {
     types = response.types;
     $.each(response.images, function(id, data) {
-          // types = response.types;
         createImage(id, data);
     });
   }
-
 
 function sendImage(data) {
     data.page = $("#id").val();
@@ -76,17 +77,27 @@ $('#images_list').on('click', 'input:checkbox', function(){
 
 $('#images_list').on('click', '#deleteImage', function(){
     if(!confirm('Удалить изображение?')) { return false; }
-    // let id = $(this).parent().parent().attr('id');
     let id = $(this).parents('.imagefile').attr('id');
     $(this).parents('.imagefile').remove();
     sendImage({action:'delete', image:id});
     return false;
 });
 
+$('#images_list').on('click', '#deleteErrorImage', function(){
+    let id = $(this).parents('.imagefile').attr('id');
+    $(this).parents('.imagefile').remove();
+    return false;
+});
 
   function createImage(id, data) {
     const images_list = $('#images_list');
-    const src = '/images/icon/no_preview.jpg';
+    // console.log(data.filename.length);
+    // if(data.filename.length) {
+       const src = '/images/small/'+data.filename;
+       const link = '/images/full/'+data.filename;
+    // } else {
+     // const src = '/images/icon/no_preview.jpg';
+    // }
     const title = data.title;
     const alt = data.alt;
     const size = data.filesize;
@@ -94,18 +105,16 @@ $('#images_list').on('click', '#deleteImage', function(){
             //Новый элемент
             let imageDiv = $("<div></div>").attr("id", id).addClass('imagefile row');
             let thumbnailDiv = $('<div>').addClass('col-xs-2').appendTo(imageDiv);
-            let img = $('<img>').attr('src', src).addClass('img-thumbnail').appendTo(thumbnailDiv);
+            let imgHref = $('<a>').attr('href', link).attr('target', '_blank').appendTo(thumbnailDiv);
+            $('<img>').attr('src', src).addClass('img-thumbnail').appendTo(imgHref);
 
              let info = $('<div>').addClass('info col-xs-5').appendTo(imageDiv);
              let info2 = $('<div>').addClass('info col-xs-5 form-inline').appendTo(imageDiv);
-             // $('<progress>').appendTo(info);
 
             let titleDiv = $('<div>').addClass('form-group').appendTo(info);
-              // let titleLabel = $('<label>').text('title:').appendTo(titleDiv);
               let titleInput = $('<input>').attr('name', 'title').val(title).attr('placeholder', 'Title').addClass('form-control input-sm').appendTo(titleDiv);
 
             let AltDiv = $('<div>').addClass('form-group').appendTo(info);
-              // let altLabel = $('<label>').text('alt:').appendTo(AltDiv);
               let altInput = $('<input>').attr('name', 'alt').val(alt).attr('placeholder', 'Alt').addClass('form-control input-sm').appendTo(AltDiv);
 
             let typeDiv = $('<div>').addClass('form-group').appendTo(info2);
@@ -122,21 +131,13 @@ $('#images_list').on('click', '#deleteImage', function(){
                   });
             });
 
-             // $('<div>').html('Alt: '+alt).appendTo(info);
              $('<div>').html('Размер файла: '+humanFileSize(size,false)).appendTo(info2);
-
              $('<button>').addClass('btn btn-xs').attr('id', 'deleteImage').text('Удалить').appendTo(info2);
 
             images_list.append(imageDiv);
 
   }
 
-
-
-
-//images_list = $('#images_list');
-
-// console.log(data.types);
 
 const page = $("#id").val();
 
@@ -151,58 +152,10 @@ const page = $("#id").val();
               success: getImages
             });
 
-            /*
-          $.ajax({
-            url: "/admin/menu/json",
-            dataType: "text",
-            cache: false,
-            type: "POST",
-            data: {
-              action: 'get',
-              page: '32'
-            },
-                  success: function(result){
-                      console.log(result);
-                  },
-          });
-          */
-
-
-/*
-              $.ajax({
-                  type: 'GET',
-                  url: '/admin/image/json',
-                  cache: false,
-                  contentType: false,
-                  processData: false,
-                  data : {
-                    action: 'get',
-                    page: '32',
-                  },
-                  success: function(result){
-                      console.log(result);
-                  },
-                  error: function(err){
-                      console.log(err);
-                  }
-              });
-*/
-
-/*
-$('#upload_images:file').on('change', function() {
-    $.each($(this)[0].files, function(i, file) {
-      console.log(types);
-    });
-});
-*/
-   
 
     $('#upload_images:file').on('change', function() {
     
-
           $.each($("#upload_images:file")[0].files, function(i, file) {
-
-
 
             //Новый временный ID
            let new_file_id = Date.now() * file.size;
@@ -230,16 +183,9 @@ $('#upload_images:file').on('change', function() {
              $('<div>').html('Название файла: '+file.name).appendTo(info);
              $('<div>').html('Размер файла: '+humanFileSize(file.size,false)).appendTo(info);
              
-
-              /*
-              $(newfile + 'img').attr('src', e.target.result);
-                newfile.attr("id", new_file_id);
-                */
             }
+
             reader.readAsDataURL(file);
-
-
-
 
               var data = new FormData();
 
@@ -279,74 +225,21 @@ $('#upload_images:file').on('change', function() {
                   processData: false,
                   data : data,
                   success: function(result){
-                      //$('#'+new_file_id+' progress').remove();
                       $('#'+new_file_id).remove();
-                      // var info = $('#'+new_file_id+' .info');
-                      // console.log(info);
-                      // $('<div>').addClass('status').html(result).appendTo(info);
                       createImage(result.id, result.data);
                   },
                   error: function(err){
                       var info = $('#'+new_file_id+' .info');
                       $('#'+new_file_id+' progress').remove();
                       info.parent().addClass('alert-danger');
+
                       $('<div>').addClass('status').html('<strong>'+err.status+': '+err.statusText+'</strong>').prependTo(info);
-                      // console.log(err);
+                      $('<button>').addClass('btn btn-xs').attr('id', 'deleteErrorImage').text('Удалить').appendTo(info);
                   }
               });
 
           });
 
-
-      // console.log(this.files);
-
-        // var formData = new FormData();
-
-              /*
-              $.ajax({
-                  // Your server script to process the upload
-                  url: 'upload.php',
-                  type: 'POST',
-
-                  // Form data
-                  data: new FormData($('form')[0]),
-
-                  // Tell jQuery not to process data or worry about content-type
-                  // You *must* include these options!
-                  cache: false,
-                  contentType: false,
-                  processData: false,
-
-                  // Custom XMLHttpRequest
-                  xhr: function() {
-                      var myXhr = $.ajaxSettings.xhr();
-                      if (myXhr.upload) {
-                          // For handling the progress of the upload
-                          myXhr.upload.addEventListener('progress', function(e) {
-                              if (e.lengthComputable) {
-                                  $('progress').attr({
-                                      value: e.loaded,
-                                      max: e.total,
-                                  });
-                              }
-                          } , false);
-                      }
-                      return myXhr;
-                  },
-              });
-              */
-/*    $.each( this.files, function( key, file ) {
-      if (file.size > 1024*2*1024) {
-        formData.append(key, file);
-        }
-    });*/
-
-
-      /*
-        var file = this.files[0];
-
-*/
-        // Also see .name, .type
         $(this).val('');
 
     });
@@ -579,6 +472,8 @@ $( "#relationsList ul li" ).dblclick(deleteRef);
 //------Автозаполнение / поиск страницы End: для page_relations------
 
 
+
+
 //------Tinymce Start------
 import tinymce from 'tinymce/tinymce'
 import 'tinymce/themes/modern/theme'
@@ -599,6 +494,9 @@ tinymce.init({
   // skin_url:  ('/js/tinymce/skins/lightgray/'),
   plugins: "paste link image code fullscreen",
   height : "380",
+
+
+  // image_list: []
 /*  image_list: [
     {title: 'My image 1', value: 'https://www.tinymce.com/images/img-404@2x.png'},
     {title: 'My image 2', value: 'https://ae01.alicdn.com/kf/HTB1qRfuSFXXXXXCXXXXq6xXFXXXC/lovely-ice-trees-lake-snow-track-winter-season-nature-landscape-KC466-Living-room-home-wall-art.jpg'}

@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
-<body>
-    <div id="app">
-
-@include('widgets.menu')
-
-{{--
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -40,14 +20,78 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+        <?php
+
+
+$traverse = function ($categories, $lvl = 1, $tmp = 1, $save_count = null) use (&$traverse) {
+
+
+    foreach ($categories as $key => $category) {
+        $key = $key + 1;
+
+        echo "\n";
+
+        
+
+
+
+        if($lvl != $tmp) {
+            echo ' drop ';
+            echo "\n";
+        }
+
+        echo $key;
+
+        if($category->page) {
+            echo '<a href="'.$category->page->slug.'">'.$category->name.'</a>';
+        } else {
+            echo '<a href="#">'.$category->name.'</a>';
+        }
+
+
+
+        $save = count($category->children);
+        if($save != 0) {
+            $save_count = $save;
+        }
+
+
+      if($save_count == $key) {
+            echo "\n";
+            echo ' end ';
+            $save_count = 0;
+        }
+
+
+        // echo count($category->children);
+
+        // if($lvl != $tmp) {
+        //     echo 'SUB END </li>';
+        // }
+
+
+/*$pref = '<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">';
+
+$suf = '</ul></li>';*/
+
+        $traverse($category->children, $lvl + 1, $tmp = $lvl, $save_count);
+    }
+
+
+};
+
+$traverse($menu);
+?>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
+                            
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
@@ -74,12 +118,5 @@
                 </div>
             </div>
         </nav>
---}}
 
-        @yield('content')
-    </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-</body>
-</html>

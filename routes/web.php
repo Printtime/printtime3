@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+
 
 Route::group(['prefix' => 'admin'], function () {
 
@@ -45,11 +46,12 @@ Route::group(['prefix' => 'admin'], function () {
 
 Auth::routes();
 
-
-Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/', 'PageController@home')->name('page.home');
 Route::get('{page}', 'PageController@show')->name('page.show');
 Route::get('/page/search', 'PageController@search')->name('page.search');
+
+// Route::get('/home', 'HomeController@index')->name('home');
+
 
 //Route::get('{slug}', 'PostController@show')->name('post.show');
 /*

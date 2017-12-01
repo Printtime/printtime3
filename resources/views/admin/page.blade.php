@@ -2,7 +2,7 @@
 
 @section('content')
 
-
+@if(isset($page->id))
 <div class="container">
     <div class="row">
 
@@ -13,45 +13,16 @@
 					<h3 class="panel-title">Images</h3>
 					<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-down"></i></span>
 				</div>
-				<div class="panel-body" style="display: none; display: block;">
+				<div class="panel-body" style="display: none;">
 						<center><input id="upload_images" name="images" type="file" multiple /></center>
-						<div id="images_list">
-						{{--	@foreach($page->getImagesPage as $image)
-							<div id="{{ $image->id }}" class="imagefile row">
-								<div class="col-xs-2"><img src="#" class="img-thumbnail"></div>
-								<div class="info col-xs-10">
-									<div>Title название: {{ $image->title }}</div>
-									<div>Alt название: {{ $image->alt }}</div>
-									<div>Размер файла: {{ $image->filesize }}</div>
-									<div>
-										@foreach($imagetypes as $imagetype_all)
-										@foreach($image->imagetypes as $imagetype_page)
-										@if($imagetype_all->id == $imagetype_page->id)
-										<div class="checkbox">
-											<label>{{ Form::checkbox('imagetypes[]', $imagetype_all->id, true) }} {{ $imagetype_all->title }}</label>
-										</div>
-										@else
-										<div class="checkbox">
-											<label>{{ Form::checkbox('imagetypes[]', $imagetype_all->id, null) }} {{ $imagetype_all->title }}</label>
-										</div>
-										@endif
-										@endforeach
-										@endforeach
-									</div>
-									<div>Published: {{ $image->published }}</div>
-									<div class="status"></div>
-								</div>
-							</div>
-							@endforeach
-							--}}
-						</div>
+						<div id="images_list"></div>
 				</div>
 			</div>
 		</div>
 
     </div>
 </div>
-
+@endif
 
 	{!! Form::model($page, ['route' => ['admin.page.update', $page->id]]) !!}
 	@if(isset($page->id))<input id="id" type="hidden" name="id" value="{{ $page->id }}">@endif
@@ -64,7 +35,7 @@
 	                <h3 class="panel-title">Content</h3>
 	                <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                 </div>				
-                <div class="panel-body" style="display: none;">
+                <div class="panel-body">
 
                 	<div class="row form-group">
 								<div class="col-md-4">

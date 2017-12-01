@@ -7,6 +7,8 @@ use App\Page;
 use App\PageType;
 use App\ImageType;
 
+use Storage;
+
 class PageController extends Controller
 {
 	public function index()
@@ -15,6 +17,12 @@ class PageController extends Controller
 	    return dd($pages);
 	}
 
+	public function home()
+	{
+	    $page = Page::findOrFail('1');
+	    if(empty($page->template)) { $page->template = 'home'; }
+	    return view('page.'.$page->template, ['page' => $page]);
+	}
 
 	public function show(Request $request)
 	{	
@@ -108,6 +116,12 @@ class PageController extends Controller
 	public function delete(Request $request)
 	{
 	    $page = Page::findOrFail($request->page);
+	    foreach ($page->images as $image) {
+	    	$return = Storage::disk('public')->delete('images/'.$image->filename);
+			if($return) {
+				$image->delete();
+			}
+	    }
 		$page->relations()->detach();
 		$page->relationsReverse()->detach();
 	    $page->delete();

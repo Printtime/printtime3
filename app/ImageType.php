@@ -16,8 +16,6 @@ class ImageType extends Model
     public function images()
     {
         return $this->hasMany('App\Image', 'imagetype_image', 'image_id', 'imagetype_id');
-         #$this->belongsToMany('App\Image')->using('App\ImageType');
-         #return $this->belongTo('');
     }
 
     public function getImages($page)

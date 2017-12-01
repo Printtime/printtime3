@@ -9,6 +9,8 @@ use App\Menu;
 
 class MenuController extends Controller
 {
+
+
 	/*
     public function index_menu()
     {

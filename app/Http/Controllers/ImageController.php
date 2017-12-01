@@ -18,7 +18,7 @@ class ImageController extends Controller
 	public function json(Request $request)
     {
 
-    	//Список изображений
+    	//Список
     	if($request->action == 'get' && isset($request->page)) {
 
     		$page = Page::findorfail($request->page);
@@ -34,6 +34,7 @@ class ImageController extends Controller
     		return response()->json(['images'=>$data, 'types'=>ImageType::get()]);
     	}
 
+    	//Удаление
 		if($request->action == 'delete' && isset($request->page) && isset($request->image)) {
 			$image = Image::find($request->image);
 			$return = Storage::disk('public')->delete('images/'.$image->filename);
@@ -43,9 +44,26 @@ class ImageController extends Controller
 			return response()->json($return);
 		}
 
+		//Установка типов
+		if($request->action == 'type' && isset($request->page) && isset($request->image) && isset($request->type)) {
+			$image = Image::find($request->image);
+			if($request->data == 'true') {
+				$image->imagetypes()->attach($request->type);
+			} else {
+				$image->imagetypes()->detach($request->type);
+			}
+			return response()->json($image);
+		}
+
+		//Обновление
+		if($request->action == 'change' && isset($request->page) && isset($request->image) && isset($request->type)) {
+			$image = Image::find($request->image);
+			$image->update([$request->type => $request->data]);
+			return response()->json($image);
+		}
 
 
-    	return abort(404);
+			return response()->json(false);
 
 /*    	$page = \App\Page::find(32);
     	$images = $page->getImagesPage;   

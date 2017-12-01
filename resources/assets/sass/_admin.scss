@@ -1,0 +1,70 @@
+
+// jQuery ui-autocomplete
+.ui-autocomplete-loading { background:url('/images/icon/ajax-loader.gif') no-repeat right center; }
+.ui-menu .ui-menu-item-wrapper {
+	small {
+		color: #ccc;
+	}
+}
+
+
+// bootstrap panel clickable
+.panel-heading {
+    cursor: pointer;  
+	.clickable{
+	    cursor: pointer;   
+	}
+    span {
+		margin-top: -20px;
+		font-size: 15px;
+	}
+}
+
+
+//Page relationsList
+#relationsList {
+label {
+	float:left;
+	margin-right: 5px;
+	display:none;
+}
+ul {
+	li {
+		@extend .btn;
+		@extend .btn-default;
+		@extend .btn-xs;
+		margin-right: 5px;
+	}
+}
+}
+
+
+//Admin Upload Image
+#images_list {
+	.imagefile {
+			
+			border-top: 1px #ccc solid;
+		    margin-top: 10px;
+		    padding-top: 10px;
+
+		    progress {
+		    	width: 100%;
+		    }
+		    
+			.img-thumbnail {
+				mix-width: 150px;
+			}
+		    /*
+			.img-thumbnail {
+				mix-width: 150px;
+				max-height: 150px;
+			}
+			*/
+
+			label {
+				cursor: pointer;
+				margin-left: 3px;
+				margin-right: 10px;
+			}
+	}
+}

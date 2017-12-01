@@ -19,16 +19,14 @@ class Image extends Model
         'imagegable_type',
     ];
 
-    public function testtypes()
+/*    public function testtypes()
     {
         return $this->hasOne('App\ImageType', 'imagetype_image', 'imagetype_id', 'image_id');
-    }
+    }*/
 
     public function imagetypes()
     {
         return $this->belongsToMany('App\ImageType', 'imagetype_image', 'image_id', 'imagetype_id');
-         #$this->belongsToMany('App\Image')->using('App\ImageType');
-         #return $this->belongTo('');
     }
 
     public function imagetable()
