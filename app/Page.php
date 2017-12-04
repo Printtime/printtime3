@@ -81,24 +81,50 @@ class Page extends Model
         return $this->belongsToMany(Page::class, 'page_relations', 'page_id', 'to_id');
     }
 
+   public function relationsWhere($type)
+    {   
+        $this->type = $type;
+        return $this->relations()->whereHas('type', function($q) {
+            $q->whereSystem($this->type);
+        });
+    }
 
     public function scopeGetImages($q, $s = 'gallery') {
         $this->system = $s;
-        return $this->morphMany('App\Image', 'imagegable')->whereHas('imagetypes', function ($query) {
+        $res = $this->morphMany('App\Image', 'imagegable')->whereHas('imagetypes', function ($query) {
             $query->where('system', $this->system);
         }
         )->get();
+
+        return ($res) ? $res : false;
     }
     
     public function scopeGetImage($q, $s = 'gallery') {
         $this->system = $s;
-        return $this->morphMany('App\Image', 'imagegable')->whereHas('imagetypes', function ($query) {
+        $res = $this->morphMany('App\Image', 'imagegable')->whereHas('imagetypes', function ($query) {
             $query->where('system', $this->system);
         }
         )->first();
+
+        return ($res) ? $res : false;
+    }
+        
+    public function scopeGetImageType($q, $s = 'gallery') {
+        $this->system = $s;
+        $filename = '';
+
+        $res = $this->morphMany('App\Image', 'imagegable')->whereHas('imagetypes', function ($query) {
+            $query->where('system', $this->system);
+        }
+        )->first();
+
+        if($res) {
+            $filename = $res->filename;
+        }
+
+        return $filename;
     }
 
-    
   public function getImagesPage()
     {
         return $this->morphMany('App\Image', 'imagegable')->with('imagetypes');

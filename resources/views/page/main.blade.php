@@ -2,20 +2,14 @@
 
 @section('content')
 <div class="container">
-
-    <h1>{{ $page->h1 }}</h1>
-
-<hr>
-{{--
-@foreach($page->GetImages('gallery') as $gallery)
-	{{ $gallery }}
-@endforeach
---}}
-
-    <div class="row">
-        <div class="col-sm-12">
-            {!! $page->content !!}
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-sm-12">
+		    <h1>{{ $page->h1 }}</h1>
+		</div>
+	</div>
 </div>
+
+    @foreach($content as $item)
+        @includeIf('page.sub.'.$item['type'], ['data'=>$item])
+    @endforeach
 @endsection

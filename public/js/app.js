@@ -33260,13 +33260,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
         /*
         Set the data of this node.
-          setData(string): set the name of the node
+         setData(string): set the name of the node
         setdata(object): set attributes of the node
-          Examples:
+         Examples:
             setdata('node1')
-              setData({ name: 'node1', id: 1});
-              setData({ name: 'node2', id: 2, color: 'green'});
-          * This is an internal function; it is not in the docs
+             setData({ name: 'node1', id: 1});
+             setData({ name: 'node2', id: 2, color: 'green'});
+         * This is an internal function; it is not in the docs
         * Does not remove existing node values
         */
         Node.prototype.setData = function (o) {
@@ -33297,7 +33297,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Create tree from data.
-          Structure of data is:
+         Structure of data is:
         [
             {
                 label: 'node1',
@@ -33324,7 +33324,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Add child.
-          tree.addChild(
+         tree.addChild(
             new Node('child1')
         );
         */
@@ -33334,7 +33334,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Add child at position. Index starts at 0.
-          tree.addChildAtPosition(
+         tree.addChildAtPosition(
             new Node('abc'),
             1
         );
@@ -33345,7 +33345,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Remove child. This also removes the children of the node.
-          tree.removeChild(tree.children[0]);
+         tree.removeChild(tree.children[0]);
         */
         Node.prototype.removeChild = function (node) {
             // remove children from the index
@@ -33354,14 +33354,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Get child index.
-          var index = getChildIndex(node);
+         var index = getChildIndex(node);
         */
         Node.prototype.getChildIndex = function (node) {
             return $.inArray(node, this.children);
         };
         /*
         Does the tree have children?
-          if (tree.hasChildren()) {
+         if (tree.hasChildren()) {
             //
         }
         */
@@ -33373,16 +33373,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Iterate over all the nodes in the tree.
-          Calls callback with (node, level).
-          The callback must return true to continue the iteration on current node.
-          tree.iterate(
+         Calls callback with (node, level).
+         The callback must return true to continue the iteration on current node.
+         tree.iterate(
             function(node, level) {
                console.log(node.name);
-                 // stop iteration after level 2
+                // stop iteration after level 2
                return (level <= 2);
             }
         );
-          */
+         */
         Node.prototype.iterate = function (callback) {
             var _iterate = function _iterate(node, level) {
                 if (node.children) {
@@ -33399,8 +33399,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
         /*
         Move node relative to another node.
-          Argument position: Position.BEFORE, Position.AFTER or Position.Inside
-          // move node1 after node2
+         Argument position: Position.BEFORE, Position.AFTER or Position.Inside
+         // move node1 after node2
         tree.moveNode(node1, node2, Position.AFTER);
         */
         Node.prototype.moveNode = function (moved_node, target_node, position) {
@@ -33918,7 +33918,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             loadDataFromUrl('/my_data', node1);
             loadDataFromUrl('/my_data', node1, function() { console.log('finished'); });
             loadDataFromUrl('/my_data', null, function() { console.log('finished'); });
-          - loadDataFromUrl(parent_node=null, on_finished=null)
+         - loadDataFromUrl(parent_node=null, on_finished=null)
             loadDataFromUrl();
             loadDataFromUrl(node1);
             loadDataFromUrl(null, function() { console.log('finished'); });
@@ -35779,7 +35779,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         /*
         Set initial state
         Don't handle nodes that are loaded on demand
-          result: must load on demand
+         result: must load on demand
         */
         SaveStateHandler.prototype.setInitialState = function (state) {
             if (!state) {

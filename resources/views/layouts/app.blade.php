@@ -79,8 +79,14 @@
             </div>
         </nav>
 --}}
+{{--
+@foreach($content as $item)
+    @yield($item['type'])
+@endforeach
+--}}
 
-@yield('content')
+<div class="page">@yield('content')</div>
+
 
 @include('widgets.footer')
 </div>

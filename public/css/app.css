@@ -9040,20 +9040,6 @@ fieldset[disabled] .catalog .btn-send.focus {
   color: #4d4d4d;
 }
 
-.post h1 {
-  padding-bottom: 15px;
-}
-
-.post h2 {
-  border-bottom: 1px #4d4d4d solid;
-  font-size: 20px;
-  padding-bottom: 5px;
-}
-
-.post h2 a {
-  color: #4d4d4d;
-}
-
 /*
 IMAGE HOVER EFFECTS
 https://miketricking.github.io/dist/
@@ -9341,5 +9327,64 @@ a.thumbnail.active {
 
 #sliders {
   background: #fff;
+}
+
+.page {
+  font-size: 12pt;
+}
+
+.product .product-item {
+  border: 1px #f1672a solid;
+  margin-bottom: 30px;
+}
+
+.product .product-item h2 {
+  color: #f1672a;
+  font-size: 14pt;
+  text-align: center;
+  margin-top: 11px;
+}
+
+.product .product-item .thumbnail {
+  padding: 0px;
+  border: 0px;
+  margin-bottom: 10px;
+}
+
+.product .product-item P {
+  margin: 0px 15px;
+}
+
+.product .product-item .more {
+  background: #f1672a;
+  color: #fff;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  top: 13px;
+  width: 60%;
+  padding: 2px 5px;
+}
+
+.news,
+.post {
+  color: #000;
+}
+
+.news .head h2,
+.post .head h2 {
+  text-transform: uppercase;
+}
+
+.news .head h2,
+.news .head a,
+.post .head h2,
+.post .head a {
+  font-size: 12pt;
+  line-height: 100%;
+  margin: 20px 0px;
+  display: inline-block;
+  color: #000;
 }
 

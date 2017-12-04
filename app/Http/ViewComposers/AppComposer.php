@@ -19,6 +19,7 @@ class AppComposer
         $types = ImageType::whereSystem('slider')->first();
         $sliders = $types->imagetypesReverse();
         $view->with('sliders', $sliders->with('getPage')->get());
+        
         #$sliders = $sliders->with('pages');
         #$view->with('sliders', $sliders->with('pages')->get());
 

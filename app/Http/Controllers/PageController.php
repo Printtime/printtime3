@@ -17,18 +17,46 @@ class PageController extends Controller
 	    return dd($pages);
 	}
 
+	public function content2arr(Page $page)
+	{
+		$content = $page->content;
+		$split = '***';
+		$content = str_replace("<p>".$split, $split, $content);
+		$content = str_replace($split."</p>", $split, $content);
+	    $content = explode($split, $content);
+
+	    foreach ($content as $key => $value) {
+	    	$content[$key] = [];
+	    	$content[$key]['type'] = 'html';
+	    	$data = trim($value);
+
+	    	 	$split2 = substr($data, 0, 4);
+	    	 	if($split2 == 'type') {
+	    	 		parse_str(html_entity_decode($data), $output);
+	    	 		$content[$key] = $output;
+	    	 		$content[$key]['relations'] = $page->relationsWhere($output['type'])->get();
+	    	 	} else {
+	    			$content[$key]['data'] = $data;
+	    	 	}
+	    	if($content[$key]['type'] == 'html' && empty($content[$key]['data'])) { unset($content[$key]); }
+	    }
+	    return $page->content = $content;
+	}
+
 	public function home()
 	{
 	    $page = Page::findOrFail('1');
 	    if(empty($page->template)) { $page->template = 'home'; }
-	    return view('page.'.$page->template, ['page' => $page]);
+	    $content = $this->content2arr($page);
+	    return view('page.'.$page->template, ['page' => $page, 'content' => $content]);
 	}
 
 	public function show(Request $request)
 	{	
 	 	$page = (is_numeric($request->page) ? Page::findOrFail($request->page) : Page::published()->whereSlug($request->page)->firstOrFail());
 	    if(empty($page->template)) { $page->template = 'main'; }
-	    return view('page.'.$page->template, ['page' => $page]);
+	    $content = $this->content2arr($page);
+	    return view('page.'.$page->template, ['page' => $page, 'content' => $content]);
 	}
 
 	public function search(Request $request)

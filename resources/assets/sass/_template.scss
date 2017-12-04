@@ -389,16 +389,6 @@ h1 {  margin-bottom: 20px; background: $brand-color1; font-size:12pt; color: #ff
 
 
 
-.post {
-
-h1 { padding-bottom: 15px; }
-
-		h2 {
-				border-bottom: 1px $brand-color2 solid; font-size:20px; padding-bottom: 5px; 
-				a { color: $brand-color2; }
-		}
-}
-
 
 
 /*
@@ -664,10 +654,71 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 }
 
 
+
 .container-fluid {
 	background: #f1f1f1;
 }
 
 #sliders {
 	background: #fff;
+}
+
+
+.item {
+		
+}
+
+.page {
+	font-size: 12pt;
+}
+
+.product {
+	.product-item {
+		border: 1px $brand-color1 solid;
+		margin-bottom: 30px;
+
+		h2 {
+			color: $brand-color1;
+			font-size: 14pt;
+			text-align: center;
+			margin-top: 11px;
+		}
+		.thumbnail {
+			padding: 0px;
+			border: 0px;
+			margin-bottom: 10px;
+		}
+		P {
+		margin: 0px 15px;
+		}
+
+		.more {
+			background: $brand-color1;
+			color: #fff;
+		    text-align: center;
+		    display: block;
+		    margin: 0 auto;
+		    position: relative;
+		    top: 13px;
+		    width: 60%;
+		    padding: 2px 5px;
+		}
+	}
+}
+
+.news, .post {
+	color: #000;
+
+	.head {
+		h2 {
+			text-transform: uppercase;
+		}
+		h2, a { 
+		    font-size: 12pt;
+		    line-height: 100%;
+		    margin: 20px 0px;
+		    display: inline-block;
+		    color: #000;
+    		}
+	}
 }
