@@ -23,6 +23,20 @@ class Image extends Model
     {
         return $this->hasOne('App\ImageType', 'imagetype_image', 'imagetype_id', 'image_id');
     }*/
+/*    public function page()
+    {
+        #return $this->morphedByMany('App\Page', 'imagegable', 'images', 'id');
+        return $this->morphMany('App\Page', 'imagetable');
+        #return $this->morphTo('App\Page', 'imagegable', 'images', 'id');
+    }*/
+
+    public function getPage()
+    {
+        #return $this->morphedByMany('App\Page', 'imagegable', 'images', 'id');
+        return $this->morphTo('imagegable');
+        #return $this->morphedByMany('App\Page', 'imagegable', 'images', 'id');
+    }
+
 
     public function imagetypes()
     {

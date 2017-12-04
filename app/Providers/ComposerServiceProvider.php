@@ -17,7 +17,7 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(
             'layouts.admin', 'App\Http\ViewComposers\AdminComposer'
         );
-        View::composer('widgets.menu', 'App\Http\ViewComposers\AppComposer');
+        View::composer(['widgets.navbar', 'widgets.slider'], 'App\Http\ViewComposers\AppComposer');
     }
 
     /**

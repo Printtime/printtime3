@@ -1,38 +1,46 @@
 @extends('layouts.app')
 
 @section('content')
+
+@verbatim
+    <div class="container">
+        Hello, {!! page !!}.
+    </div>
+@endverbatim
+
+123
+
+@verbatim
+    <div class="container">
+        Hello, {{ name }}.
+    </div>
+@endverbatim
+
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Home</div>
-
-                <div class="panel-body">
-
-<?php
+        <div class="col-sm-12">
+            {!! $page->content !!}
+         </div>
+    </div>
+</div>
 
 
-/*
-            $traverse = function ($menu, $prefix = '-') use (&$traverse) {
-                foreach ($menu as $item) {
-
-
-                    echo PHP_EOL.$prefix.' '.$item->name;
-
-                    
-                    echo "<br>";
-
-                    $traverse($item->children, $prefix.'-');
-                }
-            };
-
-            $traverse($menu);
-            */
-            
-?>
-                </div>
-            </div>
+<div class="container-fluid">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            {!! $page->content !!}
         </div>
+    </div>
+</div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            {!! $page->content !!}
+         </div>
     </div>
 </div>
 @endsection

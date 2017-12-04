@@ -51,6 +51,12 @@ class Page extends Model
         return $this->belongsTo(PageType::class, 'page_types_id', 'id');
     }
 
+/*    public function types()
+    {
+        return $this->hasMany(PageType::class);
+        #return $this->hasMany(PageType::class, 'page_types_id', 'id')->where('system', 'slider');
+    }*/
+
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = str_slug($value, '-');
@@ -76,23 +82,32 @@ class Page extends Model
     }
 
 
-  public function getImagesPage()
-    {
-        return $this->morphMany('App\Image', 'imagegable');
-        #->where('xxx', $test);
+    public function scopeGetImages($q, $s = 'gallery') {
+        $this->system = $s;
+        return $this->morphMany('App\Image', 'imagegable')->whereHas('imagetypes', function ($query) {
+            $query->where('system', $this->system);
+        }
+        )->get();
+    }
+    
+    public function scopeGetImage($q, $s = 'gallery') {
+        $this->system = $s;
+        return $this->morphMany('App\Image', 'imagegable')->whereHas('imagetypes', function ($query) {
+            $query->where('system', $this->system);
+        }
+        )->first();
     }
 
-/*
-    public function testimages()
+    
+  public function getImagesPage()
     {
-        return $this->hasManyThrough('App\Image', 'App\ImageType', 
-              'imagegable_id', 'id');
+        return $this->morphMany('App\Image', 'imagegable')->with('imagetypes');
     }
-    */
+
 
     public function images()
     {
         return $this->morphMany('App\Image', 'imagegable');
     }
-    
+
 }

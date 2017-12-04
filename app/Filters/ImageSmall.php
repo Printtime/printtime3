@@ -9,6 +9,10 @@ class ImageSmall implements FilterInterface
 {
     public function applyFilter(Image $image)
     {
-        return $image->fit(200, 120);
+
+		return $image->resize(300, null, function ($constraint) {
+		    $constraint->aspectRatio();
+		});
+        //return $image->resize(null, 120);
     }
 }

@@ -14,9 +14,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+<div id="app">
 
-@include('widgets.menu')
+@include('widgets.top')
+@include('widgets.navbar')
+
+@include('widgets.slider')
+
 
 {{--
         <nav class="navbar navbar-default navbar-static-top">
@@ -76,8 +80,10 @@
         </nav>
 --}}
 
-        @yield('content')
-    </div>
+@yield('content')
+
+@include('widgets.footer')
+</div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

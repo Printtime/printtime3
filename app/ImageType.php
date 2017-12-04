@@ -18,6 +18,11 @@ class ImageType extends Model
         return $this->hasMany('App\Image', 'imagetype_image', 'image_id', 'imagetype_id');
     }
 
+    public function imagetypesReverse()
+    {
+        return $this->belongsToMany('App\Image', 'imagetype_image', 'imagetype_id', 'image_id');
+    }
+
     public function getImages($page)
     {	
 

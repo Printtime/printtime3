@@ -23,7 +23,6 @@ class ImageController extends Controller
 
     		$page = Page::findorfail($request->page);
     		$images = $page->getImagesPage; 
-
     		$data = [];
     		foreach ($images as $image) {
     			$data[$image->id] = $image;

@@ -27,8 +27,8 @@ class PageController extends Controller
 	public function show(Request $request)
 	{	
 	 	$page = (is_numeric($request->page) ? Page::findOrFail($request->page) : Page::published()->whereSlug($request->page)->firstOrFail());
-		dd($page);
-		//return $page->type->title;
+	    if(empty($page->template)) { $page->template = 'main'; }
+	    return view('page.'.$page->template, ['page' => $page]);
 	}
 
 	public function search(Request $request)
