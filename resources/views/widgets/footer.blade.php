@@ -11,35 +11,32 @@
 
     
 
-    <footer class="footer">
+    <footer>
+    <div class="f1">
       <div class="container">
 
-        {{--
         <div class="row">
-
-        @foreach ($compose_catalog->chunk($compose_catalog->count()/3) as $item)
-            <div class="col-md-4">
-                @foreach ($item as $catalog)
-                    <h3>{!! link_to_route('catalog.show', $catalog->title, $catalog->id) !!}</h3>
-                    @foreach ($catalog->products as $product)
-                        {!! link_to_route('catalog.product.show', $product->title, [$catalog->id, $product->id]) !!}<br>
-                    @endforeach
-                @endforeach
-            </div>
-        @endforeach
+            <div class="col-md-3 col-sm-3 col-xs-6">Logo</div>
+            <div class="col-md-3 col-sm-3 col-xs-6">Data 1</div>
+            <div class="col-md-3 col-sm-3 col-xs-6">Data 2</div>
+            <div class="col-md-3 col-sm-3 col-xs-6">Data 3</div>
         </div>
-        --}}
-
         
       </div>
+    </div>
 
 
-</footer>
-
-<div class="top-container">
-    <div class="container">
-            <div class="col-md-12 top-contacts text-center">Украина, г.Кривой Рог, ул. Волгоградская, 12 <i class="icon logo-icon"></i> (067) 812 81 11 <i class="icon logo-icon"></i> (050) 812 81 81 <i class="icon logo-icon"></i> (063) 812 81 81
-
+    <div class="f2">
+        <div class="container">
+         <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="hidden-xs hidden-sm pull-left">Copyright ©2017 Printtime. All rights reserved.</div>
+                <div class="footer-menu">
+                    <a href="#">Продукция</a> | <a href="#">Акции</a> | <a href="#">Доставка и оплата</a> | <a href="#">Услуги</a> | <a href="#">Новости</a> | <a href="#">Контакты</a>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
-</div>
+
+</footer>

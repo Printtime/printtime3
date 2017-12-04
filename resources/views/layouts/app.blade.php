@@ -5,10 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <title>{{ $page->title }} - {{ config('app.name', 'Laravel') }}</title>
+    <meta name="description" content="{{ $page->description }}"> 
+    <meta name="keywords" content="{{ $page->keywords }}"> 
+    <meta property="og:title" content="{{ $page->ogtitle }}" />
+    <meta property="og:description" content="{{ $page->ogdescription }}" />
+    <meta property="og:type" content="{{ $page->ogtype }}" />
+    <!-- <meta property="og:url" content="http://..." /> -->
+    <!-- <meta property="og:image" content="http://..." /> -->
+    
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">

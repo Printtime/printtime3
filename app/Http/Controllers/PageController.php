@@ -34,7 +34,8 @@ class PageController extends Controller
 	    	 	if($split2 == 'type') {
 	    	 		parse_str(html_entity_decode($data), $output);
 	    	 		$content[$key] = $output;
-	    	 		$content[$key]['relations'] = $page->relationsWhere($output['type'])->get();
+	    	 		$content[$key]['relations'] = $page->relations->where('type.system', $output['type']);
+	    	 		//$content[$key]['relations'] = $page->relationsWhere($output['type'])->get();
 	    	 	} else {
 	    			$content[$key]['data'] = $data;
 	    	 	}
@@ -45,9 +46,29 @@ class PageController extends Controller
 
 	public function home()
 	{
-	    $page = Page::findOrFail('1');
+	    $page = Page::with('relations.type', 'relations.avatar', 'relations.avatar.imagetypes')->findOrFail('1');
+	    #return $page->relations->groupby('page_types_id');
+	    /*
+	    $relations = $page->relations;
+	    print_r($relations);
+	    return '123';
+	    */
+
+	    $content = $this->content2arr($page);
+	   
+
+/*
+	    $types = $page->relations->groupby('page_types_id');
+	    foreach ($types as $t) {
+	    	echo $t;
+	    }
+
+	    return $page->name;
+
 	    if(empty($page->template)) { $page->template = 'home'; }
 	    $content = $this->content2arr($page);
+*/
+	    if(empty($page->template)) { $page->template = 'home'; }
 	    return view('page.'.$page->template, ['page' => $page, 'content' => $content]);
 	}
 

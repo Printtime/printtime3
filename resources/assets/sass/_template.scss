@@ -6,10 +6,12 @@
 
 @import "ajax";
 
+
+$black: #222222;
 $brand-color1: #f1672a;
 $brand-color2: #4d4d4d;
 $link-color: #f1672a;
-$link-hover-color: #4d4d4d;
+$link-hover-color: $black;
 $link-hover-decoration: #4d4d4d;
 
 @mixin circle($size) {
@@ -53,14 +55,36 @@ $link-hover-decoration: #4d4d4d;
 	margin-right: 6px;
 	}
 
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	.container{width:750px}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	.container{width:970px}
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1330px) {
+	.container{width:1330px}
+}
+
+
+
 body {
 	font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 	background: #fff;
+	    line-height: 1.6em;
+	    font-size: 12pt;
+    	color: $black;
 }
 
 h1, .h1 {
 	font-size: 28px;
-	color: #f1672a;
+	color: $brand-color1;
 }
 
 
@@ -329,25 +353,36 @@ h1 {  margin-bottom: 20px; background: $brand-color1; font-size:12pt; color: #ff
 
 }
 
-.body {
-	    line-height: 1.6em;
-	    font-size: 12pt;
-    	color: #4d4d4d;
 
-}
 
-.footer { 
-	 		background: $brand-color1;
+footer { 
 	 		color:#fff;
-	 		min-height:150px;
-	 		border-top:10px #eee solid;
-	 		padding-bottom:10px;
+	 		padding-bottom:0px;
+	 		font-size: 12pt;
 
 	 		a {
 	 			color:#fff;
+	 			margin: 0px 5px;
+	 			&:hover {
+	 				color:#fff;
+	 				text-decoration: underline;
+	 			}
 	 		}
 
-	 		h3 a:hover { text-decoration:none; color: $brand-color2; }
+	 		.f1 {
+	 			padding: 30px 0px;
+	 			color: #ccc;
+	 			background: $brand-color2;
+	 		}
+	 		.f2 {
+	 			padding: 30px 0px;
+	 			color: #666;
+	 			background: $black;
+	 		}
+
+	 		.footer-menu {
+	 			text-align:center;
+	 		}
 		}
 
 
@@ -672,6 +707,15 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 	font-size: 12pt;
 }
 
+.html {
+	margin-top: 15px;
+	margin-bottom: 15px;
+
+	.col-sm-12 img {
+		width: 100%;
+	}
+}
+
 .product {
 	.product-item {
 		border: 1px $brand-color1 solid;
@@ -707,7 +751,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 }
 
 .news, .post {
-	color: #000;
+	color: $black;
 
 	.head {
 		h2 {
@@ -718,7 +762,78 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 		    line-height: 100%;
 		    margin: 20px 0px;
 		    display: inline-block;
-		    color: #000;
+		    color: $black;
     		}
+    	a:hover {
+    		text-decoration: underline;
+    	}
 	}
+
+
+		.thumbnail {
+			padding: 0px;
+			border: 0px;
+			margin-bottom: 10px;
+		}
+
+	.item {
+		display:block;
+		background: #fff;
+		border: 1px #eee solid;
+		margin-bottom: 30px;
+		color: $black;
+    	padding: 10px;
+
+	    height: 300px;
+	    overflow: hidden;
+
+    	&:hover {
+			border: 1px $brand-color1 solid;
+			height: auto;
+    		margin-right: 15px;
+			position: absolute;
+    		z-index: 5;
+
+			-webkit-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.1);
+			-moz-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.1);
+			box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.1);
+
+    		p {
+    			display:block;
+    		}
+
+			h3 {
+				color: $brand-color1;
+			}
+
+			.date { 
+				top: 9px;
+			    right: 9px;
+			}
+    	}
+
+		h3 {
+			padding: 10px;
+			margin:0px;
+			font-size: 14pt;
+		}
+
+		p {
+		    padding: 0px 10px;
+		    display:none;
+		   }
+	}
+
+.date {
+	position: absolute;
+    top: 10px;
+    right: 25px;
+    background: #fff;
+    opacity: 0.5;
+    margin: 0px;
+    padding: 0px 10px;
+    font-size: 10pt;
+}
+
+
 }

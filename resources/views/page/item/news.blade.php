@@ -1,17 +1,17 @@
-<div class="col-xs-6 col-sm-3 col">
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col">
 	
-	<div class="{{ $item['type']['system'] }}-item">
+	<a class="{{ $item['type']['system'] }}-item item" href="{{ route('page.show', ['page'=>$item->slug]) }}">
 
-	<a href="{{ route('page.show', ['page'=>$item->slug]) }}" class="thumbnail">
-		<img src="{{ route('imagecache', ['template'=>'medium', 'filename'=>$item->GetImageType('avatar')]) }}">
-	</a>
-	
+	@if($item->avatar)
+	<div class="thumbnail">
+		<img alt="{{ $item->avatar->alt }}" src="{{ route('imagecache', ['template'=>'medium', 'filename'=>$item->avatar->filename]) }}">
+	</div>
+	@endif
+
 	<h3>{{ $item->name }}</h3>
 	
 	<p>{{ $item->anons }}</p>
 
-	<a class="more" href="{{ route('page.show', ['page'=>$item->slug]) }}">Подробнее</a>
-
-	</div>
+	</a>
 
 </div>

@@ -53,6 +53,10 @@ class Page extends Model
 
 /*    public function types()
     {
+        return $this->hasMany(PageType::class, 'id', 'page_types_id');
+    }*/
+/*    public function types()
+    {
         return $this->hasMany(PageType::class);
         #return $this->hasMany(PageType::class, 'page_types_id', 'id')->where('system', 'slider');
     }*/
@@ -73,7 +77,7 @@ class Page extends Model
 
    public function relations()
     {
-        return $this->belongsToMany(Page::class, 'page_relations', 'to_id', 'page_id');
+        return $this->belongsToMany(Page::class, 'page_relations', 'to_id', 'page_id')->orderBy('created_at', 'desc');
     }
 
    public function relationsReverse()
@@ -135,5 +139,29 @@ class Page extends Model
     {
         return $this->morphMany('App\Image', 'imagegable');
     }
+
+
+    public function xavatar()
+    {
+        return $this->hasMany(Image::class,  'imagegable', 'image_id', 'imagetype_id');
+    }
+
+    public function avatar()
+    {
+        return $this->morphOne('App\Image', 'imagegable')->whereHas('imagetypes', function ($query) {
+            $query->where('system', 'avatar');
+        }
+        );
+
+        #return $this->morphMany('App\Image', 'imagegable');
+        #return $this->morphMany('App\Image', 'imagegable');
+        #->where('imagetypes.system', '=', 'avatar')
+        #return $this->morphMany('App\Image', 'imagegable')->where('imagetypes.system', 'avatar');
+    }
+
+/*    public function img()
+    {
+        return $this->morphTo('App\Image', 'imagegable');
+    }*/
 
 }
