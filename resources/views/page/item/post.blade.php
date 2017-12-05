@@ -9,7 +9,7 @@
 	@endif
 
 	<h3>{{ $item->name }}</h3>
-	<p>{{ $item->anons }}</p>
+	<p class="hidden-xs">{{ $item->anons }}</p>
 	<span class="date">{{ $item->created_at->format('d.m.Y') }}</span>
 
 	</a>

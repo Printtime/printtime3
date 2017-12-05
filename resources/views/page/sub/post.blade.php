@@ -3,7 +3,7 @@
 <div class="container sub {{ $item['type'] }}">
 	<div class="row head">
     			<div class="col-sm-6"><h2>Последние статьи в блоге</h2></div>
-    			<div class="col-sm-6 text-right"><a href="{{ route('page.show', ['page'=>'news']) }}">Читать блог ></a></div>
+    			<div class="col-sm-6 text-right hidden-xs"><a href="{{ route('page.show', ['page'=>'news']) }}">Читать блог <i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a></div>
 	</div>
     <div class="row">
 	           @foreach($data['relations'] as $relations)

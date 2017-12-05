@@ -313,8 +313,22 @@ h1 {  margin-bottom: 20px; background: $brand-color1; font-size:12pt; color: #ff
 .top-container {
 
 	   background: $brand-color2;
-	   .top-contacts { padding: 10px 0px 10px 0px; color:#ccc; font-size:12pt; }
+	   .top-contacts {
+	   	padding: 10px 0px 10px 0px; color:#ccc; font-size:12pt;
+	   	margin-bottom: 0px;
+	   	li {
+	   		display: inline;
+	   		margin-right: 20px;
+	   	}
+	   	a {
+	   		color:#ccc;
+	   		&:hover {
+	   			color: #fff;
+	   		}
+	   	}
+	   }
 	   .top-contacts-circle {
+    		margin-right: 0px !important;
 	   		background: $brand-color1;
 		    right: 0px;
 		    z-index: 1001;
@@ -328,22 +342,15 @@ h1 {  margin-bottom: 20px; background: $brand-color1; font-size:12pt; color: #ff
 	   		color: #fff;
 		    width:500px;
 		    right: 0px;
-		    top:0px;
+		    top:7px;
 		    z-index: 1002;
 		    position: absolute;
 		    text-align:center;
 		    text-decoration:none;
 
-		    font-size:18pt;
-		    sub, sup {
-		    	font-size:10pt;
-		    }
-		    /*
-		    font-family: PFDinTextCondPro-Bold;
-		    font-weight: bold;
-		    text-transform: uppercase;
 		    font-size:16pt;
-		    */
+		    
+		    color: #fff !important;
 
 	   }
 
@@ -756,16 +763,21 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 	.head {
 		h2 {
 			text-transform: uppercase;
+		    color: $black;
 		}
 		h2, a { 
 		    font-size: 12pt;
 		    line-height: 100%;
 		    margin: 20px 0px;
 		    display: inline-block;
-		    color: $black;
     		}
+
+    	a {
+		    color: $brand-color2;
+    		font-size: 10pt;
+    	}
     	a:hover {
-    		text-decoration: underline;
+		    color: $black;
     	}
 	}
 
