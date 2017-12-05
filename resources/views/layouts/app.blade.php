@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $page->title }} - {{ config('app.name', 'Laravel') }}</title>
-    <meta name="description" content="{{ $page->description }}"> 
-    <meta name="keywords" content="{{ $page->keywords }}"> 
-    <meta property="og:title" content="{{ $page->ogtitle }}" />
-    <meta property="og:description" content="{{ $page->ogdescription }}" />
-    <meta property="og:type" content="{{ $page->ogtype }}" />
+    <title>{{ $page->title or config('app.name', 'Laravel') }} - {{ config('app.name', 'Laravel') }}</title>
+    <meta name="description" content="{{ $page->description or '' }}"> 
+    <meta name="keywords" content="{{ $page->keywords or '' }}"> 
+    <meta property="og:title" content="{{ $page->ogtitle or '' }}" />
+    <meta property="og:description" content="{{ $page->ogdescription or '' }}" />
+    <meta property="og:type" content="{{ $page->ogtype or '' }}" />
     <!-- <meta property="og:url" content="http://..." /> -->
     <!-- <meta property="og:image" content="http://..." /> -->
     
