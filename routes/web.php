@@ -24,8 +24,16 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/image/json', 'ImageController@json')->name('admin.page.json')->middleware('can:admin,auth');
     Route::post('/image/json', 'ImageController@json')->name('admin.page.json')->middleware('can:admin,auth');
 
+
+    //File manager
+    Route::group(['prefix' => 'files'], function () {
+        Route::get('/', 'AdminController@fileIndex')->name('admin.file.index');
+        Route::get('edit', 'AdminController@fileEdit')->name('admin.file.edit');
+        Route::post('edit', 'AdminController@fileUpdate')->name('admin.file.update');
+    });
+
     //TEST
-    Route::get('/test', 'ImageController@test')->name('admin.test')->middleware('can:admin,auth');
+    #Route::get('/test', 'ImageController@test')->name('admin.test')->middleware('can:admin,auth');
 
     Route::get('/pagetype/{pagetype}', 'PageTypeController@show')->name('admin.pagetype.show')->middleware('can:admin,auth');
     Route::get('/page/{page}/relations', 'PageController@relations')->name('admin.page.relations')->middleware('can:admin,auth');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Menu;
+use File;
 
 class AdminController extends Controller
 {
@@ -97,5 +98,42 @@ return dd($res);
     	 $res = auth()->user();
     	return dd($res->inRole('admin'));
         return dd('Admin main');
+    }
+
+    private function fileList()
+    {
+        return (object) [
+            (object) ['id'=>1, 'name' => 'Подвал', 'dir'=>'resources', 'path' => '/views/widgets/footer.blade.php'],
+            (object) ['id'=>2, 'name' => 'CSS стили', 'dir'=>'public', 'path' => '/css/custom.css']
+        ];
+    }
+
+    public function fileIndex()
+    {   
+         return view('admin.files.index', ['files' => $this->fileList()]);
+    }
+
+    public function fileEdit(Request $request)
+    {   
+        foreach ($this->fileList() as $file) {
+            if($file->id == $request->id) {
+                $p = '../'.$file->dir . $file->path;
+                $content = File::get($p);
+                return view('admin.files.edit', ['file' => $file, 'content' => $content ]);
+            }
+        }
+        return false;
+    }
+
+    public function fileUpdate(Request $request)
+    {   
+        foreach ($this->fileList() as $file) {
+            if($file->id == $request->id) {
+                $p = '../'.$file->dir . $file->path;
+                $content = File::put($p, $request->content);
+                return redirect()->route('admin.file.index');
+            }
+        }
+        return false;
     }
 }

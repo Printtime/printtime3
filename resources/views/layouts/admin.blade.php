@@ -49,6 +49,7 @@
                                 </ul>
                             </li>
                             <li><a href="{{ route('admin.menu') }}">Меню</a></li>
+                            <li><a href="{{ route('admin.file.index') }}">Файлы</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
