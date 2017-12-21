@@ -1,5 +1,5 @@
 <?php
- if($page->stickys->count()) {
+ if(isset($page) && $page->stickys->count()) {
    $sliders = $page->stickys;
  }
 ?>

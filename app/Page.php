@@ -77,7 +77,7 @@ class Page extends Model
 
    public function relations()
     {
-        return $this->belongsToMany(Page::class, 'page_relations', 'to_id', 'page_id')->orderBy('created_at', 'desc');
+        return $this->belongsToMany(Page::class, 'page_relations', 'to_id', 'page_id')->with('type')->orderBy('created_at', 'desc');
     }
 
    public function relationsReverse()

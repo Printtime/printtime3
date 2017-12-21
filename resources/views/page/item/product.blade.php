@@ -1,6 +1,6 @@
 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col">
 	
-	<div class="{{ $item['type']['system'] }}-item">
+	<div class="{{ $item['type']['system'] }}-item item-{{$key}}">
 	<h2>{{ $item->name }}</h2>
 
 	@if($item->avatar)
