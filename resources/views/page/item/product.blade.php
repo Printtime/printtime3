@@ -8,9 +8,9 @@
 		<img alt="{{ $item->avatar->alt }}" src="{{ route('imagecache', ['template'=>'medium', 'filename'=>$item->avatar->filename]) }}">
 	</a>
 	@endif
-	<p>{{ $item->anons }}</p>
+	<p class="hidden-xs">{{ $item->anons }}</p>
 
-	<a class="more" href="{{ route('page.show', ['page'=>$item->slug]) }}">Подробнее</a>
+	<a class="more hidden-xs" href="{{ route('page.show', ['page'=>$item->slug]) }}">Подробнее</a>
 
 	</div>
 

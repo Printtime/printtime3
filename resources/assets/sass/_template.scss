@@ -72,8 +72,6 @@ $link-hover-decoration: #4d4d4d;
 	.container{width:1330px}
 }
 
-
-
 body {
 	font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 	background: #fff;
@@ -739,6 +737,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 			border: 0px;
 			margin-bottom: 10px;
 		}
+
 		P {
 		margin: 0px 15px;
 		}
@@ -756,6 +755,8 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 		}
 	}
 }
+
+
 
 .news, .post {
 	color: $black;
