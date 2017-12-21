@@ -159,6 +159,14 @@ class Page extends Model
         #return $this->morphMany('App\Image', 'imagegable')->where('imagetypes.system', 'avatar');
     }
 
+    public function stickys()
+    {
+        return $this->morphMany('App\Image', 'imagegable')->whereHas('imagetypes', function ($query) {
+            $query->where('system', 'sticky');
+        }
+        );
+    }
+
 /*    public function img()
     {
         return $this->morphTo('App\Image', 'imagegable');

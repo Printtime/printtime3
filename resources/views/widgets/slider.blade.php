@@ -1,3 +1,8 @@
+<?php
+ if($page->stickys->count()) {
+   $sliders = $page->stickys;
+ }
+?>
 
 @if(count($sliders))
 <div class="container-fluid" id="sliders">
@@ -17,10 +22,12 @@
     <div class="carousel-inner" role="listbox">
 
     @foreach($sliders as $key => $slide)
-
       <div class="item {{ ($key == 0 ? 'active' : '') }}">
-
+        @if($slide->imagegable)
         <a href="{{ $slide->imagegable->slug }}" title="{{ $slide->alt }}"><img src="{{ route('imagecache', ['template'=>'full', 'filename'=>$slide->filename]) }}" alt="{{ $slide->alt }}"></a>
+        @else
+        <span title="{{ $slide->alt }}"><img src="{{ route('imagecache', ['template'=>'full', 'filename'=>$slide->filename]) }}" alt="{{ $slide->alt }}"></span>
+        @endif
       </div>
     @endforeach
 
