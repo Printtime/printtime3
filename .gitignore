@@ -7,6 +7,8 @@ bootstrap/compiled.php
 app/storage/
 
 # Laravel 5 & Lumen specific
+resources/views/widgets/footer.blade.php
+public/css/custom.css
 public/storage
 public/hot
 storage/*.key
