@@ -1,8 +1,8 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css);
 
-@font-face { font-family: 'PFDinTextCondPro-Light';  src: local('PFDinTextCondPro-Light'), url('http://nomail.com.ua/files/woff/2bba26df7ba63d850e5bd1de2f142358.woff') format('woff'); }
-@font-face { font-family: 'PFDinTextCondPro-Bold';  src: local('PFDinTextCondPro-Bold'), url('http://nomail.com.ua/files/woff/9ae3709d644c8df5546e96d0eddc99e1.woff') format('woff'); }
+//@font-face { font-family: 'PFDinTextCondPro-Light';  src: local('PFDinTextCondPro-Light'), url('http://nomail.com.ua/files/woff/2bba26df7ba63d850e5bd1de2f142358.woff') format('woff'); }
+//@font-face { font-family: 'PFDinTextCondPro-Bold';  src: local('PFDinTextCondPro-Bold'), url('http://nomail.com.ua/files/woff/9ae3709d644c8df5546e96d0eddc99e1.woff') format('woff'); }
 
 @import "ajax";
 
@@ -73,10 +73,10 @@ $link-hover-decoration: #4d4d4d;
 }
 
 body {
-	font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+	//font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 	background: #fff;
 	    line-height: 1.6em;
-	    font-size: 12pt;
+	    //font-size: 12pt;
     	color: $black;
 }
 
@@ -363,7 +363,13 @@ h1 {  margin-bottom: 20px; background: $brand-color1; font-size:12pt; color: #ff
 footer { 
 	 		color:#fff;
 	 		padding-bottom:0px;
-	 		font-size: 12pt;
+
+			.logo-white { width:100%; max-width:220px; }
+
+			.icon {
+				color: #fff;
+    			font-size: 20px;
+			}
 
 	 		a {
 	 			color:#fff;
@@ -385,10 +391,28 @@ footer {
 	 			background: $black;
 	 		}
 
+			.footer-main .icon img {
+			    max-height: 20px;
+			}
+
 	 		.footer-menu {
 	 			text-align:center;
 	 		}
+
+	 		.footer-block {
+	 			padding-bottom: 25px;
+	 		}
+
 		}
+
+
+
+
+
+
+.inline { position: relative;
+    display: inline-block;
+    vertical-align: middle; }
 
 
 
@@ -709,7 +733,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 }
 
 .page {
-	font-size: 12pt;
+	font-size: $font-size-page;
 }
 
 .html {
@@ -740,6 +764,8 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 
 		P {
 		margin: 0px 15px;
+		height: 130px;
+		overflow: hidden;
 		}
 
 		.more {

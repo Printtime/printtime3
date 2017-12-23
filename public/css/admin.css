@@ -2934,9 +2934,9 @@ html {
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: "PT Sans", sans-serif;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #636b6f;
   background-color: #f5f8fa;
 }
@@ -2986,7 +2986,7 @@ img {
 
 .img-thumbnail {
   padding: 4px;
-  line-height: 1.6;
+  line-height: 1.5;
   background-color: #f5f8fa;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -3002,8 +3002,8 @@ img {
 }
 
 hr {
-  margin-top: 22px;
-  margin-bottom: 22px;
+  margin-top: 21px;
+  margin-bottom: 21px;
   border: 0;
   border-top: 1px solid #eeeeee;
 }
@@ -3086,8 +3086,8 @@ h2,
 .h2,
 h3,
 .h3 {
-  margin-top: 22px;
-  margin-bottom: 11px;
+  margin-top: 21px;
+  margin-bottom: 10.5px;
 }
 
 h1 small,
@@ -3111,8 +3111,8 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: 11px;
-  margin-bottom: 11px;
+  margin-top: 10.5px;
+  margin-bottom: 10.5px;
 }
 
 h4 small,
@@ -3161,11 +3161,11 @@ h6,
 }
 
 p {
-  margin: 0 0 11px;
+  margin: 0 0 10.5px;
 }
 
 .lead {
-  margin-bottom: 22px;
+  margin-bottom: 21px;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.4;
@@ -3320,15 +3320,15 @@ a.bg-danger:focus {
 }
 
 .page-header {
-  padding-bottom: 10px;
-  margin: 44px 0 22px;
+  padding-bottom: 9.5px;
+  margin: 42px 0 21px;
   border-bottom: 1px solid #eeeeee;
 }
 
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: 11px;
+  margin-bottom: 10.5px;
 }
 
 ul ul,
@@ -3357,12 +3357,12 @@ ol ol {
 
 dl {
   margin-top: 0;
-  margin-bottom: 22px;
+  margin-bottom: 21px;
 }
 
 dt,
 dd {
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 dt {
@@ -3410,8 +3410,8 @@ abbr[data-original-title] {
 }
 
 blockquote {
-  padding: 11px 22px;
-  margin: 0 0 22px;
+  padding: 10.5px 21px;
+  margin: 0 0 21px;
   font-size: 17.5px;
   border-left: 5px solid #eeeeee;
 }
@@ -3427,7 +3427,7 @@ blockquote small,
 blockquote .small {
   display: block;
   font-size: 80%;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #777777;
 }
 
@@ -3465,9 +3465,9 @@ blockquote.pull-right .small:after {
 }
 
 address {
-  margin-bottom: 22px;
+  margin-bottom: 21px;
   font-style: normal;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 code,
@@ -3505,10 +3505,10 @@ kbd kbd {
 
 pre {
   display: block;
-  padding: 10.5px;
-  margin: 0 0 11px;
+  padding: 10px;
+  margin: 0 0 10.5px;
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.5;
   word-break: break-all;
   word-wrap: break-word;
   color: #333333;
@@ -4552,7 +4552,7 @@ th {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 22px;
+  margin-bottom: 21px;
 }
 
 .table > thead > tr > th,
@@ -4562,7 +4562,7 @@ th {
 .table > tfoot > tr > th,
 .table > tfoot > tr > td {
   padding: 8px;
-  line-height: 1.6;
+  line-height: 1.5;
   vertical-align: top;
   border-top: 1px solid #ddd;
 }
@@ -4760,7 +4760,7 @@ table th[class*="col-"] {
 @media screen and (max-width: 767px) {
   .table-responsive {
     width: 100%;
-    margin-bottom: 16.5px;
+    margin-bottom: 15.75px;
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     border: 1px solid #ddd;
@@ -4820,7 +4820,7 @@ legend {
   display: block;
   width: 100%;
   padding: 0;
-  margin-bottom: 22px;
+  margin-bottom: 21px;
   font-size: 21px;
   line-height: inherit;
   color: #333333;
@@ -4872,17 +4872,17 @@ output {
   display: block;
   padding-top: 7px;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #555555;
 }
 
 .form-control {
   display: block;
   width: 100%;
-  height: 36px;
+  height: 35px;
   padding: 6px 12px;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #555555;
   background-color: #fff;
   background-image: none;
@@ -4947,7 +4947,7 @@ input[type="search"] {
   input[type="time"].form-control,
   input[type="datetime-local"].form-control,
   input[type="month"].form-control {
-    line-height: 36px;
+    line-height: 35px;
   }
 
   input[type="date"].input-sm,
@@ -5017,7 +5017,7 @@ input[type="search"] {
 
 .radio label,
 .checkbox label {
-  min-height: 22px;
+  min-height: 21px;
   padding-left: 20px;
   margin-bottom: 0;
   font-weight: normal;
@@ -5085,7 +5085,7 @@ fieldset[disabled]
   padding-top: 7px;
   padding-bottom: 7px;
   margin-bottom: 0;
-  min-height: 36px;
+  min-height: 35px;
 }
 
 .form-control-static.input-lg,
@@ -5156,7 +5156,7 @@ select[multiple].input-sm,
 
 .form-group-sm .form-control-static {
   height: 30px;
-  min-height: 34px;
+  min-height: 33px;
   padding: 6px 10px;
   font-size: 12px;
   line-height: 1.5;
@@ -5214,7 +5214,7 @@ select[multiple].input-lg,
 
 .form-group-lg .form-control-static {
   height: 46px;
-  min-height: 40px;
+  min-height: 39px;
   padding: 11px 16px;
   font-size: 18px;
   line-height: 1.3333333;
@@ -5225,7 +5225,7 @@ select[multiple].input-lg,
 }
 
 .has-feedback .form-control {
-  padding-right: 45px;
+  padding-right: 43.75px;
 }
 
 .form-control-feedback {
@@ -5234,9 +5234,9 @@ select[multiple].input-lg,
   right: 0;
   z-index: 2;
   display: block;
-  width: 36px;
-  height: 36px;
-  line-height: 36px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
   text-align: center;
   pointer-events: none;
 }
@@ -5373,7 +5373,7 @@ select[multiple].input-lg,
 }
 
 .has-feedback label ~ .form-control-feedback {
-  top: 27px;
+  top: 26px;
 }
 
 .has-feedback label.sr-only ~ .form-control-feedback {
@@ -5459,7 +5459,7 @@ select[multiple].input-lg,
 
 .form-horizontal .radio,
 .form-horizontal .checkbox {
-  min-height: 29px;
+  min-height: 28px;
 }
 
 .form-horizontal .form-group {
@@ -5518,7 +5518,7 @@ select[multiple].input-lg,
   white-space: nowrap;
   padding: 6px 12px;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.5;
   border-radius: 4px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -6180,7 +6180,7 @@ tbody.collapse.in {
 
 .dropdown-menu .divider {
   height: 1px;
-  margin: 10px 0;
+  margin: 9.5px 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -6190,7 +6190,7 @@ tbody.collapse.in {
   padding: 3px 20px;
   clear: both;
   font-weight: normal;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #333333;
   white-space: nowrap;
 }
@@ -6248,7 +6248,7 @@ tbody.collapse.in {
   display: block;
   padding: 3px 20px;
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #777777;
   white-space: nowrap;
 }
@@ -6815,7 +6815,7 @@ tbody.collapse.in {
 
 .nav .nav-divider {
   height: 1px;
-  margin: 10px 0;
+  margin: 9.5px 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -6835,7 +6835,7 @@ tbody.collapse.in {
 
 .nav-tabs > li > a {
   margin-right: 2px;
-  line-height: 1.6;
+  line-height: 1.5;
   border: 1px solid transparent;
   border-radius: 4px 4px 0 0;
 }
@@ -6970,7 +6970,7 @@ tbody.collapse.in {
 .navbar {
   position: relative;
   min-height: 50px;
-  margin-bottom: 22px;
+  margin-bottom: 21px;
   border: 1px solid transparent;
 }
 
@@ -7126,9 +7126,9 @@ tbody.collapse.in {
 
 .navbar-brand {
   float: left;
-  padding: 14px 15px;
+  padding: 14.5px 15px;
   font-size: 18px;
-  line-height: 22px;
+  line-height: 21px;
   height: 50px;
 }
 
@@ -7183,13 +7183,13 @@ tbody.collapse.in {
 }
 
 .navbar-nav {
-  margin: 7px -15px;
+  margin: 7.25px -15px;
 }
 
 .navbar-nav > li > a {
   padding-top: 10px;
   padding-bottom: 10px;
-  line-height: 22px;
+  line-height: 21px;
 }
 
 @media (max-width: 767px) {
@@ -7210,7 +7210,7 @@ tbody.collapse.in {
   }
 
   .navbar-nav .open .dropdown-menu > li > a {
-    line-height: 22px;
+    line-height: 21px;
   }
 
   .navbar-nav .open .dropdown-menu > li > a:hover,
@@ -7230,8 +7230,8 @@ tbody.collapse.in {
   }
 
   .navbar-nav > li > a {
-    padding-top: 14px;
-    padding-bottom: 14px;
+    padding-top: 14.5px;
+    padding-bottom: 14.5px;
   }
 }
 
@@ -7243,8 +7243,8 @@ tbody.collapse.in {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
 
 @media (min-width: 768px) {
@@ -7346,8 +7346,8 @@ tbody.collapse.in {
 }
 
 .navbar-btn {
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
 
 .navbar-btn.btn-sm,
@@ -7365,8 +7365,8 @@ tbody.collapse.in {
 }
 
 .navbar-text {
-  margin-top: 14px;
-  margin-bottom: 14px;
+  margin-top: 14.5px;
+  margin-bottom: 14.5px;
 }
 
 @media (min-width: 768px) {
@@ -7638,7 +7638,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 
 .breadcrumb {
   padding: 8px 15px;
-  margin-bottom: 22px;
+  margin-bottom: 21px;
   list-style: none;
   background-color: #f5f5f5;
   border-radius: 4px;
@@ -7661,7 +7661,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 22px 0;
+  margin: 21px 0;
   border-radius: 4px;
 }
 
@@ -7674,7 +7674,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   position: relative;
   float: left;
   padding: 6px 12px;
-  line-height: 1.6;
+  line-height: 1.5;
   text-decoration: none;
   color: #3097D1;
   background-color: #fff;
@@ -7770,7 +7770,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 
 .pager {
   padding-left: 0;
-  margin: 22px 0;
+  margin: 21px 0;
   list-style: none;
   text-align: center;
 }
@@ -8022,8 +8022,8 @@ a.badge:focus {
 .thumbnail {
   display: block;
   padding: 4px;
-  margin-bottom: 22px;
-  line-height: 1.6;
+  margin-bottom: 21px;
+  line-height: 1.5;
   background-color: #f5f8fa;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -8053,7 +8053,7 @@ a.thumbnail.active {
 
 .alert {
   padding: 15px;
-  margin-bottom: 22px;
+  margin-bottom: 21px;
   border: 1px solid transparent;
   border-radius: 4px;
 }
@@ -8167,8 +8167,8 @@ a.thumbnail.active {
 
 .progress {
   overflow: hidden;
-  height: 22px;
-  margin-bottom: 22px;
+  height: 21px;
+  margin-bottom: 21px;
   background-color: #f5f5f5;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -8180,7 +8180,7 @@ a.thumbnail.active {
   width: 0%;
   height: 100%;
   font-size: 12px;
-  line-height: 22px;
+  line-height: 21px;
   color: #fff;
   text-align: center;
   background-color: #3097D1;
@@ -8538,7 +8538,7 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel {
-  margin-bottom: 22px;
+  margin-bottom: 21px;
   background-color: #fff;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -8792,7 +8792,7 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel-group {
-  margin-bottom: 22px;
+  margin-bottom: 21px;
 }
 
 .panel-group .panel {
@@ -9138,7 +9138,7 @@ button.close {
 
 .modal-title {
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .modal-body {
@@ -9221,12 +9221,12 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Raleway", sans-serif;
+  font-family: "PT Sans", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
   line-break: auto;
-  line-height: 1.6;
+  line-height: 1.5;
   text-align: left;
   text-align: start;
   text-decoration: none;
@@ -9355,12 +9355,12 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Raleway", sans-serif;
+  font-family: "PT Sans", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
   line-break: auto;
-  line-height: 1.6;
+  line-height: 1.5;
   text-align: left;
   text-align: start;
   text-decoration: none;
