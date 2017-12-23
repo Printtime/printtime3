@@ -12624,6 +12624,26 @@ __webpack_require__(40);
 __webpack_require__(41);
 // require('jquery-file-upload/js/jquery.uploadfile');
 
+(function (old) {
+  $.fn.attrs = function () {
+    if (arguments.length === 0) {
+      if (this.length === 0) {
+        return null;
+      }
+
+      var obj = {};
+      $.each(this[0].attributes, function () {
+        if (this.specified) {
+          obj[this.name] = this.value;
+        }
+      });
+      return obj;
+    }
+
+    return old.apply(this, arguments);
+  };
+})($.fn.attr);
+
 $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -37866,7 +37886,9 @@ function init() {
   if ($('#upload_images').length) {
     init_images();
   }
-
+  if ($('.ajax').length) {
+    init_inputChange();
+  }
   $(".btn-danger").click(function () {
     if (!confirm('Вы уверены?')) {
       return false;
@@ -38360,6 +38382,44 @@ function init_panel_collapsed() {
       $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
     }
   });
+}
+
+function init_inputChange() {
+
+  $('.ajax').on('change', 'input:text', function () {
+    send_inputChange({
+      'id': $(this).attr('id'),
+      'name': $(this).attr('name'),
+      'value': $(this).val(),
+      'fieldType': $(this).attr('fieldType')
+    }, $(this).attr('route'));
+  });
+
+  function send_inputChange(data, route) {
+    $.ajax({
+      url: route,
+      dataType: "json",
+      type: "POST",
+      data: data,
+      success: response_inputChange
+    });
+  }
+
+  function response_inputChange(response) {
+
+    var obj = $("input[id='" + response.id + "'][name$='" + response.name + "']");
+    obj.val(response.value);
+    obj.fadeTo("fast", '0.5');
+    obj.fadeTo("fast", '1.0');
+
+    //.delay(800).css("background-color","red");
+    //$("#id input[name='"+response.name+"']")
+    //console.log(res);
+    /*types = response.types;
+    $.each(response.images, function(id, data) {
+        createImage(id, data);
+    });*/
+  }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (init);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Menu;
+use App\TypeVar;
+
 use File;
 
 class AdminController extends Controller
@@ -136,4 +138,30 @@ return dd($res);
         }
         return false;
     }
+
+
+    public function TypeVarIndex()
+    {
+        $typevars = TypeVar::with('type', 'variable')->paginate(40);
+        return view('admin.typevar.index', ['typevars' => $typevars]);
+    }
+
+
+    public function TypeVarUpdate(Request $request)
+    {    
+        $data = [];
+        $data['id'] = $request->input('id');
+        $data['name'] = $request->input('name');
+        $data['value'] = $request->input('value');
+
+        //Приводить к нормальному виду 0.00
+        if($request->fieldType == 'decimal') {
+            $data['value'] = str_replace(',','.', $data['value']);
+            $data['value'] = floatval($data['value']);
+        }
+
+        $typevar = TypeVar::findOrfail($data['id'])->update([$data['name'] => $data['value']]);
+        return response()->json($data);
+    } 
+
 }

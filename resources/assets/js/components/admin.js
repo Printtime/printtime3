@@ -6,7 +6,7 @@ function init() {
     if($('#menuTree').length) { init_admin_menu(); }
     if($('#relations').length) { init_admin_relations(); }
     if($('#upload_images').length) { init_images(); }
-
+    if($('.ajax').length) { init_inputChange(); }
     $(".btn-danger").click(function() { if(!confirm('Вы уверены?')) { return false; }});
 
     init_panel_collapsed();
@@ -536,6 +536,47 @@ function init_panel_collapsed() {
   });
 }
 
+
+
+
+function init_inputChange() {
+
+    $('.ajax').on('change', 'input:text', function(){
+      send_inputChange({
+        'id':$(this).attr('id'),
+        'name':$(this).attr('name'),
+        'value':$(this).val(),
+        'fieldType':$(this).attr('fieldType'),
+      }, $(this).attr('route'));
+    });
+
+    function send_inputChange(data, route) {
+                  $.ajax({
+                    url: route,
+                    dataType: "json",
+                    type: "POST",
+                    data: data,
+                    success: response_inputChange
+                  });
+    }
+
+  function response_inputChange(response) {
+
+    var obj = $( "input[id='"+response.id+"'][name$='"+response.name+"']" );
+    obj.val(response.value);
+    obj.fadeTo( "fast", '0.5' );
+    obj.fadeTo( "fast", '1.0' );
+
+    //.delay(800).css("background-color","red");
+    //$("#id input[name='"+response.name+"']")
+    //console.log(res);
+    /*types = response.types;
+    $.each(response.images, function(id, data) {
+        createImage(id, data);
+    });*/
+  }
+
+}
 
 export default init;
 

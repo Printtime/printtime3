@@ -10,6 +10,26 @@ require('./components/tree.jquery');
 require('jquery-ui/ui/widgets/autocomplete');
 // require('jquery-file-upload/js/jquery.uploadfile');
 
+(function(old) {
+$.fn.attrs = function() {
+    if(arguments.length === 0) {
+      if(this.length === 0) {
+        return null;
+      }
+
+      var obj = {};
+      $.each(this[0].attributes, function() {
+        if(this.specified) {
+          obj[this.name] = this.value;
+        }
+      });
+      return obj;
+    }
+
+    return old.apply(this, arguments);
+  };
+})($.fn.attr);
+
 $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

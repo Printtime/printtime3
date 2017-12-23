@@ -50,6 +50,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/menu/json', 'MenuController@menuJsonUpdate')->name('admin.menu.json.update')->middleware('can:admin,auth');
     Route::post('/menu/json/create', 'MenuController@store')->name('admin.menu.json.create')->middleware('can:admin,auth');
     Route::delete('/menu/json/delete', 'MenuController@delete')->name('admin.menu.json.delete')->middleware('can:admin,auth');
+
+    //TypeVar
+    Route::get('/typevar', 'AdminController@TypeVarIndex')->name('admin.typevar.index');
+    Route::post('/typevar/update', 'AdminController@TypeVarUpdate')->name('admin.typevar.update');
+
 });
 
 Auth::routes();
