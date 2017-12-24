@@ -7,12 +7,7 @@
 @import "ajax";
 
 
-$black: #222222;
-$brand-color1: #f1672a;
-$brand-color2: #4d4d4d;
-$link-color: #f1672a;
-$link-hover-color: $black;
-$link-hover-decoration: #4d4d4d;
+
 
 @mixin circle($size) {
      width: $size;
@@ -50,6 +45,9 @@ $link-hover-decoration: #4d4d4d;
   outline-offset: -2px;
 }
 
+.pagination > li > a, .pagination > li > span {
+	border: none;
+}
 
 .fa-btn {
 	margin-right: 6px;
@@ -74,7 +72,7 @@ $link-hover-decoration: #4d4d4d;
 
 body {
 	//font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-	background: #fff;
+
 	    line-height: 1.6em;
 	    //font-size: 12pt;
     	color: $black;
@@ -115,6 +113,8 @@ a {
 		}
 	}
 }
+
+
 
 // Default navbar
  .navbar-default {
@@ -759,11 +759,11 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 		.thumbnail {
 			padding: 0px;
 			border: 0px;
-			margin-bottom: 10px;
+			margin-bottom: 0px;
 		}
 
-		P {
-		margin: 0px 15px;
+		p {
+		margin: 10px 15px;
 		height: 130px;
 		overflow: hidden;
 		}
@@ -823,7 +823,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 		color: $black;
     	padding: 10px;
 
-	    height: 300px;
+	    // height: 300px;
 	    overflow: hidden;
 
     	&:hover {
@@ -874,5 +874,72 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
     font-size: 10pt;
 }
 
+
+}
+
+
+
+.relations {
+            flex-flow: row wrap;
+            justify-content: space-between;
+            display: flex;
+
+        .col {
+        	padding-bottom: 20px;
+
+			.thumbnail {
+				padding: 0px;
+			    margin-bottom: 12px;
+			    border: none;
+			    border-radius: none;
+			    img {
+			    	max-height: 50vh;
+			    }
+			}
+
+         	a {
+    			display: block;
+            	color: $brand-color2;
+            	border: 1px #eee solid;
+            	padding: 10px;
+    			height: 100%;
+    			@media (min-width: 768px) {
+			    max-height: 400px;
+				}
+			    overflow: hidden;
+
+            	h3 {
+					margin-top: 0px;
+				    font-size: 18px;
+				    font-weight: bold;
+					z-index: 1;
+					position: relative;
+				}
+
+            	p {
+            		color: $brand-color2;
+            	}
+
+            	&:hover{
+
+				    border: 1px $brand-color1 solid;
+
+					h3{
+	            		color: $brand-color1;
+	            	}
+            	}
+            }
+
+			.date {
+				position: absolute;
+			    background: #efefef;
+			    color: #666;
+			    font-size: 8pt;
+			    bottom: 21px;
+			    right: 16px;
+			    padding: 0px 5px;
+			}
+
+        }
 
 }

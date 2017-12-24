@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
@@ -184,6 +185,8 @@ return [
         App\Providers\ComposerServiceProvider::class,
 
         Intervention\Image\ImageServiceProvider::class,
+
+        #Spatie\PaginateRoute\PaginateRouteServiceProvider::class,
 
     ],
 
@@ -240,6 +243,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
 
         'Image' => Intervention\Image\Facades\Image::class,
+
+        #'PaginateRoute' => Spatie\PaginateRoute\PaginateRouteFacade::class,
 
     ],
 

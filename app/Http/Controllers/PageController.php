@@ -11,12 +11,13 @@ use Storage;
 
 class PageController extends Controller
 {
+/*
 	public function index()
 	{
 	    $pages = Page::published()->paginate();
 	    return dd($pages);
 	}
-
+*/
 	public function content2arr(Page $page)
 	{
 		$content = $page->content;
@@ -68,16 +69,28 @@ class PageController extends Controller
 	    if(empty($page->template)) { $page->template = 'home'; }
 	    $content = $this->content2arr($page);
 */
-	    if(empty($page->template)) { $page->template = 'home'; }
+    if(empty($page->template)) { $page->template = 'home'; }
 	    return view('page.'.$page->template, ['page' => $page, 'content' => $content]);
 	}
 
 	public function show(Request $request)
 	{	
+		#echo $request->page;
+		#echo $request->number;
+		#return dd($request);
 	 	$page = (is_numeric($request->page) ? Page::findOrFail($request->page) : Page::published()->whereSlug($request->page)->firstOrFail());
 	    if(empty($page->template)) { $page->template = 'main'; }
 	    $content = $this->content2arr($page);
-	    return view('page.'.$page->template, ['page' => $page, 'content' => $content]);
+
+		#$relations = $page->relations()->paginate(2);
+		#return dd($page->slug);
+        $relations = $page->relations()->paginate(12, ['*'], 'page', $request->number);
+       # return dd($relations);
+        $relations->setPath($page->slug);
+        #$relations->withPath('custom/url');
+        return view('page.'.$page->template, compact('page', 'content', 'relations'));
+
+	    #return view('page.'.$page->template, ['page' => $page, 'content' => $content]);
 	}
 
 	public function search(Request $request)
@@ -157,6 +170,8 @@ class PageController extends Controller
 		$page->fill($request->all());
 
 		if($request->published == 'on') { $page->published = true; } else { $page->published = false; }
+		#$page->anons = str_replace("&nbsp;", "", $page->anons);
+		$page->anons = html_entity_decode($page->anons);
 		$page->save();
 		return redirect()->route('admin.pagetype.show', ['pagetype'=>$page->type->id]);
 		// return redirect()->back();

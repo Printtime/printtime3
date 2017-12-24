@@ -60,7 +60,13 @@ Route::group(['prefix' => 'admin'], function () {
 Auth::routes();
 
 Route::get('/', 'PageController@home')->name('page.home');
-Route::get('{page}', 'PageController@show')->name('page.show');
+
+#Route::get('{page}', 'PageController@show')->name('page.show');
+#Route::paginate('/{page}', [ 'as'=>'news', 'uses' => 'PageController@show' ] );
+
+Route::get('{page}-{number}', 'PageController@show')->where('page', '[A-Za-z0-9]+')->where('number', '[0-9]+');
+Route::get('{page}', 'PageController@show')->where('page', '[A-Za-z0-9-]+')->name('page.show');
+#Route::get('{page}', 'PageController@show')->name('page.show');
 Route::get('/page/search', 'PageController@search')->name('page.search');
 
 // Route::get('/home', 'HomeController@index')->name('home');
@@ -87,3 +93,4 @@ Route::group(['prefix' => 'posts'], function () {
     Route::get('/publish/{post}', 'PostController@publish')->name('publish_post')->middleware('can:publish-post');
 });
 */
+
