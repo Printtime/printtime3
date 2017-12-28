@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+
+<div id="app">
+
+<!-- `picked` is a string "a" when checked -->
+<input type="radio" v-model="picked" value="a">
+<input type="radio" v-model="picked" value="b"><!-- 
+<input type="radio" v-model="picked" v-bind:value="options1"> -->
+<br>
+<span>Selected: {{ picked }}</span>
+<hr>
+<!-- `toggle` is either true or false -->
+<input type="checkbox" v-model="toggle">
+<br>
+<span>Selected: {{ toggle }}</span>
+<hr>
+
+<input
+  type="checkbox"
+  v-model="toggle2"
+  true-value="yes"
+  false-value="no"
+>
+<br>
+<span>Selected: {{ toggle2 }}</span>
+<hr>
+
+<select v-model="selected">
+  <option value="0" disabled selected>--- Выберете тип ---</option>
+  <option v-for="option1 in options1" v-bind:value="option1.id">
+    {{ option1.title }}
+  </option>
+</select>
+<br>
+<span>Selected: {{ selected }}</span>
+<hr>
+
+<select v-if="selected2_seen" v-model="selected2">
+  <option value="0" disabled selected2>--- Выберете материал ---</option>
+  <option v-for="option2 in options2" v-bind:value="option2.id">
+    {{ option2.title }}
+  </option>
+</select>
+<br>
+<p>{{ selected2_loading }}</p>
+<span>Selected: {{ selected2 }}</span>
+<hr>
+
+
+
+<div>
+	<p>{{ message }}</p>
+  	<input v-model="message">
+	<button v-on:click="reverseMessage">Обратить порядок букв в сообщении</button>
+</div>
+
+	<span v-if="seen">Сейчас меня видно</span>
+
+	  <ol>
+	    <li v-for="todo in todos">
+	      {{ todo.text }}
+	    </li>
+	  </ol>
+
+</div>
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/axios/dist/axios.min.js"></script>
+<script src="node_modules/vue-axios/dist/vue-axios.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+
+<script type="text/javascript">
+
+/*import axios from 'axios';
+import VueAxios from 'vue-axios';
+ 
+Vue.use(VueAxios, axios);*/
+
+Vue.config.devtools = true;
+
+var app = new Vue({
+  el: '#app',
+  data: {
+  	picked: 'b',
+  	toggle: false,
+  	toggle2: '',
+  	selected: 0,
+  	selected2: 0,
+  	selected2_seen: false,
+    selected2_loading: '',
+
+    options1: [],
+    options2: [],
+    message: 'Hello Vue!',
+    seen: true,
+    todos: [
+      { text: 'Посадить дерево' },
+      { text: 'Построить дом' },
+      { text: 'Вырастить сына' }
+    ],
+    posts: [],
+  },
+    created() {
+
+    	this.getProducts();
+    	/*
+        fetch('https://jsonplaceholder.typicode.com/posts/1')
+            .then((response) => {
+                if(response.ok) {
+                    return response.json();
+                }
+            
+                throw new Error('Network response was not ok');
+            })
+            .then((json) => {
+                this.posts.push({
+                    title: json.title,
+                    body: json.body
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+            */
+    },
+  watch: {
+    // эта функция запускается при любом изменении select
+    selected: function () {
+    	this.getTypes();
+    	//console.log(request)
+      //this.answer = 'Ожидаю, когда вы закончите печатать...'
+      //this.getAnswer()
+    }
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('')
+    },
+    getProducts: function () {
+		axios.get('http://printtime3.loc/api/price?type=products&id=9')
+		.then((response) => {
+			this.options1 = response.data;
+		}).catch((error) => console.log(error.response.data));
+    },
+    getTypes: function () {
+    	this.selected2_loading = 'loading...';
+    	this.selected2_seen = true;
+
+		axios.get('http://printtime3.loc/api/price?type=types&id='+this.selected)
+		.then((response) => {
+			this.options2 = response.data;
+			this.selected2 = 0;
+		}).catch((error) => console.log(error.response.data));
+
+    	this.selected2_loading = '';
+
+
+    }
+  },
+  /*
+  computed: {
+      selected: {
+        get () {
+          return null;
+        },
+        set (optionValue) {
+        	//this.computed.selected2.get();
+        	return this.selected2 = optionValue;
+          console.log(optionValue);
+          // this.options = this.options.filter(o => o !== optionValue);
+        },
+      },
+      selected2: {
+        get (input) {
+          console.log('selected2 GET');
+        },
+        set (optionValue) {
+          console.log('selected2 SET');
+          // this.options = this.options.filter(o => o !== optionValue);
+        },
+      },
+    },
+    */
+})
+
+/*app.picked = true;
+app.toggle = true;*/
+
+
+
+</script>
+
+
+
+</body>
+</html>
