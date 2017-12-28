@@ -2,12 +2,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+  <title></title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 <body>
 
+<style>
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  max-width: 50vw;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+</style>
+
+<!-- template for the modal component -->
+<script type="text/x-template" id="modal-template">
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+
+          <div class="modal-header">
+            <slot name="header">
+              default header
+            </slot>
+          </div>
+
+          <div class="modal-body">
+            <slot name="body">
+              default body default bodydefault body default bodydefault body default bodydefault body default body
+            </slot>
+          </div>
+
+          <div class="modal-footer">
+            <slot name="footer">
+              default footer
+              <button class="modal-default-button" @click="$emit('close')">
+                OK
+              </button>
+            </slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</script>
+
+
+
 
 <div id="app">
+
+  <modal v-if="showModal" @close="showModal = false">
+    <!--
+      you can use custom content here to overwrite
+      default content
+    -->
+    <h3 slot="header">custom header</h3>
+  </modal>
+
+<div style="filter: blur(3px);">
+
+  <button id="show-modal" @click="showModal = true">Show Modal</button>
+  <!-- use the modal component, pass in the prop -->
+
+
+<hr>
 
 <!-- `picked` is a string "a" when checked -->
 <input type="radio" v-model="picked" value="a">
@@ -44,30 +163,56 @@
 
 <select v-if="selected2_seen" v-model="selected2">
   <option value="0" disabled selected2>--- Выберете материал ---</option>
-  <option v-for="option2 in options2" v-bind:value="option2.id">
+  <option v-for="option2 in options2" :value="option2.id">
     {{ option2.title }}
   </option>
 </select>
 <br>
+
+  <div>
+<!--     Ширина рулона: {{ selected2_roll_width }}<br>
+    Высота: {{ selected2_height }}<br>
+    Ширина: {{ selected2_width }}<br> -->
+  </div>
 <p>{{ selected2_loading }}</p>
 <span>Selected: {{ selected2 }}</span>
 <hr>
 
 
+<table class="table" v-if="prices_seen">
+  <thead>
+    <tr>
+      <th>{{ showTitleSelected2 }}</th>
+      <th>Качество</th>
+      <th>Площадь</th>
+      <th>Цена</th>
+    </tr>
+  </thead>
+    <tr v-for="price in prices">
+    <td>{{ price.label }}</td>
+    <td>{{ price.title }}</td>
+    <td>{{ selected2_height/1000*selected2_width/1000 }} м<sup>2</sup></td>
+    <td>{{ price.pivot.price }} грн.</td>
+  </tr>
+</table>
+
+
 
 <div>
-	<p>{{ message }}</p>
-  	<input v-model="message">
-	<button v-on:click="reverseMessage">Обратить порядок букв в сообщении</button>
+  <p>{{ message }}</p>
+    <input v-model="message">
+  <button v-on:click="reverseMessage">Обратить порядок букв в сообщении</button>
 </div>
 
-	<span v-if="seen">Сейчас меня видно</span>
+  <span v-if="seen">Сейчас меня видно</span>
 
-	  <ol>
-	    <li v-for="todo in todos">
-	      {{ todo.text }}
-	    </li>
-	  </ol>
+    <ol>
+      <li v-for="todo in todos">
+        {{ todo.text }}
+      </li>
+    </ol>
+
+</div>
 
 </div>
 
@@ -86,16 +231,29 @@ Vue.use(VueAxios, axios);*/
 
 Vue.config.devtools = true;
 
+// register modal component
+Vue.component('modal', {
+  template: '#modal-template'
+})
+
 var app = new Vue({
   el: '#app',
   data: {
-  	picked: 'b',
-  	toggle: false,
-  	toggle2: '',
-  	selected: 0,
-  	selected2: 0,
-  	selected2_seen: false,
-    selected2_loading: '',
+    showModal: false,
+    picked: 'b',
+    toggle: false,
+    toggle2: null,
+    title1: null,
+    selected: 0,
+    selected2: 0,
+    selected2_seen: false,
+    selected2_loading: null,
+    showTitleSelected2: null,
+    selected2_roll_width: null,
+    selected2_height: null,
+    selected2_width: null,
+    prices: [],
+    prices_seen: false,
 
     options1: [],
     options2: [],
@@ -108,10 +266,12 @@ var app = new Vue({
     ],
     posts: [],
   },
-    created() {
 
-    	this.getProducts();
-    	/*
+  // props: ['value', 'options'],
+
+    created() {
+      this.getProducts();
+      /*
         fetch('https://jsonplaceholder.typicode.com/posts/1')
             .then((response) => {
                 if(response.ok) {
@@ -132,12 +292,29 @@ var app = new Vue({
             */
     },
   watch: {
-    // эта функция запускается при любом изменении select
+    // эта функция запускается при изменении selected
     selected: function () {
-    	this.getTypes();
-    	//console.log(request)
+     // console.log(option);
+      this.getTypes();
+      //console.log(request)
       //this.answer = 'Ожидаю, когда вы закончите печатать...'
       //this.getAnswer()
+    },
+    selected2: function (value) {
+      if(value > 0) {
+          this.getPrices();
+          
+        let temp = this.options2;
+        for (var i = 0; i < temp.length; i++) {
+          if (temp[i].id === value) {
+            this.showTitleSelected2 = temp[i].title;
+            this.selected2_roll_width = temp[i].roll_width;
+            this.selected2_height = temp[i].height;
+            this.selected2_width = temp[i].width;
+          }
+        }
+
+      }
     }
   },
   methods: {
@@ -145,23 +322,31 @@ var app = new Vue({
       this.message = this.message.split('').reverse().join('')
     },
     getProducts: function () {
-		axios.get('http://printtime3.loc/api/price?type=products&id=9')
-		.then((response) => {
-			this.options1 = response.data;
-		}).catch((error) => console.log(error.response.data));
+    axios.get('http://printtime3.loc/api/price?type=products&id=9')
+    .then((response) => {
+      this.options1 = response.data;
+    }).catch((error) => console.log(error.response.data));
     },
     getTypes: function () {
-    	this.selected2_loading = 'loading...';
-    	this.selected2_seen = true;
+      this.selected2_loading = 'loading...';
+      this.selected2_seen = true;
 
-		axios.get('http://printtime3.loc/api/price?type=types&id='+this.selected)
-		.then((response) => {
-			this.options2 = response.data;
-			this.selected2 = 0;
-		}).catch((error) => console.log(error.response.data));
+    axios.get('http://printtime3.loc/api/price?type=types&id='+this.selected)
+    .then((response) => {
+      this.options2 = response.data;
+      this.selected2 = 0;
+    }).catch((error) => console.log(error.response.data));
 
-    	this.selected2_loading = '';
+      this.selected2_loading = '';
+    },
+    getPrices: function () {
+      this.prices_seen = true;
 
+    axios.get('http://printtime3.loc/api/price?type=vars&id='+this.selected2)
+    .then((response) => {
+      //console.log(response.data);
+      this.prices = response.data;
+    }).catch((error) => console.log(error.response.data));
 
     }
   },
@@ -172,8 +357,8 @@ var app = new Vue({
           return null;
         },
         set (optionValue) {
-        	//this.computed.selected2.get();
-        	return this.selected2 = optionValue;
+          //this.computed.selected2.get();
+          return this.selected2 = optionValue;
           console.log(optionValue);
           // this.options = this.options.filter(o => o !== optionValue);
         },

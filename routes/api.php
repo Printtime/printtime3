@@ -41,7 +41,7 @@ Route::get('/price', function (Request $request) {
 		}
 
 		if($request->type == 'types') {
-			return \App\Type::where('product_id', $request->id)->select('id', 'title')->get();
+			return \App\Type::where('product_id', $request->id)->get();
 		}
 
 		if($request->type == 'vars') {
