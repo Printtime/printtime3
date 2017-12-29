@@ -1,3 +1,11 @@
+@import "~codemirror/lib/codemirror";
+@import "~codemirror/addon/hint/show-hint";;
+    .CodeMirror {
+  		height: 70vh;
+  		border: 1px solid #eee;
+  	}
+
+
 
 // jQuery ui-autocomplete
 .ui-autocomplete-loading { background:url('/images/icon/ajax-loader.gif') no-repeat right center; }

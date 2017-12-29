@@ -32,16 +32,31 @@ class PageController extends Controller
 	    	$data = trim($value);
 
 	    	 	$split2 = substr($data, 0, 4);
+	    	 	$split2vue = substr($data, 0, 3);
+
+
+
 	    	 	if($split2 == 'type') {
 	    	 		parse_str(html_entity_decode($data), $output);
 	    	 		$content[$key] = $output;
-	    	 		$content[$key]['relations'] = $page->relations->where('type.system', $output['type']);
+
+	    	 		if($content[$key]['type'] == 'tag') {
+	    	 			//произвольный DOM element
+	    	 			//$content[$key]['relations'] = $content[$key];
+	    	 		} else {
+	    	 			//relations связь
+	    	 			$content[$key]['relations'] = $page->relations->where('type.system', $output['type']);
+	    	 		}
 	    	 		//$content[$key]['relations'] = $page->relationsWhere($output['type'])->get();
 	    	 	} else {
 	    			$content[$key]['data'] = $data;
 	    	 	}
+
+#unset($content[$key]);
+
 	    	if($content[$key]['type'] == 'html' && empty($content[$key]['data'])) { unset($content[$key]); }
 	    }
+	    #dd($content);
 	    return $page->content = $content;
 	}
 
@@ -88,6 +103,7 @@ class PageController extends Controller
        # return dd($relations);
         $relations->setPath($page->slug);
         #$relations->withPath('custom/url');
+            
         return view('page.'.$page->template, compact('page', 'content', 'relations'));
 
 	    #return view('page.'.$page->template, ['page' => $page, 'content' => $content]);

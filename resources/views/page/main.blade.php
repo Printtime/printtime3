@@ -20,7 +20,6 @@
 {{ $relations->links('pagination.page') }}
 @endif
 
-
     @foreach($content as $item)
         @includeIf('page.sub.'.$item['type'], ['data'=>$item])
     @endforeach
