@@ -19,7 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/price', function (Request $request) {
 
-	header("Access-Control-Allow-Origin: http://php.loc");
+	//header("Access-Control-Allow-Origin: http://php.loc");
+	header("Access-Control-Allow-Origin: *");
 
     $validation = Validator::make($request->all(),[ 
         'type' => 'required|string',
