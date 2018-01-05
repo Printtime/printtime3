@@ -46,7 +46,7 @@
               </tbody>
             </table>
 
-            <modal-form :message="parentMsg"></modal-form>
+            
             
             </div>
 
@@ -59,8 +59,10 @@
 </template>
 
 <script>
-import ModalForm from './ModalForm.vue';
-//import modal from './components/Modal.vue';
+
+//<modal-form :message="parentMsg"></modal-form>
+
+//import ModalForm from './ModalForm.vue';
 
     export default {
        data() {
@@ -79,7 +81,7 @@ import ModalForm from './ModalForm.vue';
             options1: [],
             options2: [],
 
-            parentMsg: 'message text',
+            //parentMsg: 'message text',
 
         }
       },
@@ -136,9 +138,7 @@ import ModalForm from './ModalForm.vue';
             }
         },
         components: {
-            // require('./components/Modal.vue')
-            // <my-component> будет доступен только в шаблоне родителя
-             'modal-form': ModalForm,
+             //'modal-form': ModalForm,
           }
     }
 </script>

@@ -18,6 +18,7 @@ require('jquery-ui/ui/widgets/autocomplete');
 window.Vue = require('vue');
 Vue.config.devtools = true;
 Vue.component('price', require('./components/Price.vue'));
+Vue.component('requestform', require('./components/RequestForm.vue'));
 // Vue.component('modal', { template: '#modal-template' });
 
 const app = new Vue({

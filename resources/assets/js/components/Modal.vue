@@ -34,11 +34,31 @@
 }
 
 .modal-body {
-  margin: 20px 0;
+  margin: 20px 0px 0px 0px;
+  
+    /*position: relative;*/
+    /*padding: 15px 0px;*/
 }
 
 .modal-default-button {
-  float: right;
+  /*float: right;*/
+
+  background: #f1672a;
+  color: #fff;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  border-radius: 0px;
+
+/*    background: #f1672a;
+    color: #fff;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    width: 60%;
+    padding: 2px 5px;*/
+
 }
 
 /*
@@ -99,20 +119,20 @@
                     <input class="form-control" id="inputSuccess1" aria-describedby="helpBlock1" type="text" v-model="newUser.name" placeholder="Ваше имя" required="required">
                     <!-- <span id="helpBlock1" class="help-block">A block 1 of help text that breaks onto.</span> -->
                   </div>
-                  <div v-bind:class="[groupClass, validation.email ? validClass : '']">
-                    <input class="form-control" id="inputSuccess2" aria-describedby="helpBlock2" type="email" v-model="newUser.email" placeholder="ваш-email@адрес.com" for="inputSuccess2">
-                    <!-- <span id="helpBlock2" class="help-block">A block 2 of help text that breaks onto a new line and may extend beyond one line.</span> -->
-                  </div>
                   <div v-bind:class="[groupClass, validation.phone ? validClass : '']">
                     <input class="form-control" id="inputSuccess3" aria-describedby="helpBlock3" type="text" v-model="newUser.phone" placeholder="Контактный номер телефона" required="required">
                     <!-- <span id="helpBlock3" class="help-block">A block 1 of help text that breaks onto.</span> -->
+                  </div>
+                  <div v-bind:class="[groupClass, validation.email ? validClass : '']">
+                    <input class="form-control" id="inputSuccess2" aria-describedby="helpBlock2" type="email" v-model="newUser.email" placeholder="ваш-email@адрес.com" for="inputSuccess2">
+                    <!-- <span id="helpBlock2" class="help-block">A block 2 of help text that breaks onto a new line and may extend beyond one line.</span> -->
                   </div>
               </slot>
             </div>
 
             <div class="modal-footer">
               <slot name="footer">
-                <button class="modal-default-button btn btn-success" @click="send()">Отправить</button>
+                <button class="btn modal-default-button" @click="send()">{{ submit }}</button>
               </slot>
             </div>
 </div>
@@ -150,7 +170,7 @@ var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(
         },
 
        //props: ['ModalData1', 'show'],
-       props: ['show'],
+       props: ['show', 'submit'],
 
 
       methods: {

@@ -192,7 +192,11 @@ a {
   @include button-variant($brand-color1, white, $brand-color1);
 }
 
+.btn-send {
+  @include button-variant(white, $brand-color1, white);
+}
 
+.btn { border-radius:0px; }
 
 .catalog {
 
@@ -236,9 +240,7 @@ h1 {  margin-bottom: 20px; background: $brand-color1; font-size:12pt; color: #ff
     			line-height: 1.6em;
 }
 
-.btn-send {
-  @include button-variant(white, $brand-color1, white);
-}
+
 
 .caption {
 	font-size:12pt;

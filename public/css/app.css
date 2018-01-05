@@ -8756,6 +8756,75 @@ fieldset[disabled] .btn-printtime.focus {
   background-color: #f1672a;
 }
 
+.btn-send {
+  color: white;
+  background-color: #f1672a;
+  border-color: white;
+}
+
+.btn-send:focus,
+.btn-send.focus {
+  color: white;
+  background-color: #da4d0e;
+  border-color: #bfbfbf;
+}
+
+.btn-send:hover {
+  color: white;
+  background-color: #da4d0e;
+  border-color: #e0e0e0;
+}
+
+.btn-send:active,
+.btn-send.active,
+.open > .btn-send.dropdown-toggle {
+  color: white;
+  background-color: #da4d0e;
+  border-color: #e0e0e0;
+}
+
+.btn-send:active:hover,
+.btn-send:active:focus,
+.btn-send:active.focus,
+.btn-send.active:hover,
+.btn-send.active:focus,
+.btn-send.active.focus,
+.open > .btn-send.dropdown-toggle:hover,
+.open > .btn-send.dropdown-toggle:focus,
+.open > .btn-send.dropdown-toggle.focus {
+  color: white;
+  background-color: #b8410c;
+  border-color: #bfbfbf;
+}
+
+.btn-send:active,
+.btn-send.active,
+.open > .btn-send.dropdown-toggle {
+  background-image: none;
+}
+
+.btn-send.disabled:hover,
+.btn-send.disabled:focus,
+.btn-send.disabled.focus,
+.btn-send[disabled]:hover,
+.btn-send[disabled]:focus,
+.btn-send[disabled].focus,
+fieldset[disabled] .btn-send:hover,
+fieldset[disabled] .btn-send:focus,
+fieldset[disabled] .btn-send.focus {
+  background-color: #f1672a;
+  border-color: white;
+}
+
+.btn-send .badge {
+  color: #f1672a;
+  background-color: white;
+}
+
+.btn {
+  border-radius: 0px;
+}
+
 .catalog h1 {
   margin-bottom: 20px;
   background: #f1672a;
@@ -8804,71 +8873,6 @@ fieldset[disabled] .btn-printtime.focus {
 
 .catalog .caption h3 a {
   color: #f1672a;
-}
-
-.catalog .btn-send {
-  color: white;
-  background-color: #f1672a;
-  border-color: white;
-}
-
-.catalog .btn-send:focus,
-.catalog .btn-send.focus {
-  color: white;
-  background-color: #da4d0e;
-  border-color: #bfbfbf;
-}
-
-.catalog .btn-send:hover {
-  color: white;
-  background-color: #da4d0e;
-  border-color: #e0e0e0;
-}
-
-.catalog .btn-send:active,
-.catalog .btn-send.active,
-.open > .catalog .btn-send.dropdown-toggle {
-  color: white;
-  background-color: #da4d0e;
-  border-color: #e0e0e0;
-}
-
-.catalog .btn-send:active:hover,
-.catalog .btn-send:active:focus,
-.catalog .btn-send:active.focus,
-.catalog .btn-send.active:hover,
-.catalog .btn-send.active:focus,
-.catalog .btn-send.active.focus,
-.open > .catalog .btn-send.dropdown-toggle:hover,
-.open > .catalog .btn-send.dropdown-toggle:focus,
-.open > .catalog .btn-send.dropdown-toggle.focus {
-  color: white;
-  background-color: #b8410c;
-  border-color: #bfbfbf;
-}
-
-.catalog .btn-send:active,
-.catalog .btn-send.active,
-.open > .catalog .btn-send.dropdown-toggle {
-  background-image: none;
-}
-
-.catalog .btn-send.disabled:hover,
-.catalog .btn-send.disabled:focus,
-.catalog .btn-send.disabled.focus,
-.catalog .btn-send[disabled]:hover,
-.catalog .btn-send[disabled]:focus,
-.catalog .btn-send[disabled].focus,
-fieldset[disabled] .catalog .btn-send:hover,
-fieldset[disabled] .catalog .btn-send:focus,
-fieldset[disabled] .catalog .btn-send.focus {
-  background-color: #f1672a;
-  border-color: white;
-}
-
-.catalog .btn-send .badge {
-  color: #f1672a;
-  background-color: white;
 }
 
 .catalog .caption {
