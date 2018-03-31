@@ -12,19 +12,18 @@
     <meta property="og:description" content="{{ $page->ogdescription or '' }}" />
     <meta property="og:type" content="{{ $page->ogtype or '' }}" />
     <meta property="og:url" content="{{ $page->slug or '' }}" />
-    @if($page->ogimage)
+    @if(isset($page->ogimage))
     <meta property="og:image" content="{{ route('imagecache', ['template'=>'full', 'filename'=>$page->ogimage->filename]) }}" />
     @endif
 
     <?php
-
+    if(isset($page->robots)) {
     $robots = [];
     foreach ($page->robots as $robot) {
         if(!empty($robot)) { $robots[] = $robot; }
     }
-
-
-        $robots = implode(",", $robots); 
+    $robots = implode(",", $robots); 
+    }
         if(empty($robots)) { $robots = 'NOINDEX,NOFOLLOW'; }
     ?>
     <meta name="robots" content="{{ $robots }}"/> 
