@@ -741,7 +741,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 	margin-bottom: 15px;
 
 	.col-sm-12 img {
-		width: 100%;
+		max-width: 100%;
 	}
 }
 
@@ -760,6 +760,9 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 			padding: 0px;
 			border: 0px;
 			margin-bottom: 0px;
+    		border-radius: 0px;
+			max-height: 470px;
+			overflow: hidden;
 		}
 
 		p {
@@ -781,7 +784,6 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 		}
 	}
 }
-
 
 
 .news, .post {
@@ -826,6 +828,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 	    // height: 300px;
 	    overflow: hidden;
 
+
     	&:hover {
 			border: 1px $brand-color1 solid;
 			height: auto;
@@ -851,6 +854,8 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 			}
     	}
 
+
+
 		h3 {
 			padding: 10px;
 			margin:0px;
@@ -862,6 +867,8 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 		    display:none;
 		   }
 	}
+
+
 
 .date {
 	position: absolute;
@@ -876,6 +883,31 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 
 
 }
+
+@media only screen and (max-width: 600px) {
+	.news .item, .post .item {
+    	&:hover {
+			border: none;
+			height: auto;
+    		margin-right: 0px;
+			position: unset;
+
+    		p {
+    			display:block;
+    		}
+
+			h3 {
+				color: $brand-color1;
+			}
+
+			.date { 
+			    top: 10px;
+			    right: 25px;
+			}
+    	}
+	}
+}
+
 
 
 

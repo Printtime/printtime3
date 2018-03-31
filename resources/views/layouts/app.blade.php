@@ -11,9 +11,17 @@
     <meta property="og:title" content="{{ $page->ogtitle or '' }}" />
     <meta property="og:description" content="{{ $page->ogdescription or '' }}" />
     <meta property="og:type" content="{{ $page->ogtype or '' }}" />
-    <!-- <meta property="og:url" content="http://..." /> -->
-    <!-- <meta property="og:image" content="http://..." /> -->
-    
+    <meta property="og:url" content="{{ $page->slug or '' }}" />
+    @if($page->ogimage)
+    <meta property="og:image" content="{{ route('imagecache', ['template'=>'full', 'filename'=>$page->ogimage->filename]) }}" />
+    @endif
+
+    <?php
+        $robots = implode(",", $page->robots); 
+        if(empty($robots)) { $robots = 'noindex,nofollow'; }
+    ?>
+    <meta name="robots" content="{{ $robots }}"/> 
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 

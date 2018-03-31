@@ -58,6 +58,7 @@ return array(
         'small' => 'App\Filters\ImageSmall',
         'medium' => 'App\Filters\ImageMedium',
         'full' => 'App\Filters\ImageFull',
+        'vertical' => 'App\Filters\ImageVertical',
         // 'large' => 'Intervention\Image\Templates\Large',
     ),
 
