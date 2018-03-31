@@ -64,8 +64,10 @@ Route::get('/', 'PageController@home')->name('page.home');
 #Route::get('{page}', 'PageController@show')->name('page.show');
 #Route::paginate('/{page}', [ 'as'=>'news', 'uses' => 'PageController@show' ] );
 
-Route::get('{page}-{number}', 'PageController@show')->where('page', '[A-Za-z0-9]+')->where('number', '[0-9]+');
-Route::get('{page}', 'PageController@show')->where('page', '[A-Za-z0-9-]+')->name('page.show');
+
+Route::get('{slug}', 'PageController@show')->where('slug', '[A-Za-z0-9-]+')->name('page.show');
+//Route::get('{page}/{number}', 'PageController@show')->where('page', '[A-Za-z0-9]+')->where('number', '[0-9]+');
+//Route::get('{page}', 'PageController@show')->where('page', '[A-Za-z0-9-]+')->name('page.show');
 #Route::get('{page}', 'PageController@show')->name('page.show');
 Route::get('/page/search', 'PageController@search')->name('page.search');
 

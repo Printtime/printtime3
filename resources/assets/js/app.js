@@ -8,7 +8,24 @@
 require('./bootstrap');
 require('./components/tree.jquery');
 require('jquery-ui/ui/widgets/autocomplete');
+
+
+
 // require('jquery-file-upload/js/jquery.uploadfile');
+
+
+//VUE JS
+window.Vue = require('vue');
+Vue.config.devtools = true;
+Vue.component('price', require('./components/Price.vue'));
+Vue.component('requestform', require('./components/RequestForm.vue'));
+// Vue.component('modal', { template: '#modal-template' });
+
+const app = new Vue({
+    el: '#app'
+});
+
+
 
 (function(old) {
 $.fn.attrs = function() {
@@ -42,8 +59,6 @@ admin();
 
 
 
-
-
 // window.Vue = require('vue');
 
 /**
@@ -61,11 +76,14 @@ const app = new Vue({
 
 */
 
+/*
 $(function () {
 
 // admin();
 
 });
+*/
+
 
 /*
 $(function () {

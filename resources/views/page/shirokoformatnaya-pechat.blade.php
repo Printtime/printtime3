@@ -9,6 +9,19 @@
 	</div>
 </div>
 
+{{--
+@if($relations)
+<div class="container">
+    <div class="row relations">
+    @foreach($relations as $item)
+        @includeIf('page.relations.shirokoformatnaya-pechat', ['item'=>$item])
+    @endforeach
+    </div>
+</div>
+{{ $relations->links('pagination.page') }}
+@endif
+--}}
+
     @foreach($content as $item)
         @includeIf('page.sub.'.$item['type'], ['data'=>$item])
     @endforeach

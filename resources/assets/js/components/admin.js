@@ -10,6 +10,28 @@ function init() {
     $(".btn-danger").click(function() { if(!confirm('Вы уверены?')) { return false; }});
 
     init_panel_collapsed();
+
+
+  if($('#code').length) { 
+      //CodeMirror
+    require('codemirror/addon/hint/show-hint');
+    require('codemirror/addon/hint/xml-hint');
+    require('codemirror/addon/hint/html-hint');
+    require('codemirror/mode/xml/xml');
+    require('codemirror/mode/javascript/javascript');
+    require('codemirror/mode/css/css');
+    require('codemirror/mode/htmlmixed/htmlmixed');
+    var CodeMirror = require("codemirror");
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                      lineNumbers: true,
+                      styleActiveLine: true,
+                      matchBrackets: true,
+                            mode: "text/html",
+                            extraKeys: {"Ctrl-Space": "autocomplete"},
+                    });
+  }
+
+
 }
 
 
