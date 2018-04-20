@@ -8,17 +8,9 @@ use Illuminate\Http\Request;
 use Storage;
 
 class PageController extends Controller {
-/*
-public function index()
-{
-$pages = Page::published()->paginate();
-return dd($pages);
-}
- */
 
 	public function sitemap() {
 		$pages = Page::where('published', true)->get();
-		//$pages = Page::all();
 		return response()->view('page.sitemap', compact('pages'))->header('Content-Type', 'text/xml');
 	}
 
@@ -35,26 +27,6 @@ return dd($pages);
 			$data = trim($value);
 
 			$split2 = substr($data, 0, 4);
-
-/*
-$split2vue = substr($data, 0, 3);
-
-if($split2 == 'type') {
-parse_str(html_entity_decode($data), $output);
-$content[$key] = $output;
-
-if($content[$key]['type'] == 'tag') {
-//произвольный DOM element
-//$content[$key]['relations'] = $content[$key];
-} else {
-//relations связь
-$content[$key]['relations'] = $page->relations->where('type.system', $output['type']);
-}
-//$content[$key]['relations'] = $page->relationsWhere($output['type'])->get();
-} else {
-$content[$key]['data'] = $data;
-}
- */
 
 			if ($split2 == 'type') {
 				parse_str(html_entity_decode($data), $output);
@@ -76,68 +48,29 @@ $content[$key]['data'] = $data;
 				$content[$key]['data'] = $data;
 			}
 
-#unset($content[$key]);
-
 			if ($content[$key]['type'] == 'html' && empty($content[$key]['data'])) {unset($content[$key]);}
 		}
-		#dd($content);
+
 		return $page->content = $content;
 	}
 
 	public function home() {
 		$page = Page::with('relations.type', 'relations.avatar', 'relations.avatar.imagetypes')->findOrFail('1');
-		#return $page->relations->groupby('page_types_id');
-		/*
-	    $relations = $page->relations;
-	    print_r($relations);
-	    return '123';
-	    */
-
 		$content = $this->content2arr($page);
 
-/*
-$types = $page->relations->groupby('page_types_id');
-foreach ($types as $t) {
-echo $t;
-}
-
-return $page->name;
-
-if(empty($page->template)) { $page->template = 'home'; }
-$content = $this->content2arr($page);
- */
 		if (empty($page->template)) {$page->template = 'home';}
 		return view('page.' . $page->template, ['page' => $page, 'content' => $content]);
 	}
 
 	public function show(Request $request) {
-		#echo $request->page;
-		#echo $request->number;
-		#return dd($request);
-		#return dd($request->page);
-		#$page = (is_numeric($request->page) ? Page::findOrFail($request->page) : Page::published()->whereSlug($request->page)->firstOrFail());
-		$page = Page::published()->whereSlug($request->slug)->firstOrFail();
 
-		// $menu = \App\Menu::where('page_id', $page->id)->first();
-		// $resmenu =\App\Menu::with('page')->orderBy('_lft', 'desc')->whereIsAfter($menu->id)->get()->toTree();
-		/*	    foreach($resmenu as $item) {
-	    	echo $item->name;
-	    	echo $item->page->slug;
-	    }*/
+		$page = Page::published()->whereSlug($request->slug)->firstOrFail();
 
 		if (empty($page->template)) {$page->template = 'main';}
 		$content = $this->content2arr($page);
-
 		$relations = $page->relations()->paginate(12);
-		#$relations = $page->relations()->paginate(2, ['*'], 'page', $request->number);
-		#
-		# return dd($relations);
 		$relations->setPath($page->slug);
-		#$relations->withPath('custom/url');
-
 		return view('page.' . $page->template, compact('page', 'content', 'relations'));
-
-		#return view('page.'.$page->template, ['page' => $page, 'content' => $content]);
 	}
 
 	public function search(Request $request) {
@@ -180,11 +113,6 @@ $content = $this->content2arr($page);
 		$pagetypes_plucked = $pagetypes->pluck('title', 'id');
 		$pagetypes_plucked->all();
 
-		// $imagetypes = ImageType::get();
-		//$imagetypes = collect(ImageType::get());
-		//$imagetypes_plucked = $imagetypes->pluck('title', 'id');
-		//$imagetypes_plucked->all();
-
 		if ($page == null) {
 			$page = new Page();
 		} else {
@@ -203,18 +131,15 @@ $content = $this->content2arr($page);
 		$page->save();
 
 		return redirect()->route('admin.pagetype.show', ['pagetype' => $page->type->id]);
-		// return redirect()->back();
 	}
 
 	public function update(Request $request, Page $page) {
 		$page->fill($request->all());
 
 		if ($request->published == 'on') {$page->published = true;} else { $page->published = false;}
-		#$page->anons = str_replace("&nbsp;", "", $page->anons);
 		$page->anons = html_entity_decode($page->anons);
 		$page->save();
 		return redirect()->route('admin.pagetype.show', ['pagetype' => $page->type->id]);
-		// return redirect()->back();
 	}
 
 	public function delete(Request $request) {
@@ -230,11 +155,6 @@ $content = $this->content2arr($page);
 		$page->delete();
 		return redirect()->route('admin.pagetype.show', ['pagetype' => $page->type->id]);
 	}
-
-	// public function test(Page $page)
-	// {
-	// 	return dd($page);
-	// }
 
 	public function relations(Request $request, Page $page) {
 		$pages = $page->relations()->paginate();
