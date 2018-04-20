@@ -19,9 +19,7 @@ return dd($pages);
 	public function sitemap() {
 		$pages = Page::where('published', true)->get();
 		$content = view('page.sitemap', compact('pages'));
-		return $content;
 		return response($content, 200)->header('Content-Type', 'text/xml');
-		#return view('page.sitemap', compact('pages'))->header('Content-Type', 'text/xml');
 	}
 
 	public function content2arr(Page $page) {

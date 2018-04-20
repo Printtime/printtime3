@@ -5,7 +5,6 @@
         <loc>https://printtime.com.ua/{{ $item->slug }}</loc>
       	<changefreq>{{ $item->changefreq }}</changefreq>
       	<priority>{{ $item->priority }}</priority>
-        <lastmod>{{ $item->updated_at->toAtomString() }}</lastmod>
      </url>
     @endforeach
 </urlset>
