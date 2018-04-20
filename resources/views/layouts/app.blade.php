@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ $page->title or config('app.name', 'Laravel') }} - {{ config('app.name', 'Laravel') }}</title>
-    <meta name="description" content="{{ $page->description or '' }}"> 
-    <meta name="keywords" content="{{ $page->keywords or '' }}"> 
+    <meta name="description" content="{{ $page->description or '' }}">
+    <meta name="keywords" content="{{ $page->keywords or '' }}">
     <meta property="og:title" content="{{ $page->ogtitle or '' }}" />
     <meta property="og:description" content="{{ $page->ogdescription or '' }}" />
     <meta property="og:type" content="{{ $page->ogtype or '' }}" />
@@ -16,17 +16,29 @@
     <meta property="og:image" content="{{ route('imagecache', ['template'=>'full', 'filename'=>$page->ogimage->filename]) }}" />
     @endif
 
+    <meta name="google-site-verification" content="xv-FLiU_oPmbIJ0eYLsEbShgTGmjVaKoxRW3XTEHYK8" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-58345126-5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-‎58345126-5');
+    </script>
+
     <?php
-    if(isset($page->robots)) {
-    $robots = [];
-    foreach ($page->robots as $robot) {
-        if(!empty($robot)) { $robots[] = $robot; }
-    }
-    $robots = implode(",", $robots); 
-    }
-        if(empty($robots)) { $robots = 'NOINDEX,NOFOLLOW'; }
-    ?>
-    <meta name="robots" content="{{ $robots }}"/> 
+if (isset($page->robots)) {
+	$robots = [];
+	foreach ($page->robots as $robot) {
+		if (!empty($robot)) {$robots[] = $robot;}
+	}
+	$robots = implode(",", $robots);
+}
+if (empty($robots)) {$robots = 'NOINDEX,NOFOLLOW';}
+?>
+    <meta name="robots" content="{{ $robots }}"/>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
