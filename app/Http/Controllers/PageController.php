@@ -18,8 +18,8 @@ return dd($pages);
 
 	public function sitemap() {
 		$pages = Page::where('published', true)->get();
-		return $pages;
 		$content = view('page.sitemap', compact('pages'));
+		return $content;
 		return response($content, 200)->header('Content-Type', 'text/xml');
 		#return view('page.sitemap', compact('pages'))->header('Content-Type', 'text/xml');
 	}
