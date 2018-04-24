@@ -181,12 +181,36 @@ var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(
 
           if(this.isValid) {
 
+          //let _token = window.axios.defaults.headers.common['X-CSRF-TOKEN'];
+
+             //this.formData = new FormData();
+             //this.formData.append('data', this.newUser);
+             //this.formData.append('_token', _token);
+
+              axios({
+                  method: 'post',
+                  url: 'send',
+                  data: this.newUser,
+                  //config: { headers: {'Content-Type': 'multipart/form-data' }}
+              })
+                .then(function (response) {
+                  
+                })
+                .catch(function (error) {
+
+                });
+
+              this.formData = {}
+
+
             this.newUser = {
                 name: '',
                 email: '',
                 phone: ''
               };
-            
+
+
+
             this.response = 'Спасибо, мы скоро с вами свяжемся';
     
             setTimeout(() => {

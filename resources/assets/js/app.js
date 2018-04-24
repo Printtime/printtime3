@@ -14,6 +14,8 @@ require('jquery-ui/ui/widgets/autocomplete');
 // require('jquery-file-upload/js/jquery.uploadfile');
 
 
+window.Laravel = { csrfToken: $('meta[name=csrf-token]').attr("content") };
+
 //VUE JS
 window.Vue = require('vue');
 Vue.config.devtools = true;

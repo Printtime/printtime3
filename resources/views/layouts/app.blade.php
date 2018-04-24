@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{{ $page->title or config('app.name', 'Laravel') }} - {{ config('app.name', 'Laravel') }}</title>
     <meta name="description" content="{{ $page->description or '' }}">
     <meta name="keywords" content="{{ $page->keywords or '' }}">
@@ -39,10 +42,6 @@ if (isset($page->robots)) {
 if (empty($robots)) {$robots = 'NOINDEX,NOFOLLOW';}
 ?>
     <meta name="robots" content="{{ $robots }}"/>
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
