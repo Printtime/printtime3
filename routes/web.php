@@ -3,7 +3,6 @@
 Route::get('/sitemap.xml', 'PageController@sitemap')->name('page.sitemap');
 
 Route::post('/send', 'MailController@send')->name('send.mail');
-Route::get('/send2', 'MailController@send')->name('send.mail');
 
 Route::group(['prefix' => 'admin'], function () {
 
