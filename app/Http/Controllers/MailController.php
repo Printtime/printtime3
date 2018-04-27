@@ -8,13 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller {
 	public function send(Request $request) {
-		//return $request->all();
-		#return dd($request->user());
-
-		$to = [
-			'email' => 'zakaz@printtime.com.ua',
-		];
-		return Mail::to('dstaranenko@gmail.com')->send(new OrderSend());
-		#return true;
+		$data = $request->all();
+		return Mail::to(env('MAIL_USERNAME'), env('MAIL_NAME'))->send(new OrderSend($data));
 	}
 }

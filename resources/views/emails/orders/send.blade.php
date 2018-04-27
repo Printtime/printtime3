@@ -1,4 +1,5 @@
 <body>
-    <h1>Name: Test h1</h1>
-    <p>Name: Test p</p>
+    <h1>Имя: {{ $data['name'] }}</h1>
+    <p>E-mail: {{ $data['email'] }}</p>
+    <p>Телефон: {{ $data['phone'] }}</p>
 </body>

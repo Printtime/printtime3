@@ -10,13 +10,14 @@ use Illuminate\Queue\SerializesModels;
 class OrderSend extends Mailable implements ShouldQueue {
 	use Queueable, SerializesModels;
 
+	protected $data;
 	/**
 	 * Create a new message instance.
 	 *
 	 * @return void
 	 */
-	public function __construct() {
-		//
+	public function __construct($data) {
+		$this->data = $data;
 	}
 
 	/**
@@ -25,9 +26,11 @@ class OrderSend extends Mailable implements ShouldQueue {
 	 * @return $this
 	 */
 	public function build() {
-		//office@printtime.com.ua
-		$from = ['address' => 'dstaranenko@gmail.com', 'name' => 'Printtime'];
-		return $this->from($from)->view('emails.orders.send');
-		#return $this->view('view.name');
+
+		$from = ['address' => env('MAIL_USERNAME'), 'name' => env('MAIL_NAME')];
+		return $this->from(env('MAIL_USERNAME'), env('MAIL_NAME'))->subject('Запрос с сайта')->view('emails.orders.send')
+			->with([
+				'data' => $this->data,
+			]);
 	}
 }
