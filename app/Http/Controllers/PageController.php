@@ -11,6 +11,7 @@ class PageController extends Controller {
 
 	public function sitemap() {
 		$pages = Page::where('published', true)->get();
+		$pages->first()->slug = '/';
 		return response()->view('page.sitemap', compact('pages'))->header('Content-Type', 'text/xml');
 	}
 
