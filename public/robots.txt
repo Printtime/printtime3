@@ -1,2 +1,20 @@
 User-agent: *
-Disallow:
+
+Disallow: 
+Disallow: /404/
+Disallow: /admin/
+Disallow: /index.php/
+Disallow: /*.php$
+Disallow: /*?*
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: Mediapartners-Google
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+Sitemap: https://printtime.com.ua/sitemap.xml
+Host: https://printtime.com.ua
