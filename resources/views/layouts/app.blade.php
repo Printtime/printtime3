@@ -20,6 +20,7 @@
     @endif
 
     <meta name="google-site-verification" content="xv-FLiU_oPmbIJ0eYLsEbShgTGmjVaKoxRW3XTEHYK8" />
+    <meta name="yandex-verification" content="f175083c87ca868f" />
 
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
